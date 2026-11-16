@@ -67,6 +67,7 @@
   // Menyesuaikan tombol Masuk/Keluar dan menu sesuai peran
   function applyAccess(profile) {
     const btn = document.getElementById("btn-login");
+    const navBtn = document.getElementById("nav-btn-login");
     if (!profile) return;
     if (btn) {
       btn.textContent = "Keluar";
@@ -75,6 +76,20 @@
         e.preventDefault();
         signOut();
       });
+    }
+    if (navBtn) {
+      navBtn.textContent = "🚪 Keluar (" + (profile.nama_lengkap || "Akun") + ")";
+      navBtn.setAttribute("href", "#");
+      navBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        signOut();
+      });
+    }
+    const bottomNavUser = document.getElementById("bottom-nav-user");
+    if (bottomNavUser) {
+      bottomNavUser.setAttribute("href", "profil.html");
+      const label = bottomNavUser.querySelector(".bottom-nav-label");
+      if (label) label.textContent = "Profil";
     }
     const active = profile.status === "active";
     document.querySelectorAll("li[data-access]").forEach(function (li) {

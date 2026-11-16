@@ -85,6 +85,34 @@
       </div>`;
   }
 
+  // Bilah Navigasi Bawah Khusus Layar HP (Mobile Bottom Navigation)
+  function renderBottomNav(activePage) {
+    const navItems = [
+      { label: "Beranda", href: "index.html", icon: "🏠", page: "beranda" },
+      { label: "Berita", href: "berita.html", icon: "📰", page: "berita" },
+      { label: "Layanan", href: "layanan-kesehatan.html", icon: "🏥", page: "layanan" },
+      { label: "Agenda", href: "agenda.html", icon: "🗓️", page: "agenda" },
+      { label: "Akun", href: "login.html", icon: "👤", page: "profil", id: "bottom-nav-user" }
+    ];
+
+    const html = navItems.map(item => {
+      const isActive = item.page === activePage ? " active" : "";
+      const idAttr = item.id ? ` id="${item.id}"` : "";
+      return `
+        <a href="${item.href}" class="bottom-nav-item${isActive}"${idAttr}>
+          <span class="bottom-nav-icon">${item.icon}</span>
+          <span class="bottom-nav-label">${item.label}</span>
+        </a>
+      `;
+    }).join("");
+
+    return `
+      <nav id="mobile-bottom-nav" class="mobile-bottom-nav" aria-label="Navigasi Bawah">
+        ${html}
+      </nav>
+    `;
+  }
+
   // Pengelola Visitor Counter: Refresh halaman TIDAK menambah hitungan
   async function initVisitorCounter() {
     const countEl = document.getElementById("visitor-count");
@@ -131,6 +159,13 @@
     const footer = document.getElementById("site-footer");
     if (header) header.innerHTML = renderHeader(activePage);
     if (footer) footer.innerHTML = renderFooter();
+
+    // Pasang Bottom Navigation Bar untuk layar HP
+    const bottomNavWrapper = document.createElement("div");
+    bottomNavWrapper.innerHTML = renderBottomNav(activePage);
+    if (bottomNavWrapper.firstElementChild) {
+      document.body.appendChild(bottomNavWrapper.firstElementChild);
+    }
 
     // Pasang favicon logo resmi PPDS di tab browser
     let icon = document.querySelector("link[rel*='icon']");
