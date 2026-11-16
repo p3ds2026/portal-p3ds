@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Layanan Kesehatan & Pensiun – PORTAL PPDS</title>
+  <meta name="description" content="Informasi layanan kesehatan, rumah sakit rekanan, dan panduan dana pensiun Pertamina Dumai – Sei Pakning.">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .info-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .info-card h3 {
+      color: var(--navy);
+      font-size: 1.3rem;
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 0.5rem;
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .rs-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .rs-item {
+      background: #fbfcfd;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--navy-soft);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+    }
+    .rs-item h4 {
+      margin: 0 0 0.25rem;
+      color: var(--navy);
+      font-size: 1.05rem;
+    }
+    .rs-item p {
+      margin: 0;
+      font-size: 0.92rem;
+      color: var(--text);
+    }
+    .step-list {
+      padding-left: 1.25rem;
+      margin: 0.5rem 0;
+    }
+    .step-list li {
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+    .contact-box {
+      background: #eef4fc;
+      border: 2px dashed #0b5ed7;
+      border-radius: 10px;
+      padding: 1.25rem;
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+    .contact-box h4 {
+      margin: 0 0 0.5rem;
+      color: var(--navy);
+      font-size: 1.15rem;
+    }
+    .guide-body.font-sm { font-size: 0.92rem !important; }
+    .guide-body.font-md { font-size: 1.05rem !important; }
+    .guide-body.font-lg { font-size: 1.25rem !important; }
+    .guide-body.font-xl { font-size: 1.45rem !important; }
+    @media (max-width: 720px) {
+      .rs-list { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body data-page="layanan">
+  <header id="site-header" class="site-header"></header>
+
+  <section class="hero" style="padding: 2.5rem 0;">
+    <div class="container">
+      <div class="tagline">INFORMASI & PELAYANAN</div>
+      <h1>Layanan Kesehatan & Informasi Pensiun</h1>
+      <p>Panduan lengkap fasilitas kesehatan rekanan Pertamina, prosedur klaim pengobatan, hak pensiun bulanan, dan santunan keluarga besar Pensiunan Pertamina Dumai – Sei Pakning.</p>
+    </div>
+  </section>
+
+  <main class="container section">
+    <!-- Pengatur Ukuran Huruf Halaman -->
+    <div class="font-resizer-bar">
+      <div class="font-resizer-title">
+        <span>📖 Sesuaikan Ukuran Huruf:</span>
+      </div>
+      <div class="font-btn-group">
+        <button type="button" class="btn-font-size" data-size="font-sm" title="Kecil">A-</button>
+        <button type="button" class="btn-font-size active" data-size="font-md" title="Normal">A</button>
+        <button type="button" class="btn-font-size" data-size="font-lg" title="Besar">A+</button>
+        <button type="button" class="btn-font-size" data-size="font-xl" title="Sangat Besar">A++</button>
+      </div>
+    </div>
+
+    <div id="guide-content" class="guide-body font-md">
+      <!-- Bagian 1: Rumah Sakit & Faskes -->
+      <article class="info-card">
+        <h3>🏥 Rumah Sakit & Fasilitas Kesehatan Rekanan</h3>
+        <p>Bagi pensiunan Pertamina yang berdomisili di Dumai, Sei Pakning, dan sekitarnya, berikut rujukan fasilitas kesehatan utama:</p>
+        
+        <div class="rs-list">
+          <div class="rs-item">
+            <h4>RS Pertamina Dumai (RSPD)</h4>
+            <p>📍 Jl. Bukit Datuk Lama, Komplek Pertamina Dumai<br>
+            📞 IGD / Call Center: (0765) 31050 / 31051<br>
+            ⭐ Layanan: IGD 24 Jam, Poli Spesialis, Rawat Inap, Farmasi.</p>
+          </div>
+
+          <div class="rs-item">
+            <h4>Klinik Pratama Pertamina Sei Pakning</h4>
+            <p>📍 Komplek Pertamina RU II Sei Pakning<br>
+            📞 Kontak Medis: Hubungi Pos Kesehatan Sei Pakning<br>
+            ⭐ Layanan: Pelayanan rawat jalan pertama & rujukan wilayah Sei Pakning.</p>
+          </div>
+
+          <div class="rs-item">
+            <h4>RSUD Kota Dumai</h4>
+            <p>📍 Jl. Tanjung Jati No. 4, Dumai<br>
+            📞 Telepon: (0765) 38367<br>
+            ⭐ Layanan: Rujukan lanjutan BPJS & Spesialis Terpadu.</p>
+          </div>
+
+          <div class="rs-item">
+            <h4>RS Rujukan Pekanbaru (Awal Bros & Santa Maria)</h4>
+            <p>📍 Jl. Jend. Sudirman & Jl. A. Yani, Pekanbaru<br>
+            ⭐ Layanan: Rujukan operasi & pengobatan spesialis lanjutan.</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Bagian 2: Alur & Prosedur Klaim -->
+      <article class="info-card">
+        <h3>📋 Prosedur & Syarat Klaim Biaya Pengobatan</h3>
+        <p>Ketentuan pengajuan klaim penggantian biaya pengobatan (reimbursement) dan rawat inap bagi pensiunan:</p>
+        
+        <ol class="step-list">
+          <li><strong>Rawat Jalan (Reimbursement):</strong>
+            <ul>
+              <li>Kuitansi asli bermeterai dan rincian biaya pengobatan/tindakan dari faskes/RS.</li>
+              <li>Salinan resep obat asli dan copy hasil pemeriksaan penunjang (lab/rontgen).</li>
+              <li>Fotokopi Kartu Pensiun Pertamina & KTP yang masih berlaku.</li>
+              <li>Batas pengajuan klaim selambat-lambatnya 60 hari sejak tanggal pengobatan.</li>
+            </ul>
+          </li>
+          <li><strong>Rawat Inap (Jaminan Perusahaan):</strong>
+            <ul>
+              <li>Segera laporkan kepada perwakilan Layanan Medis Pertamina Dumai sebelum 1x24 jam.</li>
+              <li>Tunjukkan Kartu Pensiun dan identitas resmi di loket pendaftaran RS rekanan untuk penerbitan Surat Jaminan (Guarantee Letter).</li>
+            </ul>
+          </li>
+          <li><strong>Bantuan Kacamata, Gigi, & Alat Bantu Dengar:</strong>
+            <ul>
+              <li>Penggantian biaya kacamata dan alat bantu dengar mengikuti plafon dan siklus tahunan yang ditetapkan perusahaan (setiap 2-3 tahun).</li>
+            </ul>
+          </li>
+        </ol>
+      </article>
+
+      <!-- Bagian 3: Dana Pensiun -->
+      <article class="info-card">
+        <h3>💼 Informasi Dana Pensiun Pertamina (DP Pertamina)</h3>
+        <p>Hal-hal pokok terkait hak pensiun bulanan dan kewajiban administrasi:</p>
+        
+        <ul class="step-list">
+          <li><strong>Pembayaran Manfaat Pensiun:</strong> Ditransfer setiap bulan ke rekening bank terdaftar (umumnya mulai tanggal 25 setiap bulannya).</li>
+          <li><strong>Surat Keterangan Masih Hidup (SKMH):</strong> Wajib diperbarui secara berkala (tahunan) untuk memastikan kelancaran pencairan dana pensiun. Bagi anggota yang kesulitan mengunggah mandiri, pengurus PPDS siap membantu proses pelaporan.</li>
+          <li><strong>Layanan Informasi Pusat:</strong>
+            <ul>
+              <li>Portal Resmi: <strong>www.danapensiunpertamina.com</strong></li>
+              <li>Call Center Layanan Pensiun: (021) 5790 1234 / Contact Center Pertamina 135</li>
+            </ul>
+          </li>
+        </ul>
+      </article>
+
+      <!-- Bagian 4: Santunan Duka Cita -->
+      <article class="info-card">
+        <h3>🕊️ Hak Santunan Duka Cita & Bantuan Sosial</h3>
+        <p>Bagi keluarga pensiunan yang berduka, paguyuban PPDS menyediakan pendampingan pengurusan hak duka:</p>
+        
+        <ul class="step-list">
+          <li><strong>Bantuan Santunan Perusahaan:</strong> Hak santunan duka cita bagi ahli waris yang sah (syarat: Surat Kematian dari RS/Kelurahan, fotokopi Kartu Pensiun, KK, dan buku tabungan ahli waris).</li>
+          <li><strong>Bantuan Paguyuban PPDS:</strong> Pengurus PPDS akan segera menerbitkan pengumuman lelayu resmi di portal web dan grup WhatsApp, serta mengoordinasikan doa bersama dan takziah.</li>
+        </ul>
+
+        <div class="contact-box">
+          <h4>Pusat Bantuan & Konsultasi Pengurus PPDS</h4>
+          <p>Jika Bapak/Ibu memerlukan bantuan terkait rujukan rumah sakit, klaim pengobatan, atau kendala pensiun, silakan hubungi pengurus bidang sosial & kesehatan PPDS:</p>
+          <a class="btn" style="background:#25d366; color:#ffffff; border-color:#20b858; display:inline-flex; align-items:center; gap:0.4rem; margin-top:0.5rem;" target="_blank" rel="noopener noreferrer" href="https://wa.me/?text=Halo%20Pengurus%20PPDS,%20saya%20anggota%20pensiunan%20ingin%20berkonsultasi%20mengenai%20layanan%20kesehatan%20/%20pensiun.">
+            💬 Hubungi Pengurus via WhatsApp
+          </a>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <script src="js/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    // Pengatur ukuran huruf pada halaman panduan kesehatan
+    document.addEventListener("DOMContentLoaded", function () {
+      const guideEl = document.getElementById("guide-content");
+      const buttons = document.querySelectorAll(".btn-font-size");
+      if (!guideEl || !buttons.length) return;
+
+      const saved = localStorage.getItem("ppds_guide_fontsize") || "font-md";
+      guideEl.className = "guide-body " + saved;
+
+      buttons.forEach(function (btn) {
+        if (btn.dataset.size === saved) {
+          btn.classList.add("active");
+        } else {
+          btn.classList.remove("active");
+        }
+
+        btn.addEventListener("click", function () {
+          const sz = btn.dataset.size;
+          guideEl.className = "guide-body " + sz;
+          localStorage.setItem("ppds_guide_fontsize", sz);
+          buttons.forEach(function (b) { b.classList.remove("active"); });
+          btn.classList.add("active");
+        });
+      });
+    });
+  </script>
+</body>
+</html>
