@@ -92,7 +92,7 @@
         <h1 id="article-title">${utils.escapeHtml(data.title)}</h1>
         ${cover ? `<img class="article-cover" src="${utils.escapeHtml(cover)}" alt="">` : ""}
         ${dukaBoxHtml}
-        <div id="article-content" class="article-content font-md">${utils.escapeHtml(data.content)}</div>
+        <div id="article-content" class="article-content font-md">${(utils.autoLink ? utils.autoLink(data.content) : utils.escapeHtml(data.content))}</div>
         ${shareBoxHtml}
         ${takziahSectionHtml}
       </article>`;
