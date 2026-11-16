@@ -22,7 +22,7 @@
     return `
       <div class="container header-top">
         <a class="brand" href="index.html">
-          <span class="brand-logo">P3DS</span>
+          <img class="brand-logo" src="img/logo.jpg" alt="Logo P3DS">
           <span>
             <span class="brand-name">PORTAL P3DS</span>
             <span class="brand-sub">Paguyuban Pensiunan Pertamina Dumai – Sei Pakning</span>
@@ -43,7 +43,10 @@
     return `
       <div class="container footer-inner">
         <div>
-          <h3>PORTAL P3DS</h3>
+          <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:0.75rem;">
+            <img src="img/logo.jpg" alt="Logo P3DS" style="width:48px; height:48px; border-radius:50%; border:2px solid var(--gold); object-fit:cover;">
+            <h3 style="margin:0; font-size:1.2rem;">PORTAL P3DS</h3>
+          </div>
           <p>Paguyuban Pensiunan Pertamina Dumai – Sei Pakning.<br>
           <strong>SATU KELUARGA, SEJUTA KENANGAN.</strong></p>
         </div>
@@ -119,6 +122,16 @@
     const footer = document.getElementById("site-footer");
     if (header) header.innerHTML = renderHeader(activePage);
     if (footer) footer.innerHTML = renderFooter();
+
+    // Pasang favicon logo resmi P3DS di tab browser
+    let icon = document.querySelector("link[rel*='icon']");
+    if (!icon) {
+      icon = document.createElement("link");
+      icon.rel = "icon";
+      icon.type = "image/jpeg";
+      icon.href = "img/logo.jpg";
+      document.head.appendChild(icon);
+    }
 
     const toggle = document.getElementById("menu-toggle");
     const nav = document.getElementById("main-nav");

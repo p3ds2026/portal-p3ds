@@ -38,8 +38,14 @@ img { max-width: 100%; display: block; }
 .header-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .75rem 0; }
 .brand { display: flex; align-items: center; gap: .75rem; text-decoration: none; color: var(--white); }
 .brand-logo {
-  width: 52px; height: 52px; border-radius: 50%; background: var(--gold); color: var(--navy);
-  display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--gold);
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  background: var(--navy);
 }
 .brand-name { font-size: 1.25rem; font-weight: 800; letter-spacing: .5px; display: block; }
 .brand-sub { font-size: .75rem; color: #c8d3e3; display: block; }
