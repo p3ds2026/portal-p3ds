@@ -130,7 +130,7 @@
     if (header) header.innerHTML = renderHeader(activePage);
     if (footer) footer.innerHTML = renderFooter();
 
-    // Pasang favicon logo resmi P3DS di tab browser
+    // Pasang favicon logo resmi PPDS di tab browser
     let icon = document.querySelector("link[rel*='icon']");
     if (!icon) {
       icon = document.createElement("link");
