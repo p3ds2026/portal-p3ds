@@ -90,6 +90,14 @@
   </section>
 
   <main class="container section">
+    <!-- Panel Edit Khusus Pengurus/Admin -->
+    <div id="admin-action-bar" class="is-hidden" style="margin-bottom: 1.5rem; background: #fff8e1; border: 1.5px solid #ffe082; padding: 0.85rem 1.25rem; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+      <div style="color: #795548; font-size: 0.95rem;">
+        <strong>🛠️ Akses Pengurus:</strong> Jika data layanan atau nomor kontak di bawah ini ada yang tidak sesuai, Anda dapat langsung mengeditnya lewat portal.
+      </div>
+      <a href="kelola-layanan.html" class="btn btn-small" style="background: var(--navy); color: #fff; font-weight: 600; text-decoration: none;">✏️ Edit Informasi Layanan Ini</a>
+    </div>
+
     <!-- Pengatur Ukuran Huruf Halaman -->
     <div class="font-resizer-bar">
       <div class="font-resizer-title">
@@ -109,32 +117,34 @@
         <h3>🏥 Rumah Sakit & Fasilitas Kesehatan Rekanan</h3>
         <p>Bagi pensiunan Pertamina yang berdomisili di Dumai, Sei Pakning, dan sekitarnya, berikut rujukan fasilitas kesehatan utama:</p>
         
-        <div class="rs-list">
-          <div class="rs-item">
-            <h4>RS Pertamina Dumai (RSPD)</h4>
-            <p>📍 Jl. Bukit Datuk Lama, Komplek Pertamina Dumai<br>
-            📞 IGD / Call Center: (0765) 31050 / 31051<br>
-            ⭐ Layanan: IGD 24 Jam, Poli Spesialis, Rawat Inap, Farmasi.</p>
-          </div>
+        <div id="content-hospitals">
+          <div class="rs-list">
+            <div class="rs-item">
+              <h4>RS Pertamina Dumai (RSPD)</h4>
+              <p>📍 Jl. Bukit Datuk Lama, Komplek Pertamina Dumai<br>
+              📞 IGD / Call Center: (0765) 31050 / 31051<br>
+              ⭐ Layanan: IGD 24 Jam, Poli Spesialis, Rawat Inap, Farmasi.</p>
+            </div>
 
-          <div class="rs-item">
-            <h4>Klinik Pratama Pertamina Sei Pakning</h4>
-            <p>📍 Komplek Pertamina RU II Sei Pakning<br>
-            📞 Kontak Medis: Hubungi Pos Kesehatan Sei Pakning<br>
-            ⭐ Layanan: Pelayanan rawat jalan pertama & rujukan wilayah Sei Pakning.</p>
-          </div>
+            <div class="rs-item">
+              <h4>Klinik Pratama Pertamina Sei Pakning</h4>
+              <p>📍 Komplek Pertamina RU II Sei Pakning<br>
+              📞 Kontak Medis: Hubungi Pos Kesehatan Sei Pakning<br>
+              ⭐ Layanan: Pelayanan rawat jalan pertama & rujukan wilayah Sei Pakning.</p>
+            </div>
 
-          <div class="rs-item">
-            <h4>RSUD Kota Dumai</h4>
-            <p>📍 Jl. Tanjung Jati No. 4, Dumai<br>
-            📞 Telepon: (0765) 38367<br>
-            ⭐ Layanan: Rujukan lanjutan BPJS & Spesialis Terpadu.</p>
-          </div>
+            <div class="rs-item">
+              <h4>RSUD Kota Dumai</h4>
+              <p>📍 Jl. Tanjung Jati No. 4, Dumai<br>
+              📞 Telepon: (0765) 38367<br>
+              ⭐ Layanan: Rujukan lanjutan BPJS & Spesialis Terpadu.</p>
+            </div>
 
-          <div class="rs-item">
-            <h4>RS Rujukan Pekanbaru (Awal Bros & Santa Maria)</h4>
-            <p>📍 Jl. Jend. Sudirman & Jl. A. Yani, Pekanbaru<br>
-            ⭐ Layanan: Rujukan operasi & pengobatan spesialis lanjutan.</p>
+            <div class="rs-item">
+              <h4>RS Rujukan Pekanbaru (Awal Bros & Santa Maria)</h4>
+              <p>📍 Jl. Jend. Sudirman & Jl. A. Yani, Pekanbaru<br>
+              ⭐ Layanan: Rujukan operasi & pengobatan spesialis lanjutan.</p>
+            </div>
           </div>
         </div>
       </article>
@@ -144,27 +154,29 @@
         <h3>📋 Prosedur & Syarat Klaim Biaya Pengobatan</h3>
         <p>Ketentuan pengajuan klaim penggantian biaya pengobatan (reimbursement) dan rawat inap bagi pensiunan:</p>
         
-        <ol class="step-list">
-          <li><strong>Rawat Jalan (Reimbursement):</strong>
-            <ul>
-              <li>Kuitansi asli bermeterai dan rincian biaya pengobatan/tindakan dari faskes/RS.</li>
-              <li>Salinan resep obat asli dan copy hasil pemeriksaan penunjang (lab/rontgen).</li>
-              <li>Fotokopi Kartu Pensiun Pertamina & KTP yang masih berlaku.</li>
-              <li>Batas pengajuan klaim selambat-lambatnya 60 hari sejak tanggal pengobatan.</li>
-            </ul>
-          </li>
-          <li><strong>Rawat Inap (Jaminan Perusahaan):</strong>
-            <ul>
-              <li>Segera laporkan kepada perwakilan Layanan Medis Pertamina Dumai sebelum 1x24 jam.</li>
-              <li>Tunjukkan Kartu Pensiun dan identitas resmi di loket pendaftaran RS rekanan untuk penerbitan Surat Jaminan (Guarantee Letter).</li>
-            </ul>
-          </li>
-          <li><strong>Bantuan Kacamata, Gigi, & Alat Bantu Dengar:</strong>
-            <ul>
-              <li>Penggantian biaya kacamata dan alat bantu dengar mengikuti plafon dan siklus tahunan yang ditetapkan perusahaan (setiap 2-3 tahun).</li>
-            </ul>
-          </li>
-        </ol>
+        <div id="content-claims">
+          <ol class="step-list">
+            <li><strong>Rawat Jalan (Reimbursement):</strong>
+              <ul>
+                <li>Kuitansi asli bermeterai dan rincian biaya pengobatan/tindakan dari faskes/RS.</li>
+                <li>Salinan resep obat asli dan copy hasil pemeriksaan penunjang (lab/rontgen).</li>
+                <li>Fotokopi Kartu Pensiun Pertamina & KTP yang masih berlaku.</li>
+                <li>Batas pengajuan klaim selambat-lambatnya 60 hari sejak tanggal pengobatan.</li>
+              </ul>
+            </li>
+            <li><strong>Rawat Inap (Jaminan Perusahaan):</strong>
+              <ul>
+                <li>Segera laporkan kepada perwakilan Layanan Medis Pertamina Dumai sebelum 1x24 jam.</li>
+                <li>Tunjukkan Kartu Pensiun dan identitas resmi di loket pendaftaran RS rekanan untuk penerbitan Surat Jaminan (Guarantee Letter).</li>
+              </ul>
+            </li>
+            <li><strong>Bantuan Kacamata, Gigi, & Alat Bantu Dengar:</strong>
+              <ul>
+                <li>Penggantian biaya kacamata dan alat bantu dengar mengikuti plafon dan siklus tahunan yang ditetapkan perusahaan (setiap 2-3 tahun).</li>
+              </ul>
+            </li>
+          </ol>
+        </div>
       </article>
 
       <!-- Bagian 3: Dana Pensiun -->
@@ -172,16 +184,18 @@
         <h3>💼 Informasi Dana Pensiun Pertamina (DP Pertamina)</h3>
         <p>Hal-hal pokok terkait hak pensiun bulanan dan kewajiban administrasi:</p>
         
-        <ul class="step-list">
-          <li><strong>Pembayaran Manfaat Pensiun:</strong> Ditransfer setiap bulan ke rekening bank terdaftar (umumnya mulai tanggal 25 setiap bulannya).</li>
-          <li><strong>Surat Keterangan Masih Hidup (SKMH):</strong> Wajib diperbarui secara berkala (tahunan) untuk memastikan kelancaran pencairan dana pensiun. Bagi anggota yang kesulitan mengunggah mandiri, pengurus PPDS siap membantu proses pelaporan.</li>
-          <li><strong>Layanan Informasi Pusat:</strong>
-            <ul>
-              <li>Portal Resmi: <strong>www.danapensiunpertamina.com</strong></li>
-              <li>Call Center Layanan Pensiun: (021) 5790 1234 / Contact Center Pertamina 135</li>
-            </ul>
-          </li>
-        </ul>
+        <div id="content-pension">
+          <ul class="step-list">
+            <li><strong>Pembayaran Manfaat Pensiun:</strong> Ditransfer setiap bulan ke rekening bank terdaftar (umumnya mulai tanggal 25 setiap bulannya).</li>
+            <li><strong>Surat Keterangan Masih Hidup (SKMH):</strong> Wajib diperbarui secara berkala (tahunan) untuk memastikan kelancaran pencairan dana pensiun. Bagi anggota yang kesulitan mengunggah mandiri, pengurus PPDS siap membantu proses pelaporan.</li>
+            <li><strong>Layanan Informasi Pusat:</strong>
+              <ul>
+                <li>Portal Resmi: <strong>www.danapensiunpertamina.com</strong></li>
+                <li>Call Center Layanan Pensiun: (021) 5790 1234 / Contact Center Pertamina 135</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
       </article>
 
       <!-- Bagian 4: Santunan Duka Cita -->
@@ -189,15 +203,17 @@
         <h3>🕊️ Hak Santunan Duka Cita & Bantuan Sosial</h3>
         <p>Bagi keluarga pensiunan yang berduka, paguyuban PPDS menyediakan pendampingan pengurusan hak duka:</p>
         
-        <ul class="step-list">
-          <li><strong>Bantuan Santunan Perusahaan:</strong> Hak santunan duka cita bagi ahli waris yang sah (syarat: Surat Kematian dari RS/Kelurahan, fotokopi Kartu Pensiun, KK, dan buku tabungan ahli waris).</li>
-          <li><strong>Bantuan Paguyuban PPDS:</strong> Pengurus PPDS akan segera menerbitkan pengumuman lelayu resmi di portal web dan grup WhatsApp, serta mengoordinasikan doa bersama dan takziah.</li>
-        </ul>
+        <div id="content-condolences">
+          <ul class="step-list">
+            <li><strong>Bantuan Santunan Perusahaan:</strong> Hak santunan duka cita bagi ahli waris yang sah (syarat: Surat Kematian dari RS/Kelurahan, fotokopi Kartu Pensiun, KK, dan buku tabungan ahli waris).</li>
+            <li><strong>Bantuan Paguyuban PPDS:</strong> Pengurus PPDS akan segera menerbitkan pengumuman lelayu resmi di portal web dan grup WhatsApp, serta mengoordinasikan doa bersama dan takziah.</li>
+          </ul>
+        </div>
 
         <div class="contact-box">
           <h4>Pusat Bantuan & Konsultasi Pengurus PPDS</h4>
           <p>Jika Bapak/Ibu memerlukan bantuan terkait rujukan rumah sakit, klaim pengobatan, atau kendala pensiun, silakan hubungi pengurus bidang sosial & kesehatan PPDS:</p>
-          <a class="btn" style="background:#25d366; color:#ffffff; border-color:#20b858; display:inline-flex; align-items:center; gap:0.4rem; margin-top:0.5rem;" target="_blank" rel="noopener noreferrer" href="https://wa.me/?text=Halo%20Pengurus%20PPDS,%20saya%20anggota%20pensiunan%20ingin%20berkonsultasi%20mengenai%20layanan%20kesehatan%20/%20pensiun.">
+          <a id="btn-wa-hotline" class="btn" style="background:#25d366; color:#ffffff; border-color:#20b858; display:inline-flex; align-items:center; gap:0.4rem; margin-top:0.5rem;" target="_blank" rel="noopener noreferrer" href="https://wa.me/?text=Halo%20Pengurus%20PPDS,%20saya%20anggota%20pensiunan%20ingin%20berkonsultasi%20mengenai%20layanan%20kesehatan%20/%20pensiun.">
             💬 Hubungi Pengurus via WhatsApp
           </a>
         </div>
@@ -214,31 +230,101 @@
   <script src="js/layout.js"></script>
   <script src="js/auth.js"></script>
   <script>
-    // Pengatur ukuran huruf pada halaman panduan kesehatan
-    document.addEventListener("DOMContentLoaded", function () {
+    (function () {
+      const { db, auth } = window.P3DS;
+
+      // 1. Pengatur ukuran huruf pada halaman panduan kesehatan
       const guideEl = document.getElementById("guide-content");
       const buttons = document.querySelectorAll(".btn-font-size");
-      if (!guideEl || !buttons.length) return;
+      if (guideEl && buttons.length) {
+        const saved = localStorage.getItem("ppds_guide_fontsize") || "font-md";
+        guideEl.className = "guide-body " + saved;
 
-      const saved = localStorage.getItem("ppds_guide_fontsize") || "font-md";
-      guideEl.className = "guide-body " + saved;
+        buttons.forEach(function (btn) {
+          if (btn.dataset.size === saved) {
+            btn.classList.add("active");
+          } else {
+            btn.classList.remove("active");
+          }
 
-      buttons.forEach(function (btn) {
-        if (btn.dataset.size === saved) {
-          btn.classList.add("active");
-        } else {
-          btn.classList.remove("active");
+          btn.addEventListener("click", function () {
+            const sz = btn.dataset.size;
+            guideEl.className = "guide-body " + sz;
+            localStorage.setItem("ppds_guide_fontsize", sz);
+            buttons.forEach(function (b) { b.classList.remove("active"); });
+            btn.classList.add("active");
+          });
+        });
+      }
+
+      function renderSafePre(text) {
+        if (!text) return "";
+        const div = document.createElement("div");
+        div.style.whiteSpace = "pre-line";
+        div.style.lineHeight = "1.75";
+        div.style.fontSize = "1.02rem";
+        div.textContent = text;
+        return div.outerHTML;
+      }
+
+      // 2. Deteksi akses pengurus / admin & tampilkan tombol edit
+      document.addEventListener("DOMContentLoaded", async function () {
+        try {
+          const profile = await auth.loadProfile();
+          if (profile && profile.status === "active" && (profile.role === "pengurus" || profile.role === "admin")) {
+            const bar = document.getElementById("admin-action-bar");
+            if (bar) bar.classList.remove("is-hidden");
+          }
+        } catch (e) {
+          console.warn("Auth check:", e);
         }
 
-        btn.addEventListener("click", function () {
-          const sz = btn.dataset.size;
-          guideEl.className = "guide-body " + sz;
-          localStorage.setItem("ppds_guide_fontsize", sz);
-          buttons.forEach(function (b) { b.classList.remove("active"); });
-          btn.classList.add("active");
-        });
+        // 3. Muat konten kustom dari Supabase / cache lokal
+        try {
+          let customData = null;
+          // Cek cache lokal terlebih dahulu
+          try {
+            const cached = localStorage.getItem("ppds_pension_content");
+            if (cached) customData = JSON.parse(cached);
+          } catch (e) {}
+
+          // Cek database Supabase
+          if (db) {
+            const { data } = await db.from("site_content").select("content").eq("key", "pension_services").maybeSingle();
+            if (data && data.content) {
+              try {
+                customData = JSON.parse(data.content);
+                localStorage.setItem("ppds_pension_content", data.content);
+              } catch (e) {}
+            }
+          }
+
+          if (customData) {
+            if (customData.hospitals && customData.hospitals.trim()) {
+              document.getElementById("content-hospitals").innerHTML = renderSafePre(customData.hospitals);
+            }
+            if (customData.claims && customData.claims.trim()) {
+              document.getElementById("content-claims").innerHTML = renderSafePre(customData.claims);
+            }
+            if (customData.pension && customData.pension.trim()) {
+              document.getElementById("content-pension").innerHTML = renderSafePre(customData.pension);
+            }
+            if (customData.condolences && customData.condolences.trim()) {
+              document.getElementById("content-condolences").innerHTML = renderSafePre(customData.condolences);
+            }
+            if (customData.wa_number && customData.wa_number.trim()) {
+              const cleanWa = customData.wa_number.replace(/\D/g, "");
+              const waLink = document.getElementById("btn-wa-hotline");
+              if (waLink && cleanWa) {
+                waLink.href = "https://wa.me/" + cleanWa + "?text=" + encodeURIComponent("Halo Pengurus PPDS, saya anggota pensiunan ingin berkonsultasi mengenai layanan kesehatan / pensiun.");
+              }
+            }
+          }
+        } catch (err) {
+          console.warn("Gagal memuat konten dinamis layanan:", err);
+        }
       });
-    });
+    })();
   </script>
 </body>
 </html>
