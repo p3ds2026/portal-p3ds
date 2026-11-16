@@ -52,19 +52,29 @@
     return db.from("announcements").delete().eq("id", id);
   }
 
+  const CATEGORY_MAP = {
+    berita: { label: "Berita", class: "badge" },
+    pengumuman: { label: "Pengumuman", class: "badge" },
+    duka: { label: "🖤 Kabar Duka Cita", class: "badge badge-duka" },
+    kesehatan: { label: "🏥 Layanan & Pensiun", class: "badge badge-kesehatan" },
+  };
+
   // ----- Tampilan -----
   function cardHtml(item) {
     const cover = utils.safeUrl(item.cover_url);
     const coverHtml = cover
       ? `<img class="card-cover" src="${utils.escapeHtml(cover)}" alt="" loading="lazy">`
-      : `<div class="card-cover placeholder">P3DS</div>`;
+      : `<div class="card-cover placeholder">PPDS</div>`;
     const text = item.summary || utils.shorten(item.content, 140);
     const lock = item.visibility === "member" ? '<span class="badge">Khusus Anggota</span>' : "";
+    const catConfig = CATEGORY_MAP[item.category] || { label: item.category || "Berita", class: "badge" };
+    const catBadge = `<span class="${catConfig.class}">${utils.escapeHtml(catConfig.label)}</span>`;
+    const dukaBorder = item.category === "duka" ? ' style="border-top:4px solid #1a252f;"' : "";
     return `
-      <article class="card">
+      <article class="card"${dukaBorder}>
         ${coverHtml}
         <div class="card-body">
-          <div class="meta"><span class="badge">${utils.escapeHtml(item.category)}</span>${lock}${utils.formatDate(item.published_at)}</div>
+          <div class="meta">${catBadge}${lock}${utils.formatDate(item.published_at)}</div>
           <h3><a href="berita.html?id=${encodeURIComponent(item.id)}">${utils.escapeHtml(item.title)}</a></h3>
           <p>${utils.escapeHtml(utils.shorten(text, 140))}</p>
           <div style="margin-top:auto; padding-top:0.75rem;">
