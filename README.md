@@ -3,7 +3,7 @@
 
 > **SATU KELUARGA, SEJUTA KENANGAN**
 
-Portal resmi P3DS sebagai pusat informasi, komunikasi, silaturahmi, dokumentasi, dan kegiatan sosial keluarga besar pensiunan Pertamina Dumai – Sei Pakning.
+Portal resmi PPDS sebagai pusat informasi, komunikasi, silaturahmi, dokumentasi, dan kegiatan sosial keluarga besar pensiunan Pertamina Dumai – Sei Pakning.
 
 ### Teknologi
 - **Frontend:** HTML5, CSS3, JavaScript (Modular ES6)

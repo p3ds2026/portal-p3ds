@@ -1,5 +1,5 @@
 // Fungsi bantu umum. Dipakai oleh semua modul lewat window.P3DS.utils
-window.P3DS = window.P3DS || {};
+window.PPDS = window.P3DS = window.P3DS || {};
 window.P3DS.utils = {
   // Mencegah penyisipan kode berbahaya (XSS) pada teks dari database
   escapeHtml(value) {
