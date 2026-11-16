@@ -6,6 +6,7 @@
     { label: "Agenda Kegiatan", href: "agenda.html", page: "agenda" },
     { label: "Galeri Foto & Video", href: "galeri.html", page: "galeri" },
     { label: "Kegiatan Sosial", href: "kegiatan-sosial.html", page: "sosial" },
+    { label: "Layanan & Pensiun", href: "layanan-kesehatan.html", page: "layanan" },
     { label: "Ruang Silaturahmi", href: "silaturahmi.html", page: "silaturahmi", access: "member" },
     { label: "Profil Anggota", href: "profil.html", page: "profil", access: "member" },
     { label: "Notifikasi", href: "notifikasi.html", page: "notifikasi", access: "member" },
@@ -64,6 +65,7 @@
             <li><a href="agenda.html">Agenda Kegiatan</a></li>
             <li><a href="galeri.html">Galeri</a></li>
             <li><a href="kegiatan-sosial.html">Kegiatan Sosial</a></li>
+            <li><a href="layanan-kesehatan.html">Layanan & Pensiun</a></li>
           </ul>
         </div>
         <div>
