@@ -37,38 +37,54 @@
       <div class="form-card" style="max-width:850px; margin:0 auto;">
         <form id="form-layanan">
           <!-- Bagian 1 -->
-          <h3 class="form-section-title" style="margin-top:0;">1. Rumah Sakit & Fasilitas Kesehatan Rekanan</h3>
+          <h3 class="form-section-title" style="margin-top:0;">Bagian 1: Fasilitas Kesehatan</h3>
           <div class="form-group">
-            <label for="hospitals">Daftar Rumah Sakit, Alamat & Nomor Telepon</label>
+            <label for="title_hospitals"><strong>Judul Bagian 1</strong></label>
+            <input id="title_hospitals" name="title_hospitals" type="text" required placeholder="Contoh: 🏥 1. Rumah Sakit & Fasilitas Kesehatan Rekanan">
+          </div>
+          <div class="form-group">
+            <label for="hospitals"><strong>Isi / Daftar Rumah Sakit, Alamat & Telepon</strong></label>
             <textarea id="hospitals" name="hospitals" rows="6" required placeholder="Tuliskan daftar rumah sakit rujukan, alamat, dan nomor telepon yang benar..."></textarea>
-            <span class="hint">Gunakan baris baru (Enter) untuk memisahkan setiap rumah sakit.</span>
+            <span class="hint">Gunakan baris baru (Enter) untuk memisahkan setiap faskes/rumah sakit.</span>
           </div>
 
           <!-- Bagian 2 -->
-          <h3 class="form-section-title">2. Prosedur & Syarat Klaim Pengobatan</h3>
+          <h3 class="form-section-title">Bagian 2: Prosedur Klaim Pengobatan</h3>
           <div class="form-group">
-            <label for="claims">Syarat & Alur Pengajuan Klaim (Rawat Jalan / Inap / Kacamata)</label>
+            <label for="title_claims"><strong>Judul Bagian 2</strong></label>
+            <input id="title_claims" name="title_claims" type="text" required placeholder="Contoh: 📋 2. Prosedur & Syarat Klaim Biaya Pengobatan">
+          </div>
+          <div class="form-group">
+            <label for="claims"><strong>Isi Syarat & Alur Pengajuan Klaim</strong></label>
             <textarea id="claims" name="claims" rows="6" required placeholder="Tuliskan berkas yang dibutuhkan, batasan hari klaim, dan alur pengajuan klaim..."></textarea>
           </div>
 
           <!-- Bagian 3 -->
-          <h3 class="form-section-title">3. Informasi Dana Pensiun & SKMH</h3>
+          <h3 class="form-section-title">Bagian 3: Dana Pensiun & SKMH</h3>
           <div class="form-group">
-            <label for="pension">Ketentuan Manfaat Pensiun, SKMH & Kontak Pusat</label>
+            <label for="title_pension"><strong>Judul Bagian 3</strong></label>
+            <input id="title_pension" name="title_pension" type="text" required placeholder="Contoh: 💼 3. Informasi Dana Pensiun Pertamina (DP Pertamina)">
+          </div>
+          <div class="form-group">
+            <label for="pension"><strong>Isi Ketentuan Manfaat Pensiun & SKMH</strong></label>
             <textarea id="pension" name="pension" rows="6" required placeholder="Tuliskan jadwal transfer pensiun, tata cara lapor SKMH tahunan, dan kontak Dana Pensiun..."></textarea>
           </div>
 
           <!-- Bagian 4 -->
-          <h3 class="form-section-title">4. Santunan Duka Cita & Bantuan Sosial</h3>
+          <h3 class="form-section-title">Bagian 4: Santunan Duka Cita & Bantuan Sosial</h3>
           <div class="form-group">
-            <label for="condolences">Syarat & Alur Bantuan Duka Cita Paguyuban / Perusahaan</label>
+            <label for="title_condolences"><strong>Judul Bagian 4</strong></label>
+            <input id="title_condolences" name="title_condolences" type="text" required placeholder="Contoh: 🕊️ 4. Hak Santunan Duka Cita & Bantuan Sosial">
+          </div>
+          <div class="form-group">
+            <label for="condolences"><strong>Isi Syarat & Hak Santunan Duka Cita</strong></label>
             <textarea id="condolences" name="condolences" rows="5" required placeholder="Tuliskan hak santunan duka cita dan dokumen yang diperlukan ahli waris..."></textarea>
           </div>
 
           <!-- Bagian 5 -->
-          <h3 class="form-section-title">5. Nomor WhatsApp Pengurus untuk Konsultasi</h3>
+          <h3 class="form-section-title">Bagian 5: Nomor Kontak Bantuan WhatsApp</h3>
           <div class="form-group">
-            <label for="wa_number">Nomor WhatsApp Pengurus Bidang Layanan / Sosial</label>
+            <label for="wa_number"><strong>Nomor WhatsApp Pengurus untuk Konsultasi Layanan</strong></label>
             <input id="wa_number" name="wa_number" type="text" placeholder="Contoh: 08123456789 atau 628123456789" required>
             <span class="hint">Nomor ini akan terhubung langsung ke tombol WhatsApp di halaman Layanan Pensiun.</span>
           </div>
@@ -96,6 +112,7 @@
 
       // Data bawaan awal jika database belum pernah diisi
       const DEFAULT_DATA = {
+        title_hospitals: "1. Rumah Sakit & Fasilitas Kesehatan Rekanan",
         hospitals: `1. RS Pertamina Dumai (RSPD)
 Alamat: Jl. Bukit Datuk Lama, Komplek Pertamina Dumai
 IGD & Call Center: (0765) 31050 / 31051
@@ -114,6 +131,7 @@ Layanan: Rujukan terpadu dan BPJS Kesehatan.
 Alamat: Jl. Jend. Sudirman & Jl. A. Yani, Pekanbaru
 Layanan: Rujukan operasi & penanganan medis lanjutan.`,
 
+        title_claims: "2. Prosedur & Syarat Klaim Biaya Pengobatan",
         claims: `A. Rawat Jalan (Reimbursement):
 - Kuitansi asli bermeterai dan rincian biaya dari klinik / RS.
 - Salinan resep obat asli dan copy hasil pemeriksaan lab/rontgen jika ada.
@@ -127,6 +145,7 @@ B. Rawat Inap (Jaminan Perusahaan):
 C. Kacamata & Gigi:
 - Penggantian mengikuti plafon dan siklus berkala yang berlaku.`,
 
+        title_pension: "3. Informasi Dana Pensiun Pertamina (DP Pertamina)",
         pension: `1. Pembayaran Manfaat Pensiun:
 Ditransfer setiap bulan langsung ke rekening bank terdaftar (mulai tanggal 25).
 
@@ -137,6 +156,7 @@ Wajib diperbarui setiap tahun untuk kelancaran pembayaran manfaat pensiun. Anggo
 - Website: www.danapensiunpertamina.com
 - Call Center: (021) 5790 1234 / Contact Pertamina 135`,
 
+        title_condolences: "4. Hak Santunan Duka Cita & Bantuan Sosial",
         condolences: `1. Santunan Duka Cita:
 Hak santunan duka bagi ahli waris yang sah dengan melampirkan Surat Kematian, Kartu Pensiun, KK, dan buku tabungan ahli waris.
 
@@ -182,9 +202,13 @@ Pengurus PPDS siap membantu penerbitan kabar lelayu resmi di portal dan mengoord
             } catch (e) {}
           }
 
+          form.title_hospitals.value = current.title_hospitals || DEFAULT_DATA.title_hospitals;
           form.hospitals.value = current.hospitals || "";
+          form.title_claims.value = current.title_claims || DEFAULT_DATA.title_claims;
           form.claims.value = current.claims || "";
+          form.title_pension.value = current.title_pension || DEFAULT_DATA.title_pension;
           form.pension.value = current.pension || "";
+          form.title_condolences.value = current.title_condolences || DEFAULT_DATA.title_condolences;
           form.condolences.value = current.condolences || "";
           form.wa_number.value = current.wa_number || "";
         } catch (err) {
@@ -197,9 +221,13 @@ Pengurus PPDS siap membantu penerbitan kabar lelayu resmi di portal dan mengoord
           btn.textContent = "Menyimpan...";
 
           const payloadData = {
+            title_hospitals: form.title_hospitals.value.trim(),
             hospitals: form.hospitals.value.trim(),
+            title_claims: form.title_claims.value.trim(),
             claims: form.claims.value.trim(),
+            title_pension: form.title_pension.value.trim(),
             pension: form.pension.value.trim(),
+            title_condolences: form.title_condolences.value.trim(),
             condolences: form.condolences.value.trim(),
             wa_number: form.wa_number.value.trim()
           };
