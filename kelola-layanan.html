@@ -32,6 +32,39 @@
       border-bottom: 1px solid #e1e4e8;
       padding-bottom: 0.5rem;
     }
+    .formatting-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      align-items: center;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-bottom: none;
+      border-radius: 6px 6px 0 0;
+      padding: 0.4rem 0.6rem;
+    }
+    .btn-fmt {
+      padding: 0.22rem 0.55rem;
+      font-size: 0.82rem;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: #1e293b;
+      border-radius: 4px;
+      cursor: pointer;
+      line-height: 1.25;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .btn-fmt:hover {
+      background: #e2e8f0;
+      border-color: #94a3b8;
+    }
+    .section-content-input {
+      border-top-left-radius: 0 !important;
+      border-top-right-radius: 0 !important;
+    }
   </style>
 </head>
 <body data-page="layanan">
@@ -178,6 +211,47 @@ Pengurus PPDS siap membantu penerbitan kabar lelayu resmi di portal dan mengoord
         return list;
       }
 
+      function applyFormatting(textarea, formatType) {
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const val = textarea.value;
+        const selected = val.substring(start, end);
+
+        let prefix = "";
+        let suffix = "";
+        let defaultText = "";
+
+        if (formatType === "bold") {
+          prefix = "*"; suffix = "*"; defaultText = "teks tebal";
+        } else if (formatType === "italic") {
+          prefix = "_"; suffix = "_"; defaultText = "teks miring";
+        } else if (formatType === "underline") {
+          prefix = "__"; suffix = "__"; defaultText = "teks garis bawah";
+        } else if (formatType === "strike") {
+          prefix = "~"; suffix = "~"; defaultText = "teks dicoret";
+        } else if (formatType === "bullet") {
+          prefix = "- "; suffix = ""; defaultText = "Poin penting";
+        } else if (formatType === "number") {
+          prefix = "1. "; suffix = ""; defaultText = "Poin pertama";
+        } else if (formatType === "link") {
+          if (selected) {
+            if (/^https?:\/\//i.test(selected)) {
+              return;
+            }
+            prefix = ""; suffix = " : http://pertalife.com/formulir.pdf";
+          } else {
+            prefix = "http://"; suffix = ""; defaultText = "pertalife.com/wp-content/uploads/2026/02/formulir-klaim.pdf";
+          }
+        }
+
+        const replacement = selected ? (prefix + selected + suffix) : (prefix + defaultText + suffix);
+        textarea.value = val.substring(0, start) + replacement + val.substring(end);
+        textarea.focus();
+        const selStart = start + prefix.length;
+        const selEnd = start + prefix.length + (selected ? selected.length : defaultText.length);
+        textarea.setSelectionRange(selStart, selEnd);
+      }
+
       function renderSections() {
         const container = document.getElementById("sections-container");
         container.innerHTML = "";
@@ -228,10 +302,31 @@ Pengurus PPDS siap membantu penerbitan kabar lelayu resmi di portal dan mengoord
             </div>
             <div class="form-group" style="margin-bottom:0;">
               <label><strong>Isi Informasi Bagian ${idx + 1}:</strong></label>
-              <textarea rows="6" class="section-content-input" placeholder="Tuliskan isi informasi, syarat, daftar faskes, atau alur pengajuan..." required>${P3DS.utils.escapeHtml(sec.content || '')}</textarea>
-              <span class="hint">Gunakan baris baru (Enter) untuk memisahkan setiap poin atau keterangan.</span>
+              <div class="formatting-toolbar">
+                <span style="font-size:0.78rem; font-weight:600; color:#475569; margin-right:0.2rem;">Format Teks:</span>
+                <button type="button" class="btn-fmt" data-fmt="bold" title="Tebal (Bold)"><strong style="font-size:0.95rem;">B</strong> Tebal</button>
+                <button type="button" class="btn-fmt" data-fmt="italic" title="Miring (Italic)"><em style="font-size:0.95rem;">I</em> Miring</button>
+                <button type="button" class="btn-fmt" data-fmt="underline" title="Garis Bawah (Underline)"><u style="font-size:0.95rem;">U</u> Garis Bawah</button>
+                <button type="button" class="btn-fmt" data-fmt="strike" title="Coret (Strikethrough)"><s style="font-size:0.95rem;">S</s> Coret</button>
+                <button type="button" class="btn-fmt" data-fmt="bullet" title="Daftar Poin (Bullet)">• Poin</button>
+                <button type="button" class="btn-fmt" data-fmt="number" title="Daftar Nomor">1. Angka</button>
+                <button type="button" class="btn-fmt" data-fmt="link" title="Tautan / Unduh File">📥 Unduh/Link</button>
+              </div>
+              <textarea rows="7" class="section-content-input" placeholder="Tuliskan isi informasi, syarat, daftar faskes, atau alur pengajuan..." required>${P3DS.utils.escapeHtml(sec.content || '')}</textarea>
+              <span class="hint" style="display:block; margin-top:0.4rem; font-size:0.82rem; color:#475569; line-height:1.45;">
+                💡 <strong>Tips Format:</strong> Blok kata lalu klik tombol di atas. Atau ketik manual: <code>*teks*</code> untuk <strong>Tebal</strong>, <code>_teks_</code> untuk <em>Miring</em>, <code>__teks__</code> untuk <u>Garis Bawah</u>. Tautan link atau file PDF otomatis diubah menjadi tombol unduh yang rapi.
+              </span>
             </div>
           `;
+
+          // Handler Tombol Format Teks
+          block.querySelectorAll(".btn-fmt").forEach(function (btnFmt) {
+            btnFmt.addEventListener("click", function () {
+              const fmt = btnFmt.dataset.fmt;
+              const ta = block.querySelector(".section-content-input");
+              applyFormatting(ta, fmt);
+            });
+          });
 
           // Tombol Hapus Bagian
           block.querySelector(".btn-remove-section").addEventListener("click", function () {
