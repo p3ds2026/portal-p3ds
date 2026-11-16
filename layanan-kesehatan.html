@@ -114,7 +114,7 @@
     <div id="guide-content" class="guide-body font-md">
       <!-- Bagian 1: Rumah Sakit & Faskes -->
       <article class="info-card">
-        <h3>🏥 Rumah Sakit & Fasilitas Kesehatan Rekanan</h3>
+        <h3 id="heading-hospitals">🏥 Rumah Sakit & Fasilitas Kesehatan Rekanan</h3>
         <p>Bagi pensiunan Pertamina yang berdomisili di Dumai, Sei Pakning, dan sekitarnya, berikut rujukan fasilitas kesehatan utama:</p>
         
         <div id="content-hospitals">
@@ -151,7 +151,7 @@
 
       <!-- Bagian 2: Alur & Prosedur Klaim -->
       <article class="info-card">
-        <h3>📋 Prosedur & Syarat Klaim Biaya Pengobatan</h3>
+        <h3 id="heading-claims">📋 Prosedur & Syarat Klaim Biaya Pengobatan</h3>
         <p>Ketentuan pengajuan klaim penggantian biaya pengobatan (reimbursement) dan rawat inap bagi pensiunan:</p>
         
         <div id="content-claims">
@@ -181,7 +181,7 @@
 
       <!-- Bagian 3: Dana Pensiun -->
       <article class="info-card">
-        <h3>💼 Informasi Dana Pensiun Pertamina (DP Pertamina)</h3>
+        <h3 id="heading-pension">💼 Informasi Dana Pensiun Pertamina (DP Pertamina)</h3>
         <p>Hal-hal pokok terkait hak pensiun bulanan dan kewajiban administrasi:</p>
         
         <div id="content-pension">
@@ -200,7 +200,7 @@
 
       <!-- Bagian 4: Santunan Duka Cita -->
       <article class="info-card">
-        <h3>🕊️ Hak Santunan Duka Cita & Bantuan Sosial</h3>
+        <h3 id="heading-condolences">🕊️ Hak Santunan Duka Cita & Bantuan Sosial</h3>
         <p>Bagi keluarga pensiunan yang berduka, paguyuban PPDS menyediakan pendampingan pengurusan hak duka:</p>
         
         <div id="content-condolences">
@@ -300,6 +300,21 @@
           }
 
           if (customData) {
+            // Judul Layanan
+            if (customData.title_hospitals && customData.title_hospitals.trim()) {
+              document.getElementById("heading-hospitals").textContent = customData.title_hospitals;
+            }
+            if (customData.title_claims && customData.title_claims.trim()) {
+              document.getElementById("heading-claims").textContent = customData.title_claims;
+            }
+            if (customData.title_pension && customData.title_pension.trim()) {
+              document.getElementById("heading-pension").textContent = customData.title_pension;
+            }
+            if (customData.title_condolences && customData.title_condolences.trim()) {
+              document.getElementById("heading-condolences").textContent = customData.title_condolences;
+            }
+
+            // Isi Layanan
             if (customData.hospitals && customData.hospitals.trim()) {
               document.getElementById("content-hospitals").innerHTML = renderSafePre(customData.hospitals);
             }
