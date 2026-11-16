@@ -316,10 +316,22 @@ img { max-width: 100%; display: block; }
   border-color: var(--navy);
 }
 
+/* Pengatur Ukuran Huruf Detail Berita */
+.article.font-sm h1 { font-size: 1.45rem !important; }
+.article.font-sm .article-content,
 .article-content.font-sm { font-size: 0.95rem !important; line-height: 1.6 !important; }
-.article-content.font-md { font-size: 1.08rem !important; line-height: 1.7 !important; }
-.article-content.font-lg { font-size: 1.3rem !important; line-height: 1.8 !important; }
-.article-content.font-xl { font-size: 1.55rem !important; line-height: 1.9 !important; }
+
+.article.font-md h1 { font-size: 1.85rem !important; }
+.article.font-md .article-content,
+.article-content.font-md { font-size: 1.1rem !important; line-height: 1.75 !important; }
+
+.article.font-lg h1 { font-size: 2.3rem !important; }
+.article.font-lg .article-content,
+.article-content.font-lg { font-size: 1.38rem !important; line-height: 1.85 !important; }
+
+.article.font-xl h1 { font-size: 2.75rem !important; }
+.article.font-xl .article-content,
+.article-content.font-xl { font-size: 1.68rem !important; line-height: 2 !important; }
 
 /* Kategori Kabar Duka Cita & Takziah Bersama */
 .badge-duka {

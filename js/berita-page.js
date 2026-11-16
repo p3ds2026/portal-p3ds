@@ -55,7 +55,7 @@
       </section>` : "";
 
     box.innerHTML = `
-      <article class="article">
+      <article id="article-root" class="article">
         <p><a href="berita.html">&larr; Kembali ke daftar berita</a></p>
         
         <div class="font-resizer-bar">
@@ -72,7 +72,7 @@
           </div>
         </div>
 
-        <h1>${utils.escapeHtml(data.title)}</h1>
+        <h1 id="article-title">${utils.escapeHtml(data.title)}</h1>
         ${cover ? `<img class="article-cover" src="${utils.escapeHtml(cover)}" alt="">` : ""}
         ${dukaBoxHtml}
         <div id="article-content" class="article-content font-md">${utils.escapeHtml(data.content)}</div>
@@ -89,11 +89,16 @@
   }
 
   function initFontResizer() {
+    const rootEl = document.getElementById("article-root");
     const contentEl = document.getElementById("article-content");
     const buttons = document.querySelectorAll(".btn-font-size");
     if (!contentEl || !buttons.length) return;
 
     const savedSize = localStorage.getItem("ppds_article_fontsize") || "font-md";
+    if (rootEl) {
+      ["font-sm", "font-md", "font-lg", "font-xl"].forEach(function(s) { rootEl.classList.remove(s); });
+      rootEl.classList.add(savedSize);
+    }
     contentEl.className = "article-content " + savedSize;
 
     buttons.forEach(function (btn) {
@@ -105,7 +110,12 @@
 
       btn.addEventListener("click", function () {
         const size = btn.dataset.size;
-        contentEl.className = "article-content " + size;
+        ["font-sm", "font-md", "font-lg", "font-xl"].forEach(function (s) {
+          if (rootEl) rootEl.classList.remove(s);
+          contentEl.classList.remove(s);
+        });
+        if (rootEl) rootEl.classList.add(size);
+        contentEl.classList.add(size);
         localStorage.setItem("ppds_article_fontsize", size);
         buttons.forEach(function (b) { b.classList.remove("active"); });
         btn.classList.add("active");
