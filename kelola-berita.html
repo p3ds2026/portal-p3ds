@@ -49,8 +49,21 @@
             <textarea id="summary" name="summary" rows="2" maxlength="500"></textarea>
           </div>
           <div class="form-group">
-            <label for="content">Isi</label>
-            <textarea id="content" name="content" rows="8" required></textarea>
+            <label for="content">Isi Berita</label>
+            <div class="formatting-toolbar">
+              <span style="font-size:0.78rem; font-weight:600; color:#475569; margin-right:0.2rem;">Format Teks:</span>
+              <button type="button" class="btn-fmt" data-fmt="bold" title="Tebal (Bold)"><strong style="font-size:0.95rem;">B</strong> Tebal</button>
+              <button type="button" class="btn-fmt" data-fmt="italic" title="Miring (Italic)"><em style="font-size:0.95rem;">I</em> Miring</button>
+              <button type="button" class="btn-fmt" data-fmt="underline" title="Garis Bawah (Underline)"><u style="font-size:0.95rem;">U</u> Garis Bawah</button>
+              <button type="button" class="btn-fmt" data-fmt="strike" title="Coret (Strikethrough)"><s style="font-size:0.95rem;">S</s> Coret</button>
+              <button type="button" class="btn-fmt" data-fmt="bullet" title="Daftar Poin (Bullet)">• Poin</button>
+              <button type="button" class="btn-fmt" data-fmt="number" title="Daftar Nomor">1. Angka</button>
+              <button type="button" class="btn-fmt" data-fmt="link" title="Tautan / Unduh File">📥 Unduh/Link</button>
+            </div>
+            <textarea id="content" name="content" class="has-toolbar" rows="8" required></textarea>
+            <span class="hint" style="display:block; margin-top:0.35rem; font-size:0.82rem; color:#475569;">
+              💡 <strong>Tips:</strong> Blok kata lalu klik tombol di atas. Atau ketik <code>*teks*</code> (tebal), <code>_teks_</code> (miring), <code>__teks__</code> (garis bawah). Link website atau file PDF otomatis diubah menjadi tombol unduh rapi.
+            </span>
           </div>
           <div class="form-group">
             <label>Foto Sampul Berita</label>
