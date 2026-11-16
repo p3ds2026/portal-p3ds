@@ -49,6 +49,7 @@
 
       if (btn) { btn.textContent = originalText; btn.disabled = false; }
     } catch (e) {
+      // Fallback: buka langsung di tab baru
       window.open(url, "_blank");
     }
   }
