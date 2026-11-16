@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kelola Informasi Layanan Pensiun – PORTAL PPDS</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .form-section-title {
+      color: var(--navy);
+      font-size: 1.15rem;
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 0.35rem;
+      margin: 1.5rem 0 0.75rem;
+    }
+  </style>
+</head>
+<body data-page="layanan">
+  <header id="site-header" class="site-header"></header>
+
+  <main class="container section">
+    <div id="denied" class="alert alert-error is-hidden">
+      Halaman ini khusus untuk Pengurus dan Administrator PPDS. <a href="index.html">Kembali ke Beranda</a>
+    </div>
+
+    <div id="panel" class="is-hidden">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.5rem;">
+        <div>
+          <h1 style="margin:0; font-size:1.8rem;">Kelola Informasi Layanan Pensiun</h1>
+          <p style="color:var(--muted); margin:0.25rem 0 0;">Ubah informasi rumah sakit, syarat klaim, dana pensiun, dan nomor kontak langsung dari sini.</p>
+        </div>
+        <a class="btn btn-outline-dark" href="layanan-kesehatan.html">👁️ Lihat Halaman Layanan</a>
+      </div>
+
+      <div id="msg" class="is-hidden"></div>
+
+      <div class="form-card" style="max-width:850px; margin:0 auto;">
+        <form id="form-layanan">
+          <!-- Bagian 1 -->
+          <h3 class="form-section-title" style="margin-top:0;">1. Rumah Sakit & Fasilitas Kesehatan Rekanan</h3>
+          <div class="form-group">
+            <label for="hospitals">Daftar Rumah Sakit, Alamat & Nomor Telepon</label>
+            <textarea id="hospitals" name="hospitals" rows="6" required placeholder="Tuliskan daftar rumah sakit rujukan, alamat, dan nomor telepon yang benar..."></textarea>
+            <span class="hint">Gunakan baris baru (Enter) untuk memisahkan setiap rumah sakit.</span>
+          </div>
+
+          <!-- Bagian 2 -->
+          <h3 class="form-section-title">2. Prosedur & Syarat Klaim Pengobatan</h3>
+          <div class="form-group">
+            <label for="claims">Syarat & Alur Pengajuan Klaim (Rawat Jalan / Inap / Kacamata)</label>
+            <textarea id="claims" name="claims" rows="6" required placeholder="Tuliskan berkas yang dibutuhkan, batasan hari klaim, dan alur pengajuan klaim..."></textarea>
+          </div>
+
+          <!-- Bagian 3 -->
+          <h3 class="form-section-title">3. Informasi Dana Pensiun & SKMH</h3>
+          <div class="form-group">
+            <label for="pension">Ketentuan Manfaat Pensiun, SKMH & Kontak Pusat</label>
+            <textarea id="pension" name="pension" rows="6" required placeholder="Tuliskan jadwal transfer pensiun, tata cara lapor SKMH tahunan, dan kontak Dana Pensiun..."></textarea>
+          </div>
+
+          <!-- Bagian 4 -->
+          <h3 class="form-section-title">4. Santunan Duka Cita & Bantuan Sosial</h3>
+          <div class="form-group">
+            <label for="condolences">Syarat & Alur Bantuan Duka Cita Paguyuban / Perusahaan</label>
+            <textarea id="condolences" name="condolences" rows="5" required placeholder="Tuliskan hak santunan duka cita dan dokumen yang diperlukan ahli waris..."></textarea>
+          </div>
+
+          <!-- Bagian 5 -->
+          <h3 class="form-section-title">5. Nomor WhatsApp Pengurus untuk Konsultasi</h3>
+          <div class="form-group">
+            <label for="wa_number">Nomor WhatsApp Pengurus Bidang Layanan / Sosial</label>
+            <input id="wa_number" name="wa_number" type="text" placeholder="Contoh: 08123456789 atau 628123456789" required>
+            <span class="hint">Nomor ini akan terhubung langsung ke tombol WhatsApp di halaman Layanan Pensiun.</span>
+          </div>
+
+          <div style="margin-top:1.5rem; display:flex; gap:0.75rem;">
+            <button id="btn-submit" class="btn" type="submit">💾 Simpan Perubahan</button>
+            <a class="btn btn-outline-dark" href="layanan-kesehatan.html">Batal</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <script src="js/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    (function () {
+      const { db, auth } = window.P3DS;
+
+      // Data bawaan awal jika database belum pernah diisi
+      const DEFAULT_DATA = {
+        hospitals: `1. RS Pertamina Dumai (RSPD)
+Alamat: Jl. Bukit Datuk Lama, Komplek Pertamina Dumai
+IGD & Call Center: (0765) 31050 / 31051
+Layanan: IGD 24 Jam, Poli Spesialis, Rawat Inap, Rawat Jalan, dan Farmasi.
+
+2. Klinik Pratama Pertamina Sei Pakning
+Alamat: Komplek Pertamina RU II Sei Pakning
+Layanan: Faskes tingkat pertama pensiunan wilayah Sei Pakning & Bengkalis.
+
+3. RSUD Kota Dumai
+Alamat: Jl. Tanjung Jati No. 4, Dumai
+Telepon: (0765) 38367
+Layanan: Rujukan terpadu dan BPJS Kesehatan.
+
+4. RS Rujukan Pekanbaru (RS Awal Bros & RS Santa Maria)
+Alamat: Jl. Jend. Sudirman & Jl. A. Yani, Pekanbaru
+Layanan: Rujukan operasi & penanganan medis lanjutan.`,
+
+        claims: `A. Rawat Jalan (Reimbursement):
+- Kuitansi asli bermeterai dan rincian biaya dari klinik / RS.
+- Salinan resep obat asli dan copy hasil pemeriksaan lab/rontgen jika ada.
+- Fotokopi Kartu Pensiun Pertamina dan KTP.
+- Batas pengajuan klaim maksimal 60 hari dari tanggal berobat.
+
+B. Rawat Inap (Jaminan Perusahaan):
+- Segera lapor ke perwakilan Medis Pertamina sebelum 1x24 jam.
+- Tunjukkan Kartu Pensiun di bagian pendaftaran RS rekanan untuk penerbitan Surat Jaminan (GL).
+
+C. Kacamata & Gigi:
+- Penggantian mengikuti plafon dan siklus berkala yang berlaku.`,
+
+        pension: `1. Pembayaran Manfaat Pensiun:
+Ditransfer setiap bulan langsung ke rekening bank terdaftar (mulai tanggal 25).
+
+2. Surat Keterangan Masih Hidup (SKMH):
+Wajib diperbarui setiap tahun untuk kelancaran pembayaran manfaat pensiun. Anggota yang membutuhkan bantuan dapat melapor ke pengurus PPDS.
+
+3. Kontak Resmi Dana Pensiun Pertamina (DP Pertamina):
+- Website: www.danapensiunpertamina.com
+- Call Center: (021) 5790 1234 / Contact Pertamina 135`,
+
+        condolences: `1. Santunan Duka Cita:
+Hak santunan duka bagi ahli waris yang sah dengan melampirkan Surat Kematian, Kartu Pensiun, KK, dan buku tabungan ahli waris.
+
+2. Pendampingan PPDS:
+Pengurus PPDS siap membantu penerbitan kabar lelayu resmi di portal dan mengoordinasikan takziah bersama.`,
+
+        wa_number: "6281200000000"
+      };
+
+      function showMsg(type, text) {
+        const msg = document.getElementById("msg");
+        msg.className = "alert alert-" + type;
+        msg.textContent = text;
+        msg.classList.remove("is-hidden");
+        msg.scrollIntoView({ behavior: "smooth" });
+      }
+
+      document.addEventListener("DOMContentLoaded", async function () {
+        const profile = await auth.requireLogin();
+        if (!profile) return;
+
+        const isStaff = profile.status === "active" && (profile.role === "pengurus" || profile.role === "admin");
+        if (!isStaff) {
+          document.getElementById("denied").classList.remove("is-hidden");
+          return;
+        }
+        document.getElementById("panel").classList.remove("is-hidden");
+
+        const form = document.getElementById("form-layanan");
+        const btn = document.getElementById("btn-submit");
+
+        // Muat data yang tersimpan dari Supabase
+        try {
+          const { data, error } = await db.from("site_content").select("content").eq("key", "pension_services").maybeSingle();
+          let current = DEFAULT_DATA;
+          if (!error && data && data.content) {
+            try { current = { ...DEFAULT_DATA, ...JSON.parse(data.content) }; } catch (e) {}
+          } else {
+            // Cek localStorage jika ada
+            try {
+              const local = localStorage.getItem("ppds_pension_content");
+              if (local) current = { ...DEFAULT_DATA, ...JSON.parse(local) };
+            } catch (e) {}
+          }
+
+          form.hospitals.value = current.hospitals || "";
+          form.claims.value = current.claims || "";
+          form.pension.value = current.pension || "";
+          form.condolences.value = current.condolences || "";
+          form.wa_number.value = current.wa_number || "";
+        } catch (err) {
+          console.warn("Gagal memuat:", err);
+        }
+
+        form.addEventListener("submit", async function (e) {
+          e.preventDefault();
+          btn.disabled = true;
+          btn.textContent = "Menyimpan...";
+
+          const payloadData = {
+            hospitals: form.hospitals.value.trim(),
+            claims: form.claims.value.trim(),
+            pension: form.pension.value.trim(),
+            condolences: form.condolences.value.trim(),
+            wa_number: form.wa_number.value.trim()
+          };
+
+          const row = {
+            key: "pension_services",
+            title: "Layanan Kesehatan & Informasi Pensiun",
+            content: JSON.stringify(payloadData),
+            updated_at: new Date().toISOString()
+          };
+
+          // Simpan ke localStorage sebagai cache instan
+          try { localStorage.setItem("ppds_pension_content", JSON.stringify(payloadData)); } catch (e) {}
+
+          // Simpan ke Supabase
+          try {
+            const { error } = await db.from("site_content").upsert(row);
+            btn.disabled = false;
+            btn.textContent = "💾 Simpan Perubahan";
+
+            if (error) {
+              showMsg("error", "Gagal menyimpan ke database Supabase: " + error.message);
+              return;
+            }
+            showMsg("success", "✅ Informasi Layanan Pensiun berhasil diperbarui! Perubahan sudah aktif di website.");
+          } catch (err) {
+            btn.disabled = false;
+            btn.textContent = "💾 Simpan Perubahan";
+            showMsg("error", "Terjadi kesalahan koneksi.");
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
