@@ -206,3 +206,8 @@ img { max-width: 100%; display: block; }
 .filter-buttons { display: flex; gap: 0.4rem; flex-wrap: wrap; }
 .filter-buttons .btn.active { background: var(--navy); color: var(--white); }
 .text-center { text-align: center; }
+
+/* Tombol Unduh Foto Galeri */
+.media-actions { padding: 0.5rem; text-align: center; background: #fafbfc; border-top: 1px solid var(--border); }
+.btn-download { width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.4rem; font-size: 0.85rem; font-weight: 600; background: var(--navy); color: var(--white); border-color: var(--navy); }
+.btn-download:hover { background: var(--navy-soft); border-color: var(--navy-soft); color: var(--gold); }
