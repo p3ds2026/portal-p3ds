@@ -50,15 +50,7 @@ window.P3DS.utils = {
       const isPdf = /\.pdf($|\?)/i.test(url);
       const isDoc = /\.(doc|docx|xls|xlsx|ppt|pptx|zip)($|\?)/i.test(url);
       if (isPdf || isDoc) {
-        return `
-<span class="doc-download-box" style="display:inline-block; margin:0.4rem 0;">
-  <a href="${url}" target="_blank" rel="noopener noreferrer" download class="btn btn-small" style="background:#0b5ed7; color:#ffffff !important; font-weight:700; text-decoration:none; display:inline-flex; align-items:center; gap:0.4rem; padding:0.45rem 1rem; border-radius:6px; box-shadow:0 2px 4px rgba(11,94,215,0.25);">
-    📥 Klik untuk Unduh Formulir (${isPdf ? 'PDF' : 'Dokumen'})
-  </a>
-  <span style="display:block; font-size:0.82rem; color:#64748b; margin-top:0.25rem; word-break:break-all;">
-    Tautan: <a href="${url}" target="_blank" rel="noopener noreferrer" style="color:#0b5ed7; text-decoration:underline;">${url}</a>
-  </span>
-</span>` + suffix;
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer" download style="display:inline-flex; align-items:center; gap:0.35rem; background:#0b5ed7; color:#ffffff !important; font-weight:600; font-size:0.85rem; padding:0.22rem 0.65rem; border-radius:5px; text-decoration:none; vertical-align:middle; margin:0.15rem 0; line-height:1.3; box-shadow:0 1px 3px rgba(11,94,215,0.2);">📥 Unduh Formulir (${isPdf ? 'PDF' : 'Dokumen'}) &rarr;</a>` + suffix;
       }
       return `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color:#0b5ed7; font-weight:600; text-decoration:underline; word-break:break-all;">${url}</a>` + suffix;
     });
