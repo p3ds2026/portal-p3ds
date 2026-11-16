@@ -206,7 +206,9 @@ Pengurus PPDS siap membantu penerbitan kabar lelayu resmi di portal dan mengoord
         blocks.forEach(function (b) {
           const title = b.querySelector(".section-title-input").value.trim();
           const content = b.querySelector(".section-content-input").value;
-          list.push({ title: title, content: content });
+          const imgInp = b.querySelector(".section-image-url-input");
+          const imageUrl = imgInp ? imgInp.value.trim() : "";
+          list.push({ title: title, content: content, image_url: imageUrl });
         });
         return list;
       }
@@ -300,8 +302,35 @@ Pengurus PPDS siap membantu penerbitan kabar lelayu resmi di portal dan mengoord
               <label><strong>Judul Bagian ${idx + 1}:</strong></label>
               <input type="text" class="section-title-input" value="${P3DS.utils.escapeHtml(sec.title || '')}" placeholder="Contoh: ${idx + 1}. Judul Layanan" required>
             </div>
+
+            <!-- Lampiran Gambar / Foto (Bagan / Alur / Brosur / Dokumen) -->
+            <div class="form-group">
+              <label><strong>Lampiran Foto / Gambar (Bagan / Alur / Brosur / Formulir):</strong></label>
+              <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:0.85rem;">
+                <div style="display:flex; flex-wrap:wrap; align-items:center; gap:0.65rem;">
+                  <label class="btn btn-small btn-outline-dark" style="margin:0; cursor:pointer; display:inline-flex; align-items:center; gap:0.35rem; font-weight:600; background:#fff;">
+                    📷 Pilih Foto / Gambar
+                    <input type="file" class="section-image-file" accept="image/jpeg,image/png,image/webp,image/gif" style="display:none;">
+                  </label>
+                  <span class="section-upload-status hint" style="margin:0;">Pilih dari HP / komputer (JPG, PNG, WEBP, maks 5 MB).</span>
+                </div>
+
+                <div class="section-preview-box ${sec.image_url ? '' : 'is-hidden'}" style="position:relative; width:fit-content; max-width:320px; margin-top:0.65rem;">
+                  <img class="section-preview-img" src="${P3DS.utils.escapeHtml(sec.image_url || '')}" alt="Pratinjau Foto" style="width:100%; max-height:220px; object-fit:contain; border-radius:6px; border:2px solid var(--gold); background:#fff; display:block;">
+                  <button type="button" class="btn btn-small btn-danger btn-remove-image" style="position:absolute; top:6px; right:6px; padding:0.2rem 0.5rem; font-size:0.75rem;">✕ Hapus Gambar</button>
+                </div>
+
+                <input type="hidden" class="section-image-url-input" value="${P3DS.utils.escapeHtml(sec.image_url || '')}">
+                <details style="margin-top:0.45rem;">
+                  <summary style="font-size:0.82rem; color:var(--muted); cursor:pointer;">Atau masukkan link foto manual (URL https://...)</summary>
+                  <input type="url" class="section-image-url-manual" value="${P3DS.utils.escapeHtml(sec.image_url || '')}" placeholder="https://..." style="margin-top:0.35rem; width:100%; font-size:0.85rem;">
+                </details>
+              </div>
+            </div>
+
+            <!-- Isi Informasi / Teks Keterangan -->
             <div class="form-group" style="margin-bottom:0;">
-              <label><strong>Isi Informasi Bagian ${idx + 1}:</strong></label>
+              <label><strong>Isi Teks Keterangan Bagian ${idx + 1} (Opsional jika sudah ada foto):</strong></label>
               <div class="formatting-toolbar">
                 <span style="font-size:0.78rem; font-weight:600; color:#475569; margin-right:0.2rem;">Format Teks:</span>
                 <button type="button" class="btn-fmt" data-fmt="bold" title="Tebal (Bold)"><strong style="font-size:0.95rem;">B</strong> Tebal</button>
@@ -312,12 +341,109 @@ Pengurus PPDS siap membantu penerbitan kabar lelayu resmi di portal dan mengoord
                 <button type="button" class="btn-fmt" data-fmt="number" title="Daftar Nomor">1. Angka</button>
                 <button type="button" class="btn-fmt" data-fmt="link" title="Tautan / Unduh File">📥 Unduh/Link</button>
               </div>
-              <textarea rows="7" class="section-content-input" placeholder="Tuliskan isi informasi, syarat, daftar faskes, atau alur pengajuan..." required>${P3DS.utils.escapeHtml(sec.content || '')}</textarea>
+              <textarea rows="6" class="section-content-input" placeholder="Tuliskan isi informasi, syarat, daftar faskes, atau keterangan tambahan...">${P3DS.utils.escapeHtml(sec.content || '')}</textarea>
               <span class="hint" style="display:block; margin-top:0.4rem; font-size:0.82rem; color:#475569; line-height:1.45;">
                 💡 <strong>Tips Format:</strong> Blok kata lalu klik tombol di atas. Atau ketik manual: <code>*teks*</code> untuk <strong>Tebal</strong>, <code>_teks_</code> untuk <em>Miring</em>, <code>__teks__</code> untuk <u>Garis Bawah</u>. Tautan link atau file PDF otomatis diubah menjadi tombol unduh yang rapi.
               </span>
             </div>
           `;
+
+          // Pengelolaan Upload Foto Bagian
+          const fileInput = block.querySelector(".section-image-file");
+          const statusEl = block.querySelector(".section-upload-status");
+          const previewBox = block.querySelector(".section-preview-box");
+          const previewImg = block.querySelector(".section-preview-img");
+          const urlHidden = block.querySelector(".section-image-url-input");
+          const urlManual = block.querySelector(".section-image-url-manual");
+          const btnRemoveImg = block.querySelector(".btn-remove-image");
+
+          function setSectionImg(url) {
+            if (url) {
+              urlHidden.value = url;
+              if (urlManual) urlManual.value = url;
+              previewImg.src = url;
+              previewBox.classList.remove("is-hidden");
+              statusEl.textContent = "Foto terpasang.";
+              statusEl.style.color = "var(--navy)";
+            } else {
+              urlHidden.value = "";
+              if (urlManual) urlManual.value = "";
+              previewImg.src = "";
+              previewBox.classList.add("is-hidden");
+              fileInput.value = "";
+              statusEl.textContent = "Pilih dari HP / komputer (JPG, PNG, WEBP, maks 5 MB).";
+              statusEl.style.color = "";
+            }
+          }
+
+          if (btnRemoveImg) {
+            btnRemoveImg.addEventListener("click", function () {
+              setSectionImg(null);
+            });
+          }
+
+          if (urlManual) {
+            urlManual.addEventListener("input", function () {
+              const val = urlManual.value.trim();
+              if (val && /^https?:\/\//i.test(val)) {
+                setSectionImg(val);
+              } else if (!val) {
+                setSectionImg(null);
+              }
+            });
+          }
+
+          if (fileInput) {
+            fileInput.addEventListener("change", async function () {
+              const file = fileInput.files && fileInput.files[0];
+              if (!file) return;
+
+              if (!/^image\/(jpeg|png|webp|gif)$/i.test(file.type)) {
+                statusEl.textContent = "❌ Format file harus gambar (JPG, PNG, WEBP, GIF).";
+                statusEl.style.color = "#d93025";
+                fileInput.value = "";
+                return;
+              }
+
+              if (file.size > 5 * 1024 * 1024) {
+                statusEl.textContent = "❌ Ukuran gambar maksimal 5 MB.";
+                statusEl.style.color = "#d93025";
+                fileInput.value = "";
+                return;
+              }
+
+              statusEl.textContent = "⏳ Sedang mengunggah gambar ke server...";
+              statusEl.style.color = "var(--navy)";
+
+              try {
+                const ext = file.name.split(".").pop().toLowerCase() || "jpg";
+                const safeName = "layanan-" + Date.now() + "-" + Math.random().toString(36).substring(2, 7) + "." + ext;
+                const path = "layanan/" + safeName;
+
+                const { error: upErr } = await window.P3DS.db.storage
+                  .from("gallery-public")
+                  .upload(path, file, { cacheControl: "3600", upsert: true });
+
+                if (upErr) {
+                  statusEl.textContent = "❌ Gagal mengunggah gambar: " + upErr.message;
+                  statusEl.style.color = "#d93025";
+                  return;
+                }
+
+                const { data: urlData } = window.P3DS.db.storage
+                  .from("gallery-public")
+                  .getPublicUrl(path);
+
+                const publicUrl = urlData ? urlData.publicUrl : "";
+                setSectionImg(publicUrl);
+                statusEl.textContent = "✅ Gambar berhasil diunggah!";
+                statusEl.style.color = "#1e8e3e";
+              } catch (err) {
+                statusEl.textContent = "❌ Terjadi kesalahan saat mengunggah.";
+                statusEl.style.color = "#d93025";
+              }
+            });
+          }
 
           // Handler Tombol Format Teks
           block.querySelectorAll(".btn-fmt").forEach(function (btnFmt) {
@@ -346,7 +472,8 @@ Pengurus PPDS siap membantu penerbitan kabar lelayu resmi di portal dan mengoord
         const nextNum = currentSections.length + 1;
         currentSections.push({
           title: `${nextNum}. Judul Bagian Baru`,
-          content: ""
+          content: "",
+          image_url: ""
         });
         renderSections();
 

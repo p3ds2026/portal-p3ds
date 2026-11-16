@@ -335,14 +335,32 @@
                     h3.textContent = sec.title || "Informasi Layanan";
                     article.appendChild(h3);
 
-                    const bodyDiv = document.createElement("div");
-                    bodyDiv.style.whiteSpace = "pre-line";
-                    bodyDiv.style.lineHeight = "1.75";
-                    bodyDiv.style.fontSize = "1.02rem";
-                    bodyDiv.innerHTML = (window.P3DS.utils && window.P3DS.utils.autoLink)
-                      ? window.P3DS.utils.autoLink(sec.content || "")
-                      : P3DS.utils.escapeHtml(sec.content || "");
-                    article.appendChild(bodyDiv);
+                    // Tampilkan gambar / foto lampiran jika ada
+                    if (sec.image_url && sec.image_url.trim()) {
+                      const imgWrap = document.createElement("div");
+                      imgWrap.className = "info-card-image";
+                      imgWrap.style.margin = "1rem 0 1.25rem";
+                      imgWrap.style.textAlign = "center";
+                      imgWrap.innerHTML = `
+                        <a href="${P3DS.utils.escapeHtml(sec.image_url)}" target="_blank" rel="noopener noreferrer" title="Klik untuk memperbesar gambar/bagan" style="display:inline-block; max-width:100%;">
+                          <img src="${P3DS.utils.escapeHtml(sec.image_url)}" alt="${P3DS.utils.escapeHtml(sec.title || 'Foto Informasi')}" style="max-width:100%; max-height:500px; width:auto; border-radius:8px; border:1.5px solid #d0d7de; box-shadow:0 2px 8px rgba(0,0,0,0.06); object-fit:contain; cursor:zoom-in;">
+                        </a>
+                        <div style="font-size:0.8rem; color:#64748b; margin-top:0.35rem;">🔍 Klik gambar untuk melihat ukuran penuh / memperbesar</div>
+                      `;
+                      article.appendChild(imgWrap);
+                    }
+
+                    // Tampilkan isi teks keterangan jika ada
+                    if (sec.content && sec.content.trim()) {
+                      const bodyDiv = document.createElement("div");
+                      bodyDiv.style.whiteSpace = "pre-line";
+                      bodyDiv.style.lineHeight = "1.75";
+                      bodyDiv.style.fontSize = "1.02rem";
+                      bodyDiv.innerHTML = (window.P3DS.utils && window.P3DS.utils.autoLink)
+                        ? window.P3DS.utils.autoLink(sec.content || "")
+                        : P3DS.utils.escapeHtml(sec.content || "");
+                      article.appendChild(bodyDiv);
+                    }
 
                     secContainer.appendChild(article);
                   });
