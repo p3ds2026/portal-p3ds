@@ -274,7 +274,9 @@
         div.style.whiteSpace = "pre-line";
         div.style.lineHeight = "1.75";
         div.style.fontSize = "1.02rem";
-        div.textContent = text;
+        div.innerHTML = (window.P3DS.utils && window.P3DS.utils.autoLink)
+          ? window.P3DS.utils.autoLink(text)
+          : P3DS.utils.escapeHtml(text);
         return div.outerHTML;
       }
 
@@ -337,7 +339,9 @@
                     bodyDiv.style.whiteSpace = "pre-line";
                     bodyDiv.style.lineHeight = "1.75";
                     bodyDiv.style.fontSize = "1.02rem";
-                    bodyDiv.textContent = sec.content || "";
+                    bodyDiv.innerHTML = (window.P3DS.utils && window.P3DS.utils.autoLink)
+                      ? window.P3DS.utils.autoLink(sec.content || "")
+                      : P3DS.utils.escapeHtml(sec.content || "");
                     article.appendChild(bodyDiv);
 
                     secContainer.appendChild(article);
