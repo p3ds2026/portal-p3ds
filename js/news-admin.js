@@ -223,6 +223,17 @@
       loadTable();
     });
 
+    // Inisialisasi toolbar tombol format teks (Tebal, Miring, Garis Bawah, dsb)
+    const contentTextarea = document.getElementById("content");
+    document.querySelectorAll(".btn-fmt").forEach(function (btnFmt) {
+      btnFmt.addEventListener("click", function () {
+        const fmt = btnFmt.dataset.fmt;
+        if (window.P3DS && window.P3DS.utils && window.P3DS.utils.applyFormatting) {
+          window.P3DS.utils.applyFormatting(contentTextarea, fmt);
+        }
+      });
+    });
+
     loadTable();
   });
 })();
