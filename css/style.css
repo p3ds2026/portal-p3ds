@@ -186,9 +186,28 @@ img { max-width: 100%; display: block; }
     opacity: 0.92;
     white-space: nowrap;
   }
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
   .header-actions #btn-login,
   .btn-desktop-auth {
-    display: none !important;
+    display: inline-flex !important;
+    align-items: center;
+    padding: 0.32rem 0.65rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+    border-radius: 6px;
+    line-height: 1.2;
+    min-height: auto;
+    white-space: nowrap;
+  }
+  #btn-login.btn-logout,
+  .btn-desktop-auth.btn-logout {
+    background: #dc2626 !important;
+    border-color: #b91c1c !important;
+    color: #ffffff !important;
   }
   .menu-toggle {
     display: inline-block;

@@ -68,29 +68,65 @@
   function applyAccess(profile) {
     const btn = document.getElementById("btn-login");
     const navBtn = document.getElementById("nav-btn-login");
-    if (!profile) return;
-    if (btn) {
-      btn.textContent = "Keluar";
-      btn.setAttribute("href", "#");
-      btn.addEventListener("click", function (e) {
-        e.preventDefault();
-        signOut();
-      });
-    }
-    if (navBtn) {
-      navBtn.textContent = "🚪 Keluar (" + (profile.nama_lengkap || "Akun") + ")";
-      navBtn.setAttribute("href", "#");
-      navBtn.addEventListener("click", function (e) {
-        e.preventDefault();
-        signOut();
-      });
-    }
     const bottomNavUser = document.getElementById("bottom-nav-user");
-    if (bottomNavUser) {
-      bottomNavUser.setAttribute("href", "profil.html");
-      const label = bottomNavUser.querySelector(".bottom-nav-label");
-      if (label) label.textContent = "Profil";
+
+    if (profile) {
+      // Sesi Aktif (Sudah Login): Tampilkan tombol Keluar / Log Off
+      if (btn) {
+        btn.textContent = "🚪 Keluar";
+        btn.classList.add("btn-logout");
+        btn.setAttribute("title", "Keluar dari Akun (Log Off)");
+        btn.setAttribute("href", "#");
+        btn.onclick = function (e) {
+          e.preventDefault();
+          if (confirm("Apakah Anda yakin ingin keluar dari akun (Log Off)?")) signOut();
+        };
+      }
+      if (navBtn) {
+        navBtn.textContent = "🚪 Keluar / Log Off (" + (profile.full_name || profile.nama_lengkap || "Akun") + ")";
+        navBtn.setAttribute("href", "#");
+        navBtn.onclick = function (e) {
+          e.preventDefault();
+          if (confirm("Apakah Anda yakin ingin keluar dari akun (Log Off)?")) signOut();
+        };
+      }
+      if (bottomNavUser) {
+        bottomNavUser.setAttribute("href", "profil.html");
+        const icon = bottomNavUser.querySelector(".bottom-nav-icon");
+        const label = bottomNavUser.querySelector(".bottom-nav-label");
+        if (icon) icon.textContent = "👤";
+        if (label) label.textContent = "Profil";
+      }
+
+      // Tombol Logout di halaman profil
+      const btnLogoutProfil = document.getElementById("btn-logout-profil");
+      if (btnLogoutProfil) {
+        btnLogoutProfil.onclick = function (e) {
+          e.preventDefault();
+          if (confirm("Apakah Anda yakin ingin keluar dari akun (Log Off)?")) signOut();
+        };
+      }
+    } else {
+      // Belum Login: Tampilkan tombol Masuk (Login)
+      if (btn) {
+        btn.textContent = "🔑 Masuk";
+        btn.classList.remove("btn-logout");
+        btn.setAttribute("href", "login.html");
+      }
+      if (navBtn) {
+        navBtn.textContent = "🔑 Masuk ke Akun (Login)";
+        navBtn.setAttribute("href", "login.html");
+      }
+      if (bottomNavUser) {
+        bottomNavUser.setAttribute("href", "login.html");
+        const icon = bottomNavUser.querySelector(".bottom-nav-icon");
+        const label = bottomNavUser.querySelector(".bottom-nav-label");
+        if (icon) icon.textContent = "🔑";
+        if (label) label.textContent = "Masuk";
+      }
     }
+
+    if (!profile) return;
     const active = profile.status === "active";
     document.querySelectorAll("li[data-access]").forEach(function (li) {
       const need = li.dataset.access;

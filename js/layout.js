@@ -30,7 +30,7 @@
           </span>
         </a>
         <div class="header-actions">
-          <a id="btn-login" class="btn btn-small btn-desktop-auth" href="login.html">Masuk</a>
+          <a id="btn-login" class="btn btn-small btn-desktop-auth" href="login.html">🔑 Masuk</a>
           <button id="menu-toggle" class="menu-toggle" type="button" aria-label="Buka menu">☰ Menu</button>
         </div>
       </div>
@@ -92,7 +92,7 @@
       { label: "Berita", href: "berita.html", icon: "📰", page: "berita" },
       { label: "Layanan", href: "layanan-kesehatan.html", icon: "🏥", page: "layanan" },
       { label: "Agenda", href: "agenda.html", icon: "🗓️", page: "agenda" },
-      { label: "Akun", href: "login.html", icon: "👤", page: "profil", id: "bottom-nav-user" }
+      { label: "Masuk", href: "login.html", icon: "🔑", page: "auth", id: "bottom-nav-user" }
     ];
 
     const html = navItems.map(item => {
