@@ -85,6 +85,12 @@
         signOut();
       });
     }
+    const bottomNavUser = document.getElementById("bottom-nav-user");
+    if (bottomNavUser) {
+      bottomNavUser.setAttribute("href", "profil.html");
+      const label = bottomNavUser.querySelector(".bottom-nav-label");
+      if (label) label.textContent = "Profil";
+    }
     const active = profile.status === "active";
     document.querySelectorAll("li[data-access]").forEach(function (li) {
       const need = li.dataset.access;

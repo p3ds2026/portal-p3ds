@@ -511,3 +511,173 @@ img { max-width: 100%; display: block; }
     text-align: center;
   }
 }
+
+/* =========================================================
+   BOTTOM NAVIGATION BAR (Khusus Tampilan HP / Mobile)
+   ========================================================= */
+.mobile-bottom-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 72px !important;
+  }
+
+  .mobile-bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 62px;
+    background: #ffffff;
+    border-top: 1.5px solid #e2e8f0;
+    box-shadow: 0 -3px 14px rgba(11, 37, 69, 0.08);
+    z-index: 9999;
+    justify-content: space-around;
+    align-items: center;
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+
+  .bottom-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #64748b;
+    font-size: 0.72rem;
+    font-weight: 600;
+    width: 20%;
+    height: 100%;
+    transition: all 0.2s ease;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .bottom-nav-item .bottom-nav-icon {
+    font-size: 1.35rem;
+    line-height: 1.2;
+    margin-bottom: 2px;
+    transition: transform 0.15s ease;
+  }
+
+  .bottom-nav-item.active {
+    color: var(--navy);
+  }
+
+  .bottom-nav-item.active .bottom-nav-icon {
+    transform: scale(1.15);
+  }
+
+  .bottom-nav-item.active .bottom-nav-label {
+    color: var(--navy);
+    font-weight: 700;
+    position: relative;
+  }
+
+  .bottom-nav-item.active .bottom-nav-label::after {
+    content: '';
+    display: block;
+    width: 14px;
+    height: 2.5px;
+    background: var(--gold);
+    border-radius: 2px;
+    margin: 2px auto 0;
+  }
+}
+
+/* =========================================================
+   TOMBOL PINTAS UTAMA BERANDA (Quick Action Cards)
+   ========================================================= */
+.quick-actions-section {
+  padding: 1.75rem 0 0.5rem;
+  background: #f8fafc;
+}
+
+.quick-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.quick-action-card {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1.15rem 1.25rem;
+  background: #ffffff;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.quick-action-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(11, 37, 69, 0.12);
+  border-color: var(--gold);
+}
+
+.quick-action-icon {
+  font-size: 2.2rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.quick-action-text {
+  flex-grow: 1;
+}
+
+.quick-action-text h3 {
+  margin: 0;
+  color: var(--navy);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.quick-action-text p {
+  margin: 0.25rem 0 0;
+  color: #64748b;
+  font-size: 0.82rem;
+  line-height: 1.3;
+}
+
+.quick-action-arrow {
+  color: #94a3b8;
+  font-size: 1.25rem;
+  font-weight: 700;
+  transition: transform 0.2s, color 0.2s;
+}
+
+.quick-action-card:hover .quick-action-arrow {
+  transform: translateX(4px);
+  color: var(--navy);
+}
+
+@media (max-width: 900px) {
+  .quick-actions-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  .quick-action-card {
+    padding: 0.85rem 0.95rem;
+    gap: 0.65rem;
+  }
+  .quick-action-icon {
+    font-size: 1.75rem;
+  }
+  .quick-action-text h3 {
+    font-size: 0.92rem;
+  }
+  .quick-action-text p {
+    font-size: 0.75rem;
+  }
+  .quick-action-arrow {
+    display: none;
+  }
+}
