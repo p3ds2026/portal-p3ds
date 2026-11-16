@@ -307,27 +307,37 @@
 
           if (customData) {
             // Render jika format dinamis sections (Array)
-            if (Array.isArray(customData.sections) && customData.sections.length > 0) {
+            if (Array.isArray(customData.sections)) {
               const secContainer = document.getElementById("guide-content-sections");
               if (secContainer) {
                 secContainer.innerHTML = "";
-                customData.sections.forEach(function (sec) {
-                  const article = document.createElement("article");
-                  article.className = "info-card";
+                if (customData.sections.length === 0) {
+                  secContainer.innerHTML = `
+                    <article class="info-card" style="text-align: center; padding: 2rem;">
+                      <p style="color: var(--muted); margin: 0; font-size: 1.05rem;">
+                        Belum ada bagian informasi layanan yang diterbitkan oleh pengurus.
+                      </p>
+                    </article>
+                  `;
+                } else {
+                  customData.sections.forEach(function (sec) {
+                    const article = document.createElement("article");
+                    article.className = "info-card";
 
-                  const h3 = document.createElement("h3");
-                  h3.textContent = sec.title || "Informasi Layanan";
-                  article.appendChild(h3);
+                    const h3 = document.createElement("h3");
+                    h3.textContent = sec.title || "Informasi Layanan";
+                    article.appendChild(h3);
 
-                  const bodyDiv = document.createElement("div");
-                  bodyDiv.style.whiteSpace = "pre-line";
-                  bodyDiv.style.lineHeight = "1.75";
-                  bodyDiv.style.fontSize = "1.02rem";
-                  bodyDiv.textContent = sec.content || "";
-                  article.appendChild(bodyDiv);
+                    const bodyDiv = document.createElement("div");
+                    bodyDiv.style.whiteSpace = "pre-line";
+                    bodyDiv.style.lineHeight = "1.75";
+                    bodyDiv.style.fontSize = "1.02rem";
+                    bodyDiv.textContent = sec.content || "";
+                    article.appendChild(bodyDiv);
 
-                  secContainer.appendChild(article);
-                });
+                    secContainer.appendChild(article);
+                  });
+                }
               }
             } else {
               // Fallback jika format lama
