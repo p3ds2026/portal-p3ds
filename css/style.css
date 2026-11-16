@@ -211,3 +211,38 @@ img { max-width: 100%; display: block; }
 .media-actions { padding: 0.5rem; text-align: center; background: #fafbfc; border-top: 1px solid var(--border); }
 .btn-download { width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.4rem; font-size: 0.85rem; font-weight: 600; background: var(--navy); color: var(--white); border-color: var(--navy); }
 .btn-download:hover { background: var(--navy-soft); border-color: var(--navy-soft); color: var(--gold); }
+
+/* ---------- Visitor Counter di Footer ---------- */
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 1rem;
+  font-size: 0.85rem;
+  border-top: 1px solid #1d3557;
+}
+.footer-counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--gold);
+  padding: 0.25rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: #dbe4f0;
+}
+.counter-number {
+  font-weight: 800;
+  color: var(--gold);
+  letter-spacing: 0.5px;
+  font-size: 0.95rem;
+}
+@media (max-width: 720px) {
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+}

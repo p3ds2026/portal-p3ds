@@ -1,7 +1,5 @@
-// Header, menu navigasi, dan footer. Dipakai bersama oleh semua halaman.
+// Header, menu navigasi, footer bersama, dan Visitor Counter
 (function () {
-  // data-access: kosong = semua orang; member = khusus anggota; admin = khusus admin.
-  // Menu khusus anggota/admin disembunyikan dulu; modul login (Tahap 6) yang menampilkannya.
   const MENU = [
     { label: "Beranda", href: "index.html", page: "beranda" },
     { label: "Berita & Pengumuman", href: "berita.html", page: "berita" },
@@ -66,7 +64,53 @@
           </ul>
         </div>
       </div>
-      <div class="footer-bottom">&copy; ${year} P3DS. Hak cipta dilindungi.</div>`;
+      <div class="footer-bottom">
+        <div>&copy; ${year} P3DS. Hak cipta dilindungi.</div>
+        <div class="footer-counter">
+          <span>👥 Total Pengunjung:</span>
+          <span id="visitor-count" class="counter-number">...</span>
+        </div>
+      </div>`;
+  }
+
+  // Pengelola Visitor Counter: Refresh halaman TIDAK menambah hitungan
+  async function initVisitorCounter() {
+    const countEl = document.getElementById("visitor-count");
+    if (!countEl || !window.P3DS || !window.P3DS.db) return;
+    const db = window.P3DS.db;
+
+    const hasCounted = sessionStorage.getItem("p3ds_visit_counted");
+
+    if (!hasCounted) {
+      // Kunjungan sesi baru: Tambah hitungan via fungsi atomik di Supabase
+      try {
+        const { data, error } = await db.rpc("increment_visitor_count");
+        if (!error && data !== null && data !== undefined) {
+          sessionStorage.setItem("p3ds_visit_counted", "true");
+          countEl.textContent = Number(data).toLocaleString("id-ID");
+          return;
+        }
+      } catch (e) {
+        console.warn("Gagal menambah hitungan:", e);
+      }
+    }
+
+    // Jika sudah pernah dihitung dalam sesi ini (atau refresh), ambil nilai saat ini tanpa menambah
+    try {
+      const { data, error } = await db
+        .from("site_metrics")
+        .select("value")
+        .eq("key", "visitor_count")
+        .maybeSingle();
+
+      if (!error && data && data.value !== null) {
+        countEl.textContent = Number(data.value).toLocaleString("id-ID");
+      } else {
+        countEl.textContent = "-";
+      }
+    } catch (e) {
+      countEl.textContent = "-";
+    }
   }
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -83,5 +127,7 @@
         nav.classList.toggle("open");
       });
     }
+
+    initVisitorCounter();
   });
 })();
