@@ -29,12 +29,19 @@
           </span>
         </a>
         <div class="header-actions">
-          <a id="btn-login" class="btn btn-small" href="login.html">Masuk</a>
+          <a id="btn-login" class="btn btn-small btn-desktop-auth" href="login.html">Masuk</a>
           <button id="menu-toggle" class="menu-toggle" type="button" aria-label="Buka menu">☰ Menu</button>
         </div>
       </div>
       <nav id="main-nav" class="main-nav" aria-label="Menu utama">
-        <div class="container"><ul>${items}</ul></div>
+        <div class="container">
+          <ul>
+            ${items}
+            <li class="mobile-auth-item">
+              <a id="nav-btn-login" class="mobile-auth-link" href="login.html">🔑 Masuk ke Akun</a>
+            </li>
+          </ul>
+        </div>
       </nav>`;
   }
 

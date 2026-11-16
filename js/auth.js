@@ -67,11 +67,20 @@
   // Menyesuaikan tombol Masuk/Keluar dan menu sesuai peran
   function applyAccess(profile) {
     const btn = document.getElementById("btn-login");
+    const navBtn = document.getElementById("nav-btn-login");
     if (!profile) return;
     if (btn) {
       btn.textContent = "Keluar";
       btn.setAttribute("href", "#");
       btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        signOut();
+      });
+    }
+    if (navBtn) {
+      navBtn.textContent = "🚪 Keluar (" + (profile.nama_lengkap || "Akun") + ")";
+      navBtn.setAttribute("href", "#");
+      navBtn.addEventListener("click", function (e) {
         e.preventDefault();
         signOut();
       });
