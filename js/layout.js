@@ -29,12 +29,19 @@
           </span>
         </a>
         <div class="header-actions">
-          <a id="btn-login" class="btn btn-small" href="login.html">Masuk</a>
+          <a id="btn-login" class="btn btn-small btn-desktop-auth" href="login.html">Masuk</a>
           <button id="menu-toggle" class="menu-toggle" type="button" aria-label="Buka menu">☰ Menu</button>
         </div>
       </div>
       <nav id="main-nav" class="main-nav" aria-label="Menu utama">
-        <div class="container"><ul>${items}</ul></div>
+        <div class="container">
+          <ul>
+            ${items}
+            <li class="mobile-auth-item">
+              <a id="nav-btn-login" class="mobile-auth-link" href="login.html">🔑 Masuk ke Akun</a>
+            </li>
+          </ul>
+        </div>
       </nav>`;
   }
 
@@ -53,94 +60,4 @@
         <div>
           <h3>Menu</h3>
           <ul>
-            <li><a href="berita.html">Berita & Pengumuman</a></li>
-            <li><a href="agenda.html">Agenda Kegiatan</a></li>
-            <li><a href="galeri.html">Galeri</a></li>
-            <li><a href="kegiatan-sosial.html">Kegiatan Sosial</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3>Anggota</h3>
-          <ul>
-            <li><a href="login.html">Masuk</a></li>
-            <li><a href="daftar.html">Daftar Anggota</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <div>&copy; ${year} P3DS. Hak cipta dilindungi.</div>
-        <div class="footer-counter">
-          <span>👥 Total Pengunjung:</span>
-          <span id="visitor-count" class="counter-number">...</span>
-        </div>
-      </div>`;
-  }
-
-  // Pengelola Visitor Counter: Refresh halaman TIDAK menambah hitungan
-  async function initVisitorCounter() {
-    const countEl = document.getElementById("visitor-count");
-    if (!countEl || !window.P3DS || !window.P3DS.db) return;
-    const db = window.P3DS.db;
-
-    const hasCounted = sessionStorage.getItem("p3ds_visit_counted");
-
-    if (!hasCounted) {
-      // Kunjungan sesi baru: Tambah hitungan via fungsi atomik di Supabase
-      try {
-        const { data, error } = await db.rpc("increment_visitor_count");
-        if (!error && data !== null && data !== undefined) {
-          sessionStorage.setItem("p3ds_visit_counted", "true");
-          countEl.textContent = Number(data).toLocaleString("id-ID");
-          return;
-        }
-      } catch (e) {
-        console.warn("Gagal menambah hitungan:", e);
-      }
-    }
-
-    // Jika sudah pernah dihitung dalam sesi ini (atau refresh), ambil nilai saat ini tanpa menambah
-    try {
-      const { data, error } = await db
-        .from("site_metrics")
-        .select("value")
-        .eq("key", "visitor_count")
-        .maybeSingle();
-
-      if (!error && data && data.value !== null) {
-        countEl.textContent = Number(data.value).toLocaleString("id-ID");
-      } else {
-        countEl.textContent = "-";
-      }
-    } catch (e) {
-      countEl.textContent = "-";
-    }
-  }
-
-  document.addEventListener("DOMContentLoaded", function () {
-    const activePage = document.body.dataset.page || "";
-    const header = document.getElementById("site-header");
-    const footer = document.getElementById("site-footer");
-    if (header) header.innerHTML = renderHeader(activePage);
-    if (footer) footer.innerHTML = renderFooter();
-
-    // Pasang favicon logo resmi P3DS di tab browser
-    let icon = document.querySelector("link[rel*='icon']");
-    if (!icon) {
-      icon = document.createElement("link");
-      icon.rel = "icon";
-      icon.type = "image/jpeg";
-      icon.href = "img/logo.jpg";
-      document.head.appendChild(icon);
-    }
-
-    const toggle = document.getElementById("menu-toggle");
-    const nav = document.getElementById("main-nav");
-    if (toggle && nav) {
-      toggle.addEventListener("click", function () {
-        nav.classList.toggle("open");
-      });
-    }
-
-    initVisitorCounter();
-  });
-})();
+            <li><a href="berita.html">Berita & Peng
