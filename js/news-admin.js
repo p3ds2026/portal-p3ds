@@ -18,6 +18,8 @@
   function resetForm(form) {
     form.reset();
     form.id.value = "";
+    if (form.cover_url) form.cover_url.value = "";
+    if (window._updateCoverPreview) window._updateCoverPreview(null);
     document.getElementById("form-title").textContent = "Tulis Berita / Pengumuman Baru";
     document.getElementById("btn-cancel").classList.add("is-hidden");
   }
@@ -57,6 +59,105 @@
     const msg = document.getElementById("msg");
     const btn = document.getElementById("btn-submit");
 
+    // Pengelolaan Unggah Foto Sampul Berita ke Supabase Storage
+    const coverFile = document.getElementById("cover_file");
+    const coverStatus = document.getElementById("cover-upload-status");
+    const coverPreviewBox = document.getElementById("cover-preview-box");
+    const coverPreviewImg = document.getElementById("cover-preview-img");
+    const btnRemoveCover = document.getElementById("btn-remove-cover");
+    const coverUrlManual = document.getElementById("cover_url_manual");
+
+    function updateCoverPreview(url) {
+      if (url) {
+        coverPreviewImg.src = url;
+        coverPreviewBox.classList.remove("is-hidden");
+        form.cover_url.value = url;
+        if (coverUrlManual) coverUrlManual.value = url;
+        coverStatus.textContent = "Foto sampul siap disimpan.";
+        coverStatus.style.color = "var(--navy)";
+      } else {
+        coverPreviewImg.src = "";
+        coverPreviewBox.classList.add("is-hidden");
+        form.cover_url.value = "";
+        if (coverUrlManual) coverUrlManual.value = "";
+        if (coverFile) coverFile.value = "";
+        coverStatus.textContent = "Pilih foto dari komputer/HP (JPG, PNG, WEBP, maks 5 MB). Otomatis tersimpan ke Supabase Storage.";
+        coverStatus.style.color = "";
+      }
+    }
+    window._updateCoverPreview = updateCoverPreview;
+
+    if (btnRemoveCover) {
+      btnRemoveCover.addEventListener("click", function () {
+        updateCoverPreview(null);
+      });
+    }
+
+    if (coverUrlManual) {
+      coverUrlManual.addEventListener("input", function () {
+        const url = coverUrlManual.value.trim();
+        if (url && url.startsWith("https://")) {
+          updateCoverPreview(url);
+        } else if (!url) {
+          updateCoverPreview(null);
+        }
+      });
+    }
+
+    if (coverFile) {
+      coverFile.addEventListener("change", async function () {
+        const file = coverFile.files && coverFile.files[0];
+        if (!file) return;
+
+        if (!/^image\/(jpeg|png|webp)$/i.test(file.type)) {
+          show(msg, "error", "Jenis file harus gambar JPG, PNG, atau WEBP.");
+          coverFile.value = "";
+          return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+          show(msg, "error", "Ukuran foto maksimal 5 MB.");
+          coverFile.value = "";
+          return;
+        }
+
+        coverStatus.textContent = "⏳ Sedang mengunggah foto ke Supabase Storage...";
+        coverStatus.style.color = "var(--navy)";
+        btn.disabled = true;
+
+        try {
+          const ext = file.name.split(".").pop().toLowerCase() || "jpg";
+          const safeName = "berita-" + Date.now() + "-" + Math.random().toString(36).substring(2, 7) + "." + ext;
+          const path = "berita/" + safeName;
+
+          const { error: upErr } = await window.P3DS.db.storage
+            .from("gallery-public")
+            .upload(path, file, { cacheControl: "3600", upsert: true });
+
+          if (upErr) {
+            coverStatus.textContent = "❌ Gagal mengunggah foto: " + upErr.message;
+            coverStatus.style.color = "#d93025";
+            btn.disabled = false;
+            return;
+          }
+
+          const { data: urlData } = window.P3DS.db.storage
+            .from("gallery-public")
+            .getPublicUrl(path);
+
+          const publicUrl = urlData ? urlData.publicUrl : "";
+          updateCoverPreview(publicUrl);
+          coverStatus.textContent = "✅ Foto berhasil diunggah ke Supabase Storage!";
+          coverStatus.style.color = "#1e8e3e";
+        } catch (err) {
+          coverStatus.textContent = "❌ Terjadi kesalahan saat mengunggah foto.";
+          coverStatus.style.color = "#d93025";
+        } finally {
+          btn.disabled = false;
+        }
+      });
+    }
+
     document.getElementById("btn-cancel").addEventListener("click", function () { resetForm(form); });
 
     document.getElementById("table-body").addEventListener("click", async function (e) {
@@ -72,6 +173,7 @@
         form.summary.value = row.summary || "";
         form.content.value = row.content;
         form.cover_url.value = row.cover_url || "";
+        updateCoverPreview(row.cover_url);
         form.visibility.value = row.visibility;
         form.status.value = row.status;
         document.getElementById("form-title").textContent = "Ubah Berita";
