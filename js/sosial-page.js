@@ -14,7 +14,7 @@
         '<a href="kegiatan-sosial.html">Kembali ke daftar kegiatan</a></div>';
       return;
     }
-    document.title = data.title + " – PORTAL P3DS";
+    document.title = data.title + " – PORTAL PPDS";
     const cover = utils.safeUrl(data.cover_url);
 
     const { data: ups } = await social.listUpdates(data.id);

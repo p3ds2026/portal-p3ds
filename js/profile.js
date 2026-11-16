@@ -2,9 +2,9 @@
 (function () {
   const STATUS_TEXT = {
     pending: ["info", "Akun Anda menunggu persetujuan Administrator. Menu anggota akan terbuka setelah disetujui."],
-    active: ["success", "Akun Anda aktif. Selamat datang di keluarga besar P3DS."],
-    rejected: ["error", "Pendaftaran Anda belum dapat disetujui. Silakan hubungi pengurus P3DS."],
-    suspended: ["error", "Akun Anda sedang dinonaktifkan. Silakan hubungi pengurus P3DS."],
+    active: ["success", "Akun Anda aktif. Selamat datang di keluarga besar PPDS."],
+    rejected: ["error", "Pendaftaran Anda belum dapat disetujui. Silakan hubungi pengurus PPDS."],
+    suspended: ["error", "Akun Anda sedang dinonaktifkan. Silakan hubungi pengurus PPDS."],
   };
   const ROLE_TEXT = { member: "Anggota", pengurus: "Pengurus", admin: "Administrator" };
 

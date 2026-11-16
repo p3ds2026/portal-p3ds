@@ -22,10 +22,10 @@
     return `
       <div class="container header-top">
         <a class="brand" href="index.html">
-          <img class="brand-logo" src="img/logo.jpg" alt="Logo P3DS">
+          <img class="brand-logo" src="img/logo.jpg" alt="Logo PPDS">
           <span>
-            <span class="brand-name">PORTAL P3DS</span>
-            <span class="brand-sub">Paguyuban Pensiunan Pertamina Dumai – Sei Pakning</span>
+            <span class="brand-name">PORTAL PPDS</span>
+            <span class="brand-sub">Pensiunan Pertamina Dumai – Sei Pakning</span>
           </span>
         </a>
         <div class="header-actions">
@@ -51,10 +51,10 @@
       <div class="container footer-inner">
         <div>
           <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:0.75rem;">
-            <img src="img/logo.jpg" alt="Logo P3DS" style="width:48px; height:48px; border-radius:50%; border:2px solid var(--gold); object-fit:cover;">
-            <h3 style="margin:0; font-size:1.2rem;">PORTAL P3DS</h3>
+            <img src="img/logo.jpg" alt="Logo PPDS" style="width:48px; height:48px; border-radius:50%; border:2px solid var(--gold); object-fit:cover;">
+            <h3 style="margin:0; font-size:1.2rem;">PORTAL PPDS</h3>
           </div>
-          <p>Paguyuban Pensiunan Pertamina Dumai – Sei Pakning.<br>
+          <p>Pensiunan Pertamina Dumai – Sei Pakning.<br>
           <strong>SATU KELUARGA, SEJUTA KENANGAN.</strong></p>
         </div>
         <div>
@@ -75,7 +75,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <div>&copy; ${year} P3DS. Hak cipta dilindungi.</div>
+        <div>&copy; ${year} PPDS. Hak cipta dilindungi.</div>
         <div class="footer-counter">
           <span>👥 Total Pengunjung:</span>
           <span id="visitor-count" class="counter-number">...</span>

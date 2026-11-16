@@ -49,7 +49,7 @@
       box.innerHTML = '<div class="empty">Topik tidak ditemukan. <a href="silaturahmi.html">Kembali ke Ruang Silaturahmi</a></div>';
       return;
     }
-    document.title = post.title + " – PORTAL P3DS";
+    document.title = post.title + " – PORTAL PPDS";
 
     const { data: comments } = await discussion.listComments(id);
     const list = comments || [];

@@ -15,7 +15,7 @@
       return;
     }
     const cover = utils.safeUrl(data.cover_url);
-    document.title = data.title + " – PORTAL P3DS";
+    document.title = data.title + " – PORTAL PPDS";
     box.innerHTML = `
       <article class="article">
         <p><a href="berita.html">&larr; Kembali ke daftar berita</a></p>

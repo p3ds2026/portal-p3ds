@@ -1,5 +1,5 @@
-# PORTAL P3DS
-## Paguyuban Pensiunan Pertamina Dumai – Sei Pakning
+# PORTAL PPDS
+## Pensiunan Pertamina Dumai – Sei Pakning
 
 > **SATU KELUARGA, SEJUTA KENANGAN**
 

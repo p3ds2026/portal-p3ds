@@ -17,7 +17,7 @@
 
   // Mengambil daftar file dari Google Drive via Google Apps Script
   async function fetchDriveFiles(folderId) {
-    const scriptUrl = window.P3DS_CONFIG.GDRIVE_SCRIPT_URL;
+    const scriptUrl = window.PPDS_CONFIG.GDRIVE_SCRIPT_URL;
     if (!scriptUrl || !folderId) return [];
     try {
       const res = await fetch(`${scriptUrl}?folderId=${encodeURIComponent(folderId)}`);
@@ -66,7 +66,7 @@
         '<a href="galeri.html">Kembali ke galeri</a></div>';
       return;
     }
-    document.title = album.title + " – PORTAL P3DS";
+    document.title = album.title + " – PORTAL PPDS";
 
     // 1. Ambil file dari Supabase Storage (jika ada)
     const { data: items } = await gallery.listMedia(album.id);
@@ -79,7 +79,7 @@
         caption: m.caption,
         thumbnailUrl: u,
         downloadUrl: u,
-        filename: `P3DS_${album.title.replace(/\s+/g, "_")}_${i + 1}.${m.media_type === "video" ? "mp4" : "jpg"}`
+        filename: `PPDS_${album.title.replace(/\s+/g, "_")}_${i + 1}.${m.media_type === "video" ? "mp4" : "jpg"}`
       };
     }).filter(Boolean);
 
@@ -97,7 +97,7 @@
         caption: f.name,
         thumbnailUrl: f.thumbnailUrl,
         downloadUrl: f.downloadUrl,
-        filename: f.name || `P3DS_Foto_${i + 1}.jpg`
+        filename: f.name || `PPDS_Foto_${i + 1}.jpg`
       };
     });
 

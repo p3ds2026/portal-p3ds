@@ -57,7 +57,7 @@
     const cover = utils.safeUrl(item.cover_url);
     const coverHtml = cover
       ? `<img class="card-cover" src="${utils.escapeHtml(cover)}" alt="" loading="lazy">`
-      : `<div class="card-cover placeholder">P3DS</div>`;
+      : `<div class="card-cover placeholder">PPDS</div>`;
     const text = item.summary || utils.shorten(item.content, 140);
     const lock = item.visibility === "member" ? '<span class="badge">Khusus Anggota</span>' : "";
     return `

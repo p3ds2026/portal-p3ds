@@ -66,7 +66,7 @@
       form.classList.add("is-hidden");
       showMessage(msg, "success",
         "Pendaftaran berhasil. Silakan buka email Anda dan klik tautan konfirmasi. " +
-        "Setelah itu, akun Anda menunggu persetujuan Administrator P3DS.");
+        "Setelah itu, akun Anda menunggu persetujuan Administrator PPDS.");
     });
   }
 
