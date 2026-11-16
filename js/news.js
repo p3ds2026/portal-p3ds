@@ -67,6 +67,9 @@
           <div class="meta"><span class="badge">${utils.escapeHtml(item.category)}</span>${lock}${utils.formatDate(item.published_at)}</div>
           <h3><a href="berita.html?id=${encodeURIComponent(item.id)}">${utils.escapeHtml(item.title)}</a></h3>
           <p>${utils.escapeHtml(utils.shorten(text, 140))}</p>
+          <div style="margin-top:auto; padding-top:0.75rem;">
+            <a href="berita.html?id=${encodeURIComponent(item.id)}" class="read-more">Baca Selengkapnya &rarr;</a>
+          </div>
         </div>
       </article>`;
   }
