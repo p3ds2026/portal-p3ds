@@ -13,6 +13,25 @@
       padding-bottom: 0.35rem;
       margin: 1.5rem 0 0.75rem;
     }
+    .section-block {
+      background: #fbfcfd;
+      border: 1.5px solid #d0d7de;
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+      transition: border-color 0.2s;
+    }
+    .section-block:hover {
+      border-color: var(--navy);
+    }
+    .section-block-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #e1e4e8;
+      padding-bottom: 0.5rem;
+    }
   </style>
 </head>
 <body data-page="layanan">
@@ -27,7 +46,7 @@
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.5rem;">
         <div>
           <h1 style="margin:0; font-size:1.8rem;">Kelola Informasi Layanan Pensiun</h1>
-          <p style="color:var(--muted); margin:0.25rem 0 0;">Ubah informasi rumah sakit, syarat klaim, dana pensiun, dan nomor kontak langsung dari sini.</p>
+          <p style="color:var(--muted); margin:0.25rem 0 0;">Anda dapat mengedit judul, isi, menambah bagian baru, atau menghapus bagian yang tidak diperlukan.</p>
         </div>
         <a class="btn btn-outline-dark" href="layanan-kesehatan.html">👁️ Lihat Halaman Layanan</a>
       </div>
@@ -36,61 +55,31 @@
 
       <div class="form-card" style="max-width:850px; margin:0 auto;">
         <form id="form-layanan">
-          <!-- Bagian 1 -->
-          <h3 class="form-section-title" style="margin-top:0;">Bagian 1: Fasilitas Kesehatan</h3>
-          <div class="form-group">
-            <label for="title_hospitals"><strong>Judul Bagian 1</strong></label>
-            <input id="title_hospitals" name="title_hospitals" type="text" required placeholder="Contoh: 🏥 1. Rumah Sakit & Fasilitas Kesehatan Rekanan">
-          </div>
-          <div class="form-group">
-            <label for="hospitals"><strong>Isi / Daftar Rumah Sakit, Alamat & Telepon</strong></label>
-            <textarea id="hospitals" name="hospitals" rows="6" required placeholder="Tuliskan daftar rumah sakit rujukan, alamat, dan nomor telepon yang benar..."></textarea>
-            <span class="hint">Gunakan baris baru (Enter) untuk memisahkan setiap faskes/rumah sakit.</span>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+            <h3 class="form-section-title" style="margin:0; border:none; padding:0;">Daftar Bagian Informasi Layanan</h3>
+            <button type="button" id="btn-add-section-top" class="btn btn-small btn-outline-dark">➕ Tambah Bagian Baru</button>
           </div>
 
-          <!-- Bagian 2 -->
-          <h3 class="form-section-title">Bagian 2: Prosedur Klaim Pengobatan</h3>
-          <div class="form-group">
-            <label for="title_claims"><strong>Judul Bagian 2</strong></label>
-            <input id="title_claims" name="title_claims" type="text" required placeholder="Contoh: 📋 2. Prosedur & Syarat Klaim Biaya Pengobatan">
-          </div>
-          <div class="form-group">
-            <label for="claims"><strong>Isi Syarat & Alur Pengajuan Klaim</strong></label>
-            <textarea id="claims" name="claims" rows="6" required placeholder="Tuliskan berkas yang dibutuhkan, batasan hari klaim, dan alur pengajuan klaim..."></textarea>
+          <!-- Wadah dinamis untuk semua bagian -->
+          <div id="sections-container"></div>
+
+          <!-- Tombol Tambah Bagian Baru di bawah -->
+          <div style="margin-bottom: 2rem;">
+            <button type="button" id="btn-add-section" class="btn btn-outline-dark" style="width:100%; border: 2px dashed var(--navy); padding: 0.85rem; font-weight:600; color:var(--navy); background:#f0f5fc;">
+              ➕ Tambah Bagian Layanan Baru
+            </button>
           </div>
 
-          <!-- Bagian 3 -->
-          <h3 class="form-section-title">Bagian 3: Dana Pensiun & SKMH</h3>
+          <!-- Kontak WhatsApp Bantuan -->
+          <h3 class="form-section-title">Nomor WhatsApp Pengurus untuk Konsultasi</h3>
           <div class="form-group">
-            <label for="title_pension"><strong>Judul Bagian 3</strong></label>
-            <input id="title_pension" name="title_pension" type="text" required placeholder="Contoh: 💼 3. Informasi Dana Pensiun Pertamina (DP Pertamina)">
-          </div>
-          <div class="form-group">
-            <label for="pension"><strong>Isi Ketentuan Manfaat Pensiun & SKMH</strong></label>
-            <textarea id="pension" name="pension" rows="6" required placeholder="Tuliskan jadwal transfer pensiun, tata cara lapor SKMH tahunan, dan kontak Dana Pensiun..."></textarea>
-          </div>
-
-          <!-- Bagian 4 -->
-          <h3 class="form-section-title">Bagian 4: Santunan Duka Cita & Bantuan Sosial</h3>
-          <div class="form-group">
-            <label for="title_condolences"><strong>Judul Bagian 4</strong></label>
-            <input id="title_condolences" name="title_condolences" type="text" required placeholder="Contoh: 🕊️ 4. Hak Santunan Duka Cita & Bantuan Sosial">
-          </div>
-          <div class="form-group">
-            <label for="condolences"><strong>Isi Syarat & Hak Santunan Duka Cita</strong></label>
-            <textarea id="condolences" name="condolences" rows="5" required placeholder="Tuliskan hak santunan duka cita dan dokumen yang diperlukan ahli waris..."></textarea>
-          </div>
-
-          <!-- Bagian 5 -->
-          <h3 class="form-section-title">Bagian 5: Nomor Kontak Bantuan WhatsApp</h3>
-          <div class="form-group">
-            <label for="wa_number"><strong>Nomor WhatsApp Pengurus untuk Konsultasi Layanan</strong></label>
+            <label for="wa_number"><strong>Nomor WhatsApp Pengurus (Format: 628xxx atau 08xxx)</strong></label>
             <input id="wa_number" name="wa_number" type="text" placeholder="Contoh: 08123456789 atau 628123456789" required>
-            <span class="hint">Nomor ini akan terhubung langsung ke tombol WhatsApp di halaman Layanan Pensiun.</span>
+            <span class="hint">Nomor ini terhubung ke tombol hijau "Hubungi Pengurus via WhatsApp" di halaman Layanan Pensiun.</span>
           </div>
 
-          <div style="margin-top:1.5rem; display:flex; gap:0.75rem;">
-            <button id="btn-submit" class="btn" type="submit">💾 Simpan Perubahan</button>
+          <div style="margin-top:2rem; display:flex; gap:0.75rem;">
+            <button id="btn-submit" class="btn" type="submit" style="font-size:1.05rem; padding:0.65rem 1.5rem;">💾 Simpan Semua Perubahan</button>
             <a class="btn btn-outline-dark" href="layanan-kesehatan.html">Batal</a>
           </div>
         </form>
@@ -110,10 +99,10 @@
     (function () {
       const { db, auth } = window.P3DS;
 
-      // Data bawaan awal jika database belum pernah diisi
-      const DEFAULT_DATA = {
-        title_hospitals: "1. Rumah Sakit & Fasilitas Kesehatan Rekanan",
-        hospitals: `1. RS Pertamina Dumai (RSPD)
+      const DEFAULT_SECTIONS = [
+        {
+          title: "1. Rumah Sakit & Fasilitas Kesehatan Rekanan",
+          content: `1. RS Pertamina Dumai (RSPD)
 Alamat: Jl. Bukit Datuk Lama, Komplek Pertamina Dumai
 IGD & Call Center: (0765) 31050 / 31051
 Layanan: IGD 24 Jam, Poli Spesialis, Rawat Inap, Rawat Jalan, dan Farmasi.
@@ -129,10 +118,11 @@ Layanan: Rujukan terpadu dan BPJS Kesehatan.
 
 4. RS Rujukan Pekanbaru (RS Awal Bros & RS Santa Maria)
 Alamat: Jl. Jend. Sudirman & Jl. A. Yani, Pekanbaru
-Layanan: Rujukan operasi & penanganan medis lanjutan.`,
-
-        title_claims: "2. Prosedur & Syarat Klaim Biaya Pengobatan",
-        claims: `A. Rawat Jalan (Reimbursement):
+Layanan: Rujukan operasi & penanganan medis lanjutan.`
+        },
+        {
+          title: "2. Prosedur & Syarat Klaim Biaya Pengobatan",
+          content: `A. Rawat Jalan (Reimbursement):
 - Kuitansi asli bermeterai dan rincian biaya dari klinik / RS.
 - Salinan resep obat asli dan copy hasil pemeriksaan lab/rontgen jika ada.
 - Fotokopi Kartu Pensiun Pertamina dan KTP.
@@ -143,10 +133,11 @@ B. Rawat Inap (Jaminan Perusahaan):
 - Tunjukkan Kartu Pensiun di bagian pendaftaran RS rekanan untuk penerbitan Surat Jaminan (GL).
 
 C. Kacamata & Gigi:
-- Penggantian mengikuti plafon dan siklus berkala yang berlaku.`,
-
-        title_pension: "3. Informasi Dana Pensiun Pertamina (DP Pertamina)",
-        pension: `1. Pembayaran Manfaat Pensiun:
+- Penggantian mengikuti plafon dan siklus berkala yang berlaku.`
+        },
+        {
+          title: "3. Informasi Dana Pensiun Pertamina (DP Pertamina)",
+          content: `1. Pembayaran Manfaat Pensiun:
 Ditransfer setiap bulan langsung ke rekening bank terdaftar (mulai tanggal 25).
 
 2. Surat Keterangan Masih Hidup (SKMH):
@@ -154,17 +145,19 @@ Wajib diperbarui setiap tahun untuk kelancaran pembayaran manfaat pensiun. Anggo
 
 3. Kontak Resmi Dana Pensiun Pertamina (DP Pertamina):
 - Website: www.danapensiunpertamina.com
-- Call Center: (021) 5790 1234 / Contact Pertamina 135`,
-
-        title_condolences: "4. Hak Santunan Duka Cita & Bantuan Sosial",
-        condolences: `1. Santunan Duka Cita:
+- Call Center: (021) 5790 1234 / Contact Pertamina 135`
+        },
+        {
+          title: "4. Hak Santunan Duka Cita & Bantuan Sosial",
+          content: `1. Santunan Duka Cita:
 Hak santunan duka bagi ahli waris yang sah dengan melampirkan Surat Kematian, Kartu Pensiun, KK, dan buku tabungan ahli waris.
 
 2. Pendampingan PPDS:
-Pengurus PPDS siap membantu penerbitan kabar lelayu resmi di portal dan mengoordinasikan takziah bersama.`,
+Pengurus PPDS siap membantu penerbitan kabar lelayu resmi di portal dan mengoordinasikan takziah bersama.`
+        }
+      ];
 
-        wa_number: "6281200000000"
-      };
+      let currentSections = [];
 
       function showMsg(type, text) {
         const msg = document.getElementById("msg");
@@ -172,6 +165,84 @@ Pengurus PPDS siap membantu penerbitan kabar lelayu resmi di portal dan mengoord
         msg.textContent = text;
         msg.classList.remove("is-hidden");
         msg.scrollIntoView({ behavior: "smooth" });
+      }
+
+      function syncDomToSections() {
+        const blocks = document.querySelectorAll(".section-block");
+        const list = [];
+        blocks.forEach(function (b) {
+          const title = b.querySelector(".section-title-input").value.trim();
+          const content = b.querySelector(".section-content-input").value;
+          list.push({ title: title, content: content });
+        });
+        return list;
+      }
+
+      function renderSections() {
+        const container = document.getElementById("sections-container");
+        container.innerHTML = "";
+
+        if (currentSections.length === 0) {
+          container.innerHTML = `<div class="alert alert-info">Belum ada bagian informasi. Klik tombol <strong>Tambah Bagian Layanan Baru</strong> di bawah untuk menambahkan.</div>`;
+          return;
+        }
+
+        currentSections.forEach(function (sec, idx) {
+          const block = document.createElement("div");
+          block.className = "section-block";
+          block.dataset.index = idx;
+
+          block.innerHTML = `
+            <div class="section-block-header">
+              <h4 style="margin:0; color:var(--navy); font-size:1.05rem;">📌 Bagian ${idx + 1}</h4>
+              <button type="button" class="btn btn-small btn-remove-section" style="background:#fee2e2; color:#b91c1c; border-color:#fca5a5; font-size:0.85rem;" title="Hapus bagian ini">
+                🗑️ Hapus Bagian
+              </button>
+            </div>
+            <div class="form-group">
+              <label><strong>Judul Bagian ${idx + 1}:</strong></label>
+              <input type="text" class="section-title-input" value="${P3DS.utils.escapeHtml(sec.title || '')}" placeholder="Contoh: ${idx + 1}. Judul Layanan" required>
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label><strong>Isi Informasi Bagian ${idx + 1}:</strong></label>
+              <textarea rows="6" class="section-content-input" placeholder="Tuliskan isi informasi, syarat, daftar faskes, atau alur pengajuan..." required>${P3DS.utils.escapeHtml(sec.content || '')}</textarea>
+              <span class="hint">Gunakan baris baru (Enter) untuk memisahkan setiap poin atau keterangan.</span>
+            </div>
+          `;
+
+          // Tombol Hapus Bagian
+          block.querySelector(".btn-remove-section").addEventListener("click", function () {
+            if (confirm(`Yakin ingin menghapus Bagian ${idx + 1} ("${sec.title || 'Tanpa Judul'}")?`)) {
+              currentSections = syncDomToSections();
+              currentSections.splice(idx, 1);
+              renderSections();
+            }
+          });
+
+          container.appendChild(block);
+        });
+      }
+
+      function addNewSection() {
+        currentSections = syncDomToSections();
+        const nextNum = currentSections.length + 1;
+        currentSections.push({
+          title: `${nextNum}. Judul Bagian Baru`,
+          content: ""
+        });
+        renderSections();
+
+        // Scroll dan fokus ke bagian baru yang baru ditambahkan
+        const blocks = document.querySelectorAll(".section-block");
+        const last = blocks[blocks.length - 1];
+        if (last) {
+          last.scrollIntoView({ behavior: "smooth", block: "center" });
+          const inp = last.querySelector(".section-title-input");
+          if (inp) {
+            inp.focus();
+            inp.select();
+          }
+        }
       }
 
       document.addEventListener("DOMContentLoaded", async function () {
@@ -188,31 +259,62 @@ Pengurus PPDS siap membantu penerbitan kabar lelayu resmi di portal dan mengoord
         const form = document.getElementById("form-layanan");
         const btn = document.getElementById("btn-submit");
 
-        // Muat data yang tersimpan dari Supabase
+        document.getElementById("btn-add-section").addEventListener("click", addNewSection);
+        document.getElementById("btn-add-section-top").addEventListener("click", addNewSection);
+
+        // Muat data dari Supabase atau localStorage
         try {
-          const { data, error } = await db.from("site_content").select("content").eq("key", "pension_services").maybeSingle();
-          let current = DEFAULT_DATA;
-          if (!error && data && data.content) {
-            try { current = { ...DEFAULT_DATA, ...JSON.parse(data.content) }; } catch (e) {}
-          } else {
-            // Cek localStorage jika ada
-            try {
-              const local = localStorage.getItem("ppds_pension_content");
-              if (local) current = { ...DEFAULT_DATA, ...JSON.parse(local) };
-            } catch (e) {}
+          let dataLoaded = null;
+
+          // Cek localStorage
+          try {
+            const local = localStorage.getItem("ppds_pension_content");
+            if (local) dataLoaded = JSON.parse(local);
+          } catch (e) {}
+
+          // Cek Supabase
+          if (db) {
+            const { data } = await db.from("site_content").select("content").eq("key", "pension_services").maybeSingle();
+            if (data && data.content) {
+              try {
+                dataLoaded = JSON.parse(data.content);
+                localStorage.setItem("ppds_pension_content", data.content);
+              } catch (e) {}
+            }
           }
 
-          form.title_hospitals.value = current.title_hospitals || DEFAULT_DATA.title_hospitals;
-          form.hospitals.value = current.hospitals || "";
-          form.title_claims.value = current.title_claims || DEFAULT_DATA.title_claims;
-          form.claims.value = current.claims || "";
-          form.title_pension.value = current.title_pension || DEFAULT_DATA.title_pension;
-          form.pension.value = current.pension || "";
-          form.title_condolences.value = current.title_condolences || DEFAULT_DATA.title_condolences;
-          form.condolences.value = current.condolences || "";
-          form.wa_number.value = current.wa_number || "";
+          if (dataLoaded && Array.isArray(dataLoaded.sections) && dataLoaded.sections.length > 0) {
+            currentSections = dataLoaded.sections;
+          } else if (dataLoaded && (dataLoaded.hospitals || dataLoaded.claims)) {
+            // Migrasi dari format lama ke format array dinamis
+            currentSections = [
+              {
+                title: dataLoaded.title_hospitals || "1. Rumah Sakit & Fasilitas Kesehatan Rekanan",
+                content: dataLoaded.hospitals || ""
+              },
+              {
+                title: dataLoaded.title_claims || "2. Prosedur & Syarat Klaim Biaya Pengobatan",
+                content: dataLoaded.claims || ""
+              },
+              {
+                title: dataLoaded.title_pension || "3. Informasi Dana Pensiun Pertamina (DP Pertamina)",
+                content: dataLoaded.pension || ""
+              },
+              {
+                title: dataLoaded.title_condolences || "4. Hak Santunan Duka Cita & Bantuan Sosial",
+                content: dataLoaded.condolences || ""
+              }
+            ];
+          } else {
+            currentSections = DEFAULT_SECTIONS;
+          }
+
+          form.wa_number.value = (dataLoaded && dataLoaded.wa_number) || "6281200000000";
+          renderSections();
         } catch (err) {
           console.warn("Gagal memuat:", err);
+          currentSections = DEFAULT_SECTIONS;
+          renderSections();
         }
 
         form.addEventListener("submit", async function (e) {
@@ -220,15 +322,10 @@ Pengurus PPDS siap membantu penerbitan kabar lelayu resmi di portal dan mengoord
           btn.disabled = true;
           btn.textContent = "Menyimpan...";
 
+          currentSections = syncDomToSections();
+
           const payloadData = {
-            title_hospitals: form.title_hospitals.value.trim(),
-            hospitals: form.hospitals.value.trim(),
-            title_claims: form.title_claims.value.trim(),
-            claims: form.claims.value.trim(),
-            title_pension: form.title_pension.value.trim(),
-            pension: form.pension.value.trim(),
-            title_condolences: form.title_condolences.value.trim(),
-            condolences: form.condolences.value.trim(),
+            sections: currentSections,
             wa_number: form.wa_number.value.trim()
           };
 
@@ -246,16 +343,16 @@ Pengurus PPDS siap membantu penerbitan kabar lelayu resmi di portal dan mengoord
           try {
             const { error } = await db.from("site_content").upsert(row);
             btn.disabled = false;
-            btn.textContent = "💾 Simpan Perubahan";
+            btn.textContent = "💾 Simpan Semua Perubahan";
 
             if (error) {
               showMsg("error", "Gagal menyimpan ke database Supabase: " + error.message);
               return;
             }
-            showMsg("success", "✅ Informasi Layanan Pensiun berhasil diperbarui! Perubahan sudah aktif di website.");
+            showMsg("success", "✅ Informasi Layanan Pensiun berhasil disimpan! Seluruh perubahan judul dan bagian sudah aktif di portal.");
           } catch (err) {
             btn.disabled = false;
-            btn.textContent = "💾 Simpan Perubahan";
+            btn.textContent = "💾 Simpan Semua Perubahan";
             showMsg("error", "Terjadi kesalahan koneksi.");
           }
         });
