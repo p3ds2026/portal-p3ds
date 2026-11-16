@@ -56,8 +56,11 @@ window.P3DS.utils = {
       }
       const isPdf = /\.pdf($|\?)/i.test(url);
       const isDoc = /\.(doc|docx|xls|xlsx|ppt|pptx|zip)($|\?)/i.test(url);
+      const isImg = /\.(jpg|jpeg|png|webp|gif)($|\?)/i.test(url);
       let html = "";
-      if (isPdf || isDoc) {
+      if (isImg) {
+        html = `<div style="margin:0.75rem 0; text-align:center;"><a href="${url}" target="_blank" rel="noopener noreferrer" title="Klik untuk memperbesar gambar"><img src="${url}" alt="Gambar Informasi" style="max-width:100%; max-height:480px; width:auto; border-radius:6px; border:1px solid #cbd5e1; object-fit:contain; cursor:zoom-in; box-shadow:0 1px 4px rgba(0,0,0,0.06);"></a><div style="font-size:0.75rem; color:#64748b; margin-top:0.25rem;">🔍 Klik gambar untuk memperbesar</div></div>`;
+      } else if (isPdf || isDoc) {
         html = `<a href="${url}" target="_blank" rel="noopener noreferrer" download style="display:inline-flex; align-items:center; gap:0.35rem; background:#0b5ed7; color:#ffffff !important; font-weight:600; font-size:0.85rem; padding:0.22rem 0.65rem; border-radius:5px; text-decoration:none; vertical-align:middle; margin:0.15rem 0; line-height:1.3; box-shadow:0 1px 3px rgba(11,94,215,0.2);">📥 Unduh Formulir (${isPdf ? 'PDF' : 'Dokumen'}) &rarr;</a>`;
       } else {
         html = `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color:#0b5ed7; font-weight:600; text-decoration:underline; word-break:break-all;">${url}</a>`;
