@@ -183,7 +183,30 @@ Pengurus PPDS siap membantu penerbitan kabar lelayu resmi di portal dan mengoord
         container.innerHTML = "";
 
         if (currentSections.length === 0) {
-          container.innerHTML = `<div class="alert alert-info">Belum ada bagian informasi. Klik tombol <strong>Tambah Bagian Layanan Baru</strong> di bawah untuk menambahkan.</div>`;
+          container.innerHTML = `
+            <div style="background: #fff8e1; border: 1.5px dashed #f59e0b; border-radius: 8px; padding: 1.5rem; text-align: center; margin-bottom: 1.5rem;">
+              <p style="margin: 0 0 1rem; color: #92400e; font-weight: 500;">
+                Semua bagian saat ini kosong. Anda dapat menambah bagian baru atau memuat ulang contoh data:
+              </p>
+              <button type="button" id="btn-restore-default" class="btn btn-small btn-outline-dark" style="margin-right: 0.5rem;">
+                ↺ Muat Ulang Contoh Data
+              </button>
+              <button type="button" id="btn-add-first" class="btn btn-small" style="background: var(--navy); color: #fff;">
+                ➕ Tambah Bagian Pertama
+              </button>
+            </div>
+          `;
+          const btnRestore = document.getElementById("btn-restore-default");
+          if (btnRestore) {
+            btnRestore.addEventListener("click", function () {
+              currentSections = JSON.parse(JSON.stringify(DEFAULT_SECTIONS));
+              renderSections();
+            });
+          }
+          const btnFirst = document.getElementById("btn-add-first");
+          if (btnFirst) {
+            btnFirst.addEventListener("click", addNewSection);
+          }
           return;
         }
 
@@ -283,7 +306,7 @@ Pengurus PPDS siap membantu penerbitan kabar lelayu resmi di portal dan mengoord
             }
           }
 
-          if (dataLoaded && Array.isArray(dataLoaded.sections) && dataLoaded.sections.length > 0) {
+          if (dataLoaded && Array.isArray(dataLoaded.sections)) {
             currentSections = dataLoaded.sections;
           } else if (dataLoaded && (dataLoaded.hospitals || dataLoaded.claims)) {
             // Migrasi dari format lama ke format array dinamis
