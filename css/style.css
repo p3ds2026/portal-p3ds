@@ -681,3 +681,42 @@ img { max-width: 100%; display: block; }
     display: none;
   }
 }
+
+/* Universal Formatting Toolbar (Tebal, Miring, Garis Bawah, dsb) */
+.formatting-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  padding: 0.4rem 0.6rem;
+}
+
+.btn-fmt {
+  padding: 0.22rem 0.55rem;
+  font-size: 0.82rem;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #1e293b;
+  border-radius: 4px;
+  cursor: pointer;
+  line-height: 1.25;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.btn-fmt:hover {
+  background: #e2e8f0;
+  border-color: #94a3b8;
+}
+
+.has-toolbar {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
