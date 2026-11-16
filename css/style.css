@@ -170,12 +170,22 @@ img { max-width: 100%; display: block; }
     border-width: 2px;
   }
   .brand-name {
-    font-size: 1.15rem;
+    font-size: 1.12rem;
     letter-spacing: 0.8px;
     white-space: nowrap;
-    margin-bottom: 0;
+    margin-bottom: 2px;
+    line-height: 1.1;
   }
-  .brand-sub { display: none; }
+  .brand-sub {
+    display: block;
+    font-size: 0.58rem;
+    letter-spacing: 0.3px;
+    line-height: 1.2;
+    color: #e2eaf4;
+    font-weight: 600;
+    opacity: 0.92;
+    white-space: nowrap;
+  }
   .header-actions #btn-login,
   .btn-desktop-auth {
     display: none !important;
@@ -214,8 +224,12 @@ img { max-width: 100%; display: block; }
     height: 38px;
   }
   .brand-name {
-    font-size: 1.02rem;
+    font-size: 1rem;
     letter-spacing: 0.5px;
+  }
+  .brand-sub {
+    font-size: 0.5rem;
+    letter-spacing: 0.2px;
   }
   .menu-toggle {
     padding: 0.35rem 0.6rem;
