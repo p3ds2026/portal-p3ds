@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agenda Kegiatan – PORTAL P3DS</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="agenda">
+  <header id="site-header" class="site-header"></header>
+
+  <main class="container section">
+    <div id="list-section">
+      <div class="section-title">
+        <h2>Agenda Kegiatan</h2>
+        <a class="btn btn-small is-hidden" data-staff-only href="kelola-agenda.html">Kelola Agenda</a>
+      </div>
+      <div class="filter-bar">
+        <label for="filter-scope">Tampilkan:</label>
+        <select id="filter-scope">
+          <option value="upcoming">Agenda mendatang</option>
+          <option value="past">Agenda yang sudah lewat</option>
+        </select>
+      </div>
+      <div id="events-list" class="grid grid-2"><div class="loading">Memuat agenda...</div></div>
+    </div>
+
+    <div id="detail" class="is-hidden"></div>
+  </main>
+
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <script src="js/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/events.js"></script>
+  <script src="js/agenda-page.js"></script>
+</body>
+</html>

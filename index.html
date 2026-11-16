@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PORTAL P3DS – Paguyuban Pensiunan Pertamina Dumai – Sei Pakning</title>
+  <meta name="description" content="Portal resmi P3DS: informasi, silaturahmi, dokumentasi, dan kegiatan sosial keluarga besar pensiunan Pertamina Dumai – Sei Pakning.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="beranda">
+
+  <header id="site-header" class="site-header"></header>
+
+  <main>
+    <!-- Banner utama -->
+    <section class="hero">
+      <div class="container">
+        <div class="tagline">SATU KELUARGA, SEJUTA KENANGAN</div>
+        <h1>Selamat Datang di PORTAL P3DS</h1>
+        <p>Pusat informasi, komunikasi, silaturahmi, dokumentasi, dan kegiatan sosial keluarga besar Pensiunan Pertamina Dumai – Sei Pakning.</p>
+        <div class="hero-buttons">
+          <a class="btn" href="daftar.html">Daftar Sebagai Anggota</a>
+          <a class="btn btn-outline" href="berita.html">Baca Berita</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ringkasan informasi -->
+    <section class="section">
+      <div class="container">
+        <div class="section-title"><h2>Ringkasan Informasi</h2></div>
+        <div class="grid grid-4">
+          <div class="card stat"><div class="number" id="stat-news">…</div><div class="label">Berita & Pengumuman</div></div>
+          <div class="card stat"><div class="number" id="stat-events">…</div><div class="label">Agenda Mendatang</div></div>
+          <div class="card stat"><div class="number" id="stat-albums">…</div><div class="label">Album Dokumentasi</div></div>
+          <div class="card stat"><div class="number" id="stat-social">…</div><div class="label">Kegiatan Sosial</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Berita terbaru -->
+    <section class="section">
+      <div class="container">
+        <div class="section-title"><h2>Berita Terbaru</h2><a href="berita.html">Lihat semua</a></div>
+        <div id="news-list" class="grid grid-3"><div class="loading">Memuat berita...</div></div>
+      </div>
+    </section>
+
+    <!-- Agenda mendatang -->
+    <section class="section">
+      <div class="container">
+        <div class="section-title"><h2>Agenda Mendatang</h2><a href="agenda.html">Lihat semua</a></div>
+        <div id="events-list" class="grid grid-2"><div class="loading">Memuat agenda...</div></div>
+      </div>
+    </section>
+
+    <!-- Galeri dokumentasi -->
+    <section class="section">
+      <div class="container">
+        <div class="section-title"><h2>Galeri Dokumentasi</h2><a href="galeri.html">Lihat semua</a></div>
+        <div id="gallery-list" class="grid grid-3"><div class="loading">Memuat galeri...</div></div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <!-- Urutan skrip penting: jangan diubah -->
+  <script src="js/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/news.js"></script>
+  <script src="js/events.js"></script>
+  <script src="js/gallery.js"></script>
+  <script src="js/social.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>

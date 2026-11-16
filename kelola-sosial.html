@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kelola Kegiatan Sosial – PORTAL P3DS</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="sosial">
+  <header id="site-header" class="site-header"></header>
+
+  <main class="container section">
+    <div id="denied" class="alert alert-error is-hidden">
+      Halaman ini khusus Pengurus dan Administrator. <a href="kegiatan-sosial.html">Kembali ke Kegiatan Sosial</a>
+    </div>
+
+    <div id="panel" class="is-hidden">
+      <div class="section-title"><h2>Kelola Kegiatan Sosial</h2><a href="kegiatan-sosial.html">Lihat halaman publik</a></div>
+      <div id="msg" class="is-hidden" role="alert"></div>
+
+      <div class="form-card">
+        <h1 id="form-title">Tambah Kegiatan Sosial</h1>
+        <form id="form-sosial" novalidate>
+          <input type="hidden" name="id">
+          <div class="form-group">
+            <label for="title">Nama Kegiatan</label>
+            <input id="title" name="title" type="text" maxlength="200" required>
+          </div>
+          <div class="form-group">
+            <label for="description">Keterangan</label>
+            <textarea id="description" name="description" rows="5"></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="activity_date">Tanggal Kegiatan</label>
+              <input id="activity_date" name="activity_date" type="date">
+            </div>
+            <div class="form-group">
+              <label for="location">Tempat</label>
+              <input id="location" name="location" type="text" maxlength="200">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="activity_status">Tahap Kegiatan</label>
+              <select id="activity_status" name="activity_status">
+                <option value="planned">Direncanakan</option>
+                <option value="ongoing">Berlangsung</option>
+                <option value="completed">Selesai</option>
+                <option value="cancelled">Dibatalkan</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="visibility">Siapa yang boleh melihat</label>
+              <select id="visibility" name="visibility">
+                <option value="public">Semua pengunjung</option>
+                <option value="member">Khusus anggota</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="status">Status tayang</label>
+              <select id="status" name="status">
+                <option value="draft">Draft (belum tampil)</option>
+                <option value="published">Terbitkan sekarang</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="cover_url">Alamat gambar (opsional)</label>
+              <input id="cover_url" name="cover_url" type="url" placeholder="https://...">
+            </div>
+          </div>
+          <button id="btn-submit" class="btn" type="submit">Simpan</button>
+          <button id="btn-cancel" class="btn btn-outline-dark is-hidden" type="button">Batal Ubah</button>
+        </form>
+      </div>
+
+      <h2 style="margin-top:2rem">Daftar Kegiatan</h2>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Kegiatan</th><th>Tahap</th><th>Tanggal</th><th>Status</th><th>Aksi</th></tr></thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+
+      <div id="updates-panel" class="form-card is-hidden" style="margin-top:2rem">
+        <h1 id="updates-title">Perkembangan Kegiatan</h1>
+        <div id="up-msg" class="is-hidden" role="alert"></div>
+        <form id="form-update" novalidate>
+          <div class="form-group">
+            <label for="u-title">Judul Catatan</label>
+            <input id="u-title" name="title" type="text" maxlength="200" required>
+          </div>
+          <div class="form-group">
+            <label for="u-content">Isi Catatan</label>
+            <textarea id="u-content" name="content" rows="4" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="u-media">Alamat gambar (opsional)</label>
+            <input id="u-media" name="media_url" type="url" placeholder="https://...">
+          </div>
+          <button class="btn" type="submit">Tambah Catatan</button>
+        </form>
+        <h3 style="margin-top:1.5rem">Catatan yang Ada</h3>
+        <div id="updates-list"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <script src="js/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/social.js"></script>
+  <script src="js/social-admin.js"></script>
+</body>
+</html>

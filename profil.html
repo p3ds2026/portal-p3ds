@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Profil Anggota – PORTAL P3DS</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="profil">
+  <header id="site-header" class="site-header"></header>
+
+  <main class="container">
+    <div class="page-narrow" style="max-width: 760px;">
+      <div class="form-card">
+        <h1>Profil Anggota</h1>
+        <div id="status-box" class="is-hidden" role="status"></div>
+        <div id="msg" class="is-hidden" role="alert"></div>
+
+        <p><strong>Email:</strong> <span id="info-email"></span><br>
+        <strong>Peran:</strong> <span id="info-role"></span></p>
+
+        <form id="form-profil" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="full_name">Nama Lengkap</label>
+              <input id="full_name" name="full_name" type="text" maxlength="100" required>
+            </div>
+            <div class="form-group">
+              <label for="phone">Nomor Telepon / WhatsApp</label>
+              <input id="phone" name="phone" type="tel" maxlength="20">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="member_number">Nomor Anggota / Nomor Pensiun</label>
+              <input id="member_number" name="member_number" type="text" maxlength="50">
+            </div>
+            <div class="form-group">
+              <label for="birth_date">Tanggal Lahir</label>
+              <input id="birth_date" name="birth_date" type="date">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="address">Alamat</label>
+            <textarea id="address" name="address" rows="2" maxlength="300"></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="city">Kota / Kabupaten</label>
+              <input id="city" name="city" type="text" maxlength="100">
+            </div>
+            <div class="form-group">
+              <label for="last_unit">Unit Kerja Terakhir</label>
+              <input id="last_unit" name="last_unit" type="text" maxlength="100">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="retirement_year">Tahun Pensiun</label>
+              <input id="retirement_year" name="retirement_year" type="number" min="1950" max="2100">
+            </div>
+            <div class="form-group">
+              <label for="spouse_name">Nama Pasangan</label>
+              <input id="spouse_name" name="spouse_name" type="text" maxlength="100">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="emergency_contact">Kontak Darurat (nama dan nomor)</label>
+            <input id="emergency_contact" name="emergency_contact" type="text" maxlength="150">
+          </div>
+          <div class="form-group">
+            <label><input id="show_phone_to_members" name="show_phone_to_members" type="checkbox">
+              Izinkan nomor telepon terlihat oleh anggota lain</label>
+            <span class="hint">Data pribadi Anda hanya dapat dilihat oleh Anda sendiri dan Administrator.</span>
+          </div>
+          <button id="btn-submit" class="btn btn-block" type="submit">Simpan Profil</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <script src="js/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/profile.js"></script>
+</body>
+</html>
