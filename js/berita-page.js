@@ -54,8 +54,25 @@
         <div id="doa-list"></div>
       </section>` : "";
 
+    // Siapkan teks bagikan ke WhatsApp
+    const pageUrl = window.location.href;
+    const sharePrefix = isDuka ? "🕊️ [KABAR DUKA CITA PPDS]\n" : "📰 [PORTAL PPDS]\n";
+    const shareText = `${sharePrefix}*${data.title}*\nPensiunan Pertamina Dumai – Sei Pakning\n\nBaca informasi selengkapnya melalui portal resmi:\n${pageUrl}`;
+    const waShareUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(shareText);
+
+    const shareBoxHtml = `
+      <div class="share-wa-card" style="margin: 1.5rem 0; padding: 1rem 1.25rem; background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.85rem;">
+        <div>
+          <div style="font-weight: 600; color: #166534; font-size: 0.98rem;">📲 Bagikan ke Grup WhatsApp</div>
+          <div style="color: #15803d; font-size: 0.85rem; margin-top: 0.2rem;">Sebarkan kabar ini kepada keluarga besar pensiunan Pertamina.</div>
+        </div>
+        <a href="${waShareUrl}" target="_blank" rel="noopener noreferrer" class="btn" style="background: #25d366; color: #ffffff; border-color: #20b858; display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 600; padding: 0.55rem 1.15rem; font-size: 0.92rem; text-decoration: none;">
+          💬 Bagikan ke WhatsApp
+        </a>
+      </div>`;
+
     box.innerHTML = `
-      <article class="article">
+      <article id="article-root" class="article">
         <p><a href="berita.html">&larr; Kembali ke daftar berita</a></p>
         
         <div class="font-resizer-bar">
@@ -72,10 +89,11 @@
           </div>
         </div>
 
-        <h1>${utils.escapeHtml(data.title)}</h1>
+        <h1 id="article-title">${utils.escapeHtml(data.title)}</h1>
         ${cover ? `<img class="article-cover" src="${utils.escapeHtml(cover)}" alt="">` : ""}
         ${dukaBoxHtml}
         <div id="article-content" class="article-content font-md">${utils.escapeHtml(data.content)}</div>
+        ${shareBoxHtml}
         ${takziahSectionHtml}
       </article>`;
 
@@ -89,11 +107,16 @@
   }
 
   function initFontResizer() {
+    const rootEl = document.getElementById("article-root");
     const contentEl = document.getElementById("article-content");
     const buttons = document.querySelectorAll(".btn-font-size");
     if (!contentEl || !buttons.length) return;
 
     const savedSize = localStorage.getItem("ppds_article_fontsize") || "font-md";
+    if (rootEl) {
+      ["font-sm", "font-md", "font-lg", "font-xl"].forEach(function(s) { rootEl.classList.remove(s); });
+      rootEl.classList.add(savedSize);
+    }
     contentEl.className = "article-content " + savedSize;
 
     buttons.forEach(function (btn) {
@@ -105,7 +128,12 @@
 
       btn.addEventListener("click", function () {
         const size = btn.dataset.size;
-        contentEl.className = "article-content " + size;
+        ["font-sm", "font-md", "font-lg", "font-xl"].forEach(function (s) {
+          if (rootEl) rootEl.classList.remove(s);
+          contentEl.classList.remove(s);
+        });
+        if (rootEl) rootEl.classList.add(size);
+        contentEl.classList.add(size);
         localStorage.setItem("ppds_article_fontsize", size);
         buttons.forEach(function (b) { b.classList.remove("active"); });
         btn.classList.add("active");
