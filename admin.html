@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard Administrator – PORTAL P3DS</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="admin">
+  <header id="site-header" class="site-header"></header>
+
+  <main class="container section">
+    <div id="denied" class="alert alert-error is-hidden">
+      Halaman ini dibatasi hanya untuk Administrator P3DS. <a href="index.html">Kembali ke Beranda</a>
+    </div>
+
+    <div id="admin-content" class="is-hidden">
+      <div class="section-title">
+        <h2>Dashboard Administrator</h2>
+      </div>
+
+      <!-- Ringkasan Anggota -->
+      <div class="grid grid-4" style="margin-bottom: 2rem;">
+        <div class="card stat">
+          <div class="number" id="stat-total-users">0</div>
+          <div class="label">Total Pengguna</div>
+        </div>
+        <div class="card stat" style="border-top-color: #d93025;">
+          <div class="number" id="stat-pending-users" style="color: #d93025;">0</div>
+          <div class="label">Menunggu Persetujuan</div>
+        </div>
+        <div class="card stat" style="border-top-color: #1e8e3e;">
+          <div class="number" id="stat-active-users" style="color: #1e8e3e;">0</div>
+          <div class="label">Anggota Aktif</div>
+        </div>
+        <div class="card stat" style="border-top-color: var(--navy);">
+          <div class="number" id="stat-staff-users">0</div>
+          <div class="label">Pengurus & Admin</div>
+        </div>
+      </div>
+
+      <!-- Navigasi Pintas Pengelolaan Konten -->
+      <div class="card" style="padding: 1.25rem; margin-bottom: 2rem;">
+        <h3 style="margin-top: 0;">Pintasan Pengelolaan Konten</h3>
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+          <a class="btn btn-small" href="kelola-berita.html">Kelola Berita</a>
+          <a class="btn btn-small" href="kelola-agenda.html">Kelola Agenda</a>
+          <a class="btn btn-small" href="kelola-galeri.html">Kelola Galeri</a>
+          <a class="btn btn-small" href="kelola-sosial.html">Kelola Kegiatan Sosial</a>
+        </div>
+      </div>
+
+      <!-- Kelola Anggota -->
+      <div class="card" style="padding: 1.25rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+          <h3 style="margin: 0;">Daftar Anggota & Persetujuan</h3>
+          <div class="filter-buttons">
+            <button class="btn btn-small btn-outline-dark active" data-filter="all" type="button">Semua</button>
+            <button class="btn btn-small btn-outline-dark" data-filter="pending" type="button">Menunggu (Pending)</button>
+            <button class="btn btn-small btn-outline-dark" data-filter="active" type="button">Aktif</button>
+            <button class="btn btn-small btn-outline-dark" data-filter="staff" type="button">Pengurus & Admin</button>
+          </div>
+        </div>
+
+        <div id="admin-msg" class="is-hidden" role="alert" style="margin-bottom: 1rem;"></div>
+
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Pengguna</th>
+                <th>Data Pensiun</th>
+                <th>Peran</th>
+                <th>Status</th>
+                <th>Terdaftar</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="members-table-body">
+              <tr><td colspan="6" class="text-center">Memuat...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <script src="js/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/admin-page.js"></script>
+</body>
+</html>

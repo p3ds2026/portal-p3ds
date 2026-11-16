@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kelola Berita – PORTAL P3DS</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="berita">
+  <header id="site-header" class="site-header"></header>
+
+  <main class="container section">
+    <div id="denied" class="alert alert-error is-hidden">
+      Halaman ini khusus Pengurus dan Administrator. <a href="berita.html">Kembali ke Berita</a>
+    </div>
+
+    <div id="panel" class="is-hidden">
+      <div class="section-title"><h2>Kelola Berita & Pengumuman</h2><a href="berita.html">Lihat halaman publik</a></div>
+      <div id="msg" class="is-hidden" role="alert"></div>
+
+      <div class="form-card">
+        <h1 id="form-title">Tulis Berita / Pengumuman Baru</h1>
+        <form id="form-berita" novalidate>
+          <input type="hidden" name="id">
+          <div class="form-group">
+            <label for="title">Judul</label>
+            <input id="title" name="title" type="text" maxlength="200" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="category">Kategori</label>
+              <select id="category" name="category">
+                <option value="berita">Berita</option>
+                <option value="pengumuman">Pengumuman</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="visibility">Siapa yang boleh membaca</label>
+              <select id="visibility" name="visibility">
+                <option value="public">Semua pengunjung</option>
+                <option value="member">Khusus anggota</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="summary">Ringkasan (opsional)</label>
+            <textarea id="summary" name="summary" rows="2" maxlength="500"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="content">Isi</label>
+            <textarea id="content" name="content" rows="8" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="cover_url">Alamat gambar sampul (opsional)</label>
+            <input id="cover_url" name="cover_url" type="url" placeholder="https://...">
+            <span class="hint">Unggah foto langsung tersedia di Tahap 9 (Galeri). Untuk sementara, isi alamat gambar yang diawali https://</span>
+          </div>
+          <div class="form-group">
+            <label for="status">Status</label>
+            <select id="status" name="status">
+              <option value="draft">Draft (belum tampil)</option>
+              <option value="published">Terbitkan sekarang</option>
+            </select>
+          </div>
+          <button id="btn-submit" class="btn" type="submit">Simpan</button>
+          <button id="btn-cancel" class="btn btn-outline-dark is-hidden" type="button">Batal Ubah</button>
+        </form>
+      </div>
+
+      <h2 style="margin-top:2rem">Daftar Berita</h2>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Judul</th><th>Kategori</th><th>Status</th><th>Tanggal</th><th>Aksi</th></tr></thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <script src="js/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/news.js"></script>
+  <script src="js/news-admin.js"></script>
+</body>
+</html>

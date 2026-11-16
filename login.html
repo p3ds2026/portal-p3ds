@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Masuk – PORTAL P3DS</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="login">
+  <header id="site-header" class="site-header"></header>
+
+  <main class="container">
+    <div class="page-narrow">
+      <div class="form-card">
+        <h1>Masuk Anggota</h1>
+        <p>Silakan masuk dengan email dan password yang terdaftar.</p>
+        <div id="msg" class="is-hidden" role="alert"></div>
+        <form id="form-login" novalidate>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" autocomplete="current-password" required>
+          </div>
+          <button id="btn-submit" class="btn btn-block" type="submit">Masuk</button>
+        </form>
+        <p class="form-footer">Belum punya akun? <a href="daftar.html">Daftar sebagai anggota</a></p>
+      </div>
+    </div>
+  </main>
+
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <script src="js/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/auth-pages.js"></script>
+</body>
+</html>
