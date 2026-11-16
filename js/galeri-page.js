@@ -103,16 +103,10 @@
 
     const allMedia = localMedia.concat(driveMedia);
 
-    // Banner Google Drive
-    const gdriveBanner = album.gdrive_url ? `
-      <div style="margin: 1.25rem 0; padding: 1rem 1.25rem; background: #eef3f9; border-left: 5px solid var(--gold); border-radius: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
-        <div>
-          <strong style="color:var(--navy); font-size:1.05rem;">📁 Terhubung dengan Google Drive</strong><br>
-          <span style="font-size:0.9rem; color:var(--muted);">Tersedia ${driveMedia.length} foto/video resolusi penuh di folder Google Drive.</span>
-        </div>
-        <a href="${utils.escapeHtml(album.gdrive_url)}" target="_blank" rel="noopener" class="btn btn-small" style="background:var(--navy); color:var(--white); border-color:var(--navy);">
-          Buka Folder Google Drive ↗
-        </a>
+    // Informasi jumlah media (tanpa tombol Google Drive eksternal)
+    const mediaInfo = allMedia.length ? `
+      <div style="margin: 1rem 0; padding: 0.6rem 1rem; background: #eef3f9; border-left: 4px solid var(--gold); border-radius: 6px; font-size: 0.95rem; color: var(--navy); font-weight: 600;">
+        Menampilkan ${allMedia.length} dokumentasi foto & video
       </div>` : "";
 
     const grid = allMedia.map(function (m) {
@@ -139,7 +133,7 @@
       <h1>${utils.escapeHtml(album.title)}</h1>
       <p class="meta">${utils.formatDate(album.created_at)}</p>
       <p>${utils.escapeHtml(album.description || "")}</p>
-      ${gdriveBanner}
+      ${mediaInfo}
       <div class="media-grid">${grid || '<div class="empty">Album ini belum berisi foto atau video.</div>'}</div>`;
 
     box.querySelectorAll(".btn-download").forEach(function (btn) {
