@@ -104,6 +104,7 @@
         form.id.value = album.id;
         form.title.value = album.title;
         form.description.value = album.description || "";
+        form.gdrive_url.value = album.gdrive_url || "";
         form.visibility.value = album.visibility;
         form.visibility.disabled = true; // akses tidak boleh diubah setelah album dibuat
         form.status.value = album.status;
@@ -129,16 +130,17 @@
       if (title.length < 3 || title.length > 200) { show(msg, "error", "Judul album harus 3 sampai 200 huruf."); return; }
 
       const id = form.id.value;
+      const gdrive = emptyToNull(form.gdrive_url.value);
       btn.disabled = true;
       btn.textContent = "Menyimpan...";
       let error;
       if (id) {
         ({ error } = await gallery.updateAlbum(id, {
-          title, description: emptyToNull(form.description.value), status: form.status.value,
+          title, description: emptyToNull(form.description.value), gdrive_url: gdrive, status: form.status.value,
         }));
       } else {
         ({ error } = await gallery.createAlbum({
-          title, description: emptyToNull(form.description.value),
+          title, description: emptyToNull(form.description.value), gdrive_url: gdrive,
           visibility: form.visibility.value, status: form.status.value,
         }, profile.id));
       }

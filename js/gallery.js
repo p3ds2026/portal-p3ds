@@ -2,7 +2,7 @@
 (function () {
   const { db, utils } = window.P3DS;
 
-  const ALBUM_FIELDS = "id, title, description, cover_url, visibility, status, event_id, created_at";
+  const ALBUM_FIELDS = "id, title, description, cover_url, visibility, status, event_id, gdrive_url, created_at";
   const MEDIA_FIELDS = "id, album_id, media_type, file_path, mime_type, file_size, caption, created_at";
 
   // Jenis file yang diizinkan (ekstensi ditentukan dari jenis file, bukan nama file)

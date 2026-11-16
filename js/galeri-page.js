@@ -1,6 +1,33 @@
 // Logika halaman galeri.html: daftar album atau isi satu album (?id=...)
+// Mendukung file dari Supabase Storage & Google Drive otomatis
 (function () {
   const { gallery, utils } = window.P3DS;
+
+  // Ekstrak Folder ID dari berbagai format link Google Drive
+  function extractDriveFolderId(url) {
+    if (!url) return null;
+    const str = String(url).trim();
+    const m1 = str.match(/folders\/([a-zA-Z0-9_-]+)/);
+    if (m1) return m1[1];
+    const m2 = str.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    if (m2) return m2[1];
+    if (/^[a-zA-Z0-9_-]{20,}$/.test(str)) return str;
+    return null;
+  }
+
+  // Mengambil daftar file dari Google Drive via Google Apps Script
+  async function fetchDriveFiles(folderId) {
+    const scriptUrl = window.P3DS_CONFIG.GDRIVE_SCRIPT_URL;
+    if (!scriptUrl || !folderId) return [];
+    try {
+      const res = await fetch(`${scriptUrl}?folderId=${encodeURIComponent(folderId)}`);
+      const json = await res.json();
+      return json.files || [];
+    } catch (e) {
+      console.warn("Gagal membaca Google Drive:", e);
+      return [];
+    }
+  }
 
   // Fungsi unduh media (Foto / Video)
   async function downloadFile(url, filename) {
@@ -22,7 +49,7 @@
 
       if (btn) { btn.textContent = originalText; btn.disabled = false; }
     } catch (e) {
-      // Fallback: buka langsung di tab baru untuk disimpan manual
+      // Fallback: buka langsung di tab baru
       window.open(url, "_blank");
     }
   }
@@ -41,27 +68,67 @@
     }
     document.title = album.title + " – PORTAL P3DS";
 
+    // 1. Ambil file dari Supabase Storage (jika ada)
     const { data: items } = await gallery.listMedia(album.id);
     const urls = await gallery.mediaUrls(items || [], album);
+    const localMedia = (items || []).map(function (m, i) {
+      const u = urls[i];
+      if (!u) return null;
+      return {
+        type: m.media_type,
+        caption: m.caption,
+        thumbnailUrl: u,
+        downloadUrl: u,
+        filename: `P3DS_${album.title.replace(/\s+/g, "_")}_${i + 1}.${m.media_type === "video" ? "mp4" : "jpg"}`
+      };
+    }).filter(Boolean);
 
-    const grid = (items || []).map(function (m, i) {
-      const url = utils.safeUrl(urls[i]);
-      if (!url) return "";
-      const isVideo = m.media_type === "video";
+    // 2. Ambil file dari Google Drive (jika link folder diisi)
+    const folderId = extractDriveFolderId(album.gdrive_url);
+    let driveFiles = [];
+    if (folderId) {
+      box.innerHTML = '<div class="loading">Memuat foto dari Google Drive...</div>';
+      driveFiles = await fetchDriveFiles(folderId);
+    }
+
+    const driveMedia = driveFiles.map(function (f, i) {
+      return {
+        type: f.type || "photo",
+        caption: f.name,
+        thumbnailUrl: f.thumbnailUrl,
+        downloadUrl: f.downloadUrl,
+        filename: f.name || `P3DS_Foto_${i + 1}.jpg`
+      };
+    });
+
+    const allMedia = localMedia.concat(driveMedia);
+
+    // Banner Google Drive
+    const gdriveBanner = album.gdrive_url ? `
+      <div style="margin: 1.25rem 0; padding: 1rem 1.25rem; background: #eef3f9; border-left: 5px solid var(--gold); border-radius: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+        <div>
+          <strong style="color:var(--navy); font-size:1.05rem;">📁 Terhubung dengan Google Drive</strong><br>
+          <span style="font-size:0.9rem; color:var(--muted);">Tersedia ${driveMedia.length} foto/video resolusi penuh di folder Google Drive.</span>
+        </div>
+        <a href="${utils.escapeHtml(album.gdrive_url)}" target="_blank" rel="noopener" class="btn btn-small" style="background:var(--navy); color:var(--white); border-color:var(--navy);">
+          Buka Folder Google Drive ↗
+        </a>
+      </div>` : "";
+
+    const grid = allMedia.map(function (m) {
+      const isVideo = m.type === "video";
       const cap = m.caption ? `<div class="media-caption">${utils.escapeHtml(m.caption)}</div>` : "";
-      const filename = `P3DS_${album.title.replace(/\s+/g, "_")}_${i + 1}.${isVideo ? "mp4" : "jpg"}`;
-
       const media = isVideo
-        ? `<video controls preload="metadata" src="${utils.escapeHtml(url)}"></video>`
-        : `<a href="${utils.escapeHtml(url)}" target="_blank" rel="noopener"><img src="${utils.escapeHtml(url)}" alt="${utils.escapeHtml(m.caption || album.title)}" loading="lazy"></a>`;
+        ? `<video controls preload="metadata" src="${utils.escapeHtml(m.downloadUrl)}"></video>`
+        : `<a href="${utils.escapeHtml(m.downloadUrl)}" target="_blank" rel="noopener"><img src="${utils.escapeHtml(m.thumbnailUrl)}" alt="${utils.escapeHtml(m.caption || album.title)}" loading="lazy"></a>`;
 
       return `
         <div class="media-item">
           ${media}
           ${cap}
-          <div class="media-actions">
-            <button class="btn btn-small btn-download" type="button" data-url="${utils.escapeHtml(url)}" data-filename="${utils.escapeHtml(filename)}">
-              ⬇ Unduh ${isVideo ? "Video" : "Foto"}
+          <div style="padding:0.5rem;text-align:center;background:#fafbfc;border-top:1px solid #dbe2ec;">
+            <button class="btn btn-small btn-download" type="button" style="width:100%;background:#0b2545;color:#fff;border-radius:6px;padding:8px;font-weight:bold;cursor:pointer;" data-url="${utils.escapeHtml(m.downloadUrl)}" data-filename="${utils.escapeHtml(m.filename)}">
+              ⬇ Unduh ${isVideo ? "Video" : "Foto"} (Ukuran Asli)
             </button>
           </div>
         </div>`;
@@ -72,11 +139,11 @@
       <h1>${utils.escapeHtml(album.title)}</h1>
       <p class="meta">${utils.formatDate(album.created_at)}</p>
       <p>${utils.escapeHtml(album.description || "")}</p>
+      ${gdriveBanner}
       <div class="media-grid">${grid || '<div class="empty">Album ini belum berisi foto atau video.</div>'}</div>`;
 
-    // Pasang event listener untuk tombol unduh
     box.querySelectorAll(".btn-download").forEach(function (btn) {
-      btn.addEventListener("click", function (e) {
+      btn.addEventListener("click", function () {
         const u = btn.dataset.url;
         const f = btn.dataset.filename;
         downloadFile(u, f);
