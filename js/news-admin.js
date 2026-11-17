@@ -51,9 +51,25 @@
 
     const denied = document.getElementById("denied");
     const panel = document.getElementById("panel");
-    const isStaff = profile.status === "active" && (profile.role === "pengurus" || profile.role === "admin");
+    const isKorwil = profile.role === "korwil" || (window.P3DS.korwil && window.P3DS.korwil.isUserKorwilSync && window.P3DS.korwil.isUserKorwilSync(profile.id));
+    const isStaff = profile.status === "active" && (profile.role === "pengurus" || profile.role === "admin" || profile.role === "korwil" || isKorwil);
     if (!isStaff) { denied.classList.remove("is-hidden"); return; }
     panel.classList.remove("is-hidden");
+
+    // Inisialisasi Pilihan Wilayah (Korwil)
+    const selWilayahTag = document.getElementById("wilayah_tag");
+    let userAssignedWilayah = null;
+    if (window.P3DS.korwil) {
+      userAssignedWilayah = await window.P3DS.korwil.getKorwilAssignment(profile.id);
+      const allRegions = await window.P3DS.korwil.getRegions();
+      if (selWilayahTag) {
+        selWilayahTag.innerHTML = '<option value="">-- Umum / Semua Wilayah --</option>' +
+          allRegions.map(r => `<option value="${utils.escapeHtml(r)}">📍 ${utils.escapeHtml(r)}</option>`).join("");
+        if (userAssignedWilayah) {
+          selWilayahTag.value = userAssignedWilayah;
+        }
+      }
+    }
 
     const form = document.getElementById("form-berita");
     const msg = document.getElementById("msg");
@@ -192,15 +208,22 @@
 
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
-      const title = form.title.value.trim();
+      const rawTitle = form.title.value.trim();
       const content = form.content.value.trim();
       const summary = emptyToNull(form.summary.value);
       const cover = emptyToNull(form.cover_url.value);
 
-      if (title.length < 3 || title.length > 200) { show(msg, "error", "Judul harus 3 sampai 200 huruf."); return; }
+      if (rawTitle.length < 3 || rawTitle.length > 200) { show(msg, "error", "Judul harus 3 sampai 200 huruf."); return; }
       if (content.length < 10) { show(msg, "error", "Isi berita terlalu pendek."); return; }
       if (summary && summary.length > 500) { show(msg, "error", "Ringkasan maksimal 500 huruf."); return; }
       if (cover && !cover.startsWith("https://")) { show(msg, "error", "Alamat gambar harus diawali https://"); return; }
+
+      // Tambahkan tag wilayah ke judul jika wilayah dipilih dan belum ada di judul
+      const chosenWilayah = selWilayahTag ? selWilayahTag.value : "";
+      let title = rawTitle;
+      if (chosenWilayah && !title.toLowerCase().includes(chosenWilayah.toLowerCase())) {
+        title = `[${chosenWilayah}] ${rawTitle}`;
+      }
 
       const values = {
         title, content, summary,
@@ -218,13 +241,15 @@
       btn.disabled = false;
       btn.textContent = "💾 Simpan & Terbitkan";
 
-      if (error) { show(msg, "error", "Berita gagal disimpan. Pastikan Anda berstatus pengurus/admin aktif."); return; }
+      if (error) { show(msg, "error", "Berita gagal disimpan. Pastikan Anda berstatus pengurus/korwil/admin aktif."); return; }
       show(msg, "success", id ? "Berita berhasil diperbarui." : "Berita berhasil disimpan.");
 
       // Kirim Notifikasi Otomatis ke Layar HP jika opsi dicentang dan status diterbitkan
       if (values.status === "published" && form.send_push_notif && form.send_push_notif.checked) {
         const isDuka = values.category === "duka";
-        const notifTitle = isDuka ? "🖤 KABAR DUKA CITA PPDS" : "📢 PENGUMUMAN RESMI PPDS";
+        const notifTitle = isDuka 
+          ? "🖤 KABAR DUKA CITA PPDS" 
+          : (chosenWilayah ? `📢 KABAR KORWIL ${chosenWilayah.toUpperCase()}` : "📢 PENGUMUMAN RESMI PPDS");
         const notifBody = values.title + (values.summary ? "\n" + values.summary : "");
         const targetId = id || (res.data && res.data.id);
         if (window.P3DS && window.P3DS.sendNotification) {

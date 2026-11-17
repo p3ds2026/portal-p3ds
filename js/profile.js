@@ -6,7 +6,12 @@
     rejected: ["error", "Pendaftaran Anda belum dapat disetujui. Silakan hubungi pengurus PPDS."],
     suspended: ["error", "Akun Anda sedang dinonaktifkan. Silakan hubungi pengurus PPDS."],
   };
-  const ROLE_TEXT = { member: "Anggota", pengurus: "Pengurus", admin: "Administrator" };
+  const ROLE_TEXT = {
+    member: "Anggota",
+    korwil: "⭐ Koordinator Wilayah (Korwil)",
+    pengurus: "Pengurus",
+    admin: "Administrator"
+  };
 
   function show(el, type, text) {
     el.className = "alert alert-" + type;
@@ -37,7 +42,14 @@
       displayAccount = displayAccount.replace("@ppds.internal", "") + " (UserName)";
     }
     document.getElementById("info-email").textContent = displayAccount;
-    document.getElementById("info-role").textContent = ROLE_TEXT[profile.role] || profile.role;
+    let roleDisplay = ROLE_TEXT[profile.role] || profile.role;
+    if (window.P3DS.korwil) {
+      const assignedWilayah = await window.P3DS.korwil.getKorwilAssignment(profile.id);
+      if (assignedWilayah) {
+        roleDisplay = `⭐ Koordinator Wilayah (${assignedWilayah})`;
+      }
+    }
+    document.getElementById("info-role").textContent = roleDisplay;
 
     form.full_name.value = profile.full_name || "";
     form.phone.value = profile.phone || "";

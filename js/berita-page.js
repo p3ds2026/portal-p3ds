@@ -206,21 +206,50 @@
     });
   }
 
-  async function showList(category) {
+  async function showList(category, filterWilayah) {
     const el = document.getElementById("news-list");
     el.innerHTML = '<div class="loading">Memuat berita...</div>';
     const { data, error } = await news.listPublished(category);
     if (error) { el.innerHTML = '<div class="empty">Berita belum dapat dimuat. Silakan coba lagi nanti.</div>'; return; }
-    el.innerHTML = data.length ? data.map(news.cardHtml).join("") : '<div class="empty">Belum ada berita pada kategori ini.</div>';
+    
+    let filtered = data || [];
+    if (filterWilayah) {
+      filtered = filtered.filter(function (item) {
+        const titleMatch = item.title && item.title.toLowerCase().includes(filterWilayah.toLowerCase());
+        const summaryMatch = item.summary && item.summary.toLowerCase().includes(filterWilayah.toLowerCase());
+        const contentMatch = item.content && item.content.toLowerCase().includes(filterWilayah.toLowerCase());
+        return titleMatch || summaryMatch || contentMatch;
+      });
+    }
+
+    el.innerHTML = filtered.length ? filtered.map(news.cardHtml).join("") : '<div class="empty">Belum ada berita pada kategori atau wilayah ini.</div>';
   }
 
   document.addEventListener("DOMContentLoaded", function () {
     const id = new URLSearchParams(window.location.search).get("id");
     if (id) { showDetail(id); return; }
-    const select = document.getElementById("filter-category");
-    if (select) {
-      select.addEventListener("change", function () { showList(select.value); });
+    
+    const selectCat = document.getElementById("filter-category");
+    const selectWil = document.getElementById("filter-wilayah");
+
+    function applyFilter() {
+      const cat = selectCat ? selectCat.value : "";
+      const wil = selectWil ? selectWil.value : "";
+      showList(cat, wil);
     }
-    showList("");
+
+    if (selectCat) {
+      selectCat.addEventListener("change", applyFilter);
+    }
+
+    if (selectWil && window.P3DS.korwil) {
+      window.P3DS.korwil.getRegions().then(function (regions) {
+        selectWil.innerHTML = '<option value="">Semua Wilayah</option>' +
+          regions.map(r => `<option value="${utils.escapeHtml(r)}">📍 ${utils.escapeHtml(r)}</option>`).join("");
+      });
+      selectWil.addEventListener("change", applyFilter);
+    }
+
+    showList("", "");
   });
 })();
