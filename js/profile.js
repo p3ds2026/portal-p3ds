@@ -2,9 +2,9 @@
 (function () {
   const STATUS_TEXT = {
     pending: ["info", "Akun Anda menunggu persetujuan Administrator. Menu anggota akan terbuka setelah disetujui."],
-    active: ["success", "Akun Anda aktif. Selamat datang di keluarga besar P3DS."],
-    rejected: ["error", "Pendaftaran Anda belum dapat disetujui. Silakan hubungi pengurus P3DS."],
-    suspended: ["error", "Akun Anda sedang dinonaktifkan. Silakan hubungi pengurus P3DS."],
+    active: ["success", "Akun Anda aktif. Selamat datang di keluarga besar PPDS."],
+    rejected: ["error", "Pendaftaran Anda belum dapat disetujui. Silakan hubungi pengurus PPDS."],
+    suspended: ["error", "Akun Anda sedang dinonaktifkan. Silakan hubungi pengurus PPDS."],
   };
   const ROLE_TEXT = { member: "Anggota", pengurus: "Pengurus", admin: "Administrator" };
 
@@ -31,7 +31,12 @@
 
     const st = STATUS_TEXT[profile.status] || STATUS_TEXT.pending;
     show(statusBox, st[0], st[1]);
-    document.getElementById("info-email").textContent = profile.email || "";
+
+    let displayAccount = profile.email || "";
+    if (displayAccount.endsWith("@ppds.internal")) {
+      displayAccount = displayAccount.replace("@ppds.internal", "") + " (UserName)";
+    }
+    document.getElementById("info-email").textContent = displayAccount;
     document.getElementById("info-role").textContent = ROLE_TEXT[profile.role] || profile.role;
 
     form.full_name.value = profile.full_name || "";

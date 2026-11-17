@@ -25,26 +25,46 @@
     return profilePromise;
   }
 
+  function toAuthEmail(input) {
+    if (!input) return "";
+    const trimmed = String(input).trim();
+    if (trimmed.includes("@")) {
+      return trimmed.toLowerCase();
+    }
+    // Bersihkan karakter spasi, izinkan huruf, angka, titik, strip, dan garis bawah
+    // contoh: "ahmad123" -> "ahmad123@ppds.internal"
+    let clean = trimmed.replace(/[^0-9a-zA-Z._-]/g, "").toLowerCase();
+    return `${clean}@ppds.internal`;
+  }
+
   function friendlyError(error) {
     const msg = (error && error.message) || "";
-    if (/invalid login credentials/i.test(msg)) return "Email atau password salah.";
-    if (/email not confirmed/i.test(msg)) return "Email Anda belum dikonfirmasi. Silakan buka email dan klik tautan konfirmasi.";
-    if (/already registered/i.test(msg)) return "Email ini sudah terdaftar. Silakan masuk.";
+    if (/invalid login credentials/i.test(msg)) return "UserName atau Password salah. Silakan periksa kembali.";
+    if (/email not confirmed/i.test(msg)) return "Akun Anda sedang menunggu persetujuan pengurus PPDS.";
+    if (/already registered/i.test(msg)) return "UserName ini sudah pernah terdaftar. Silakan pilih UserName lain atau langsung masuk.";
     if (/rate limit/i.test(msg)) return "Terlalu banyak percobaan. Silakan tunggu beberapa menit lalu coba lagi.";
-    if (/password/i.test(msg)) return "Password tidak memenuhi syarat (minimal 8 karakter).";
+    if (/password/i.test(msg)) return "Password minimal 6 karakter.";
     return "Terjadi kesalahan. Silakan coba lagi.";
   }
 
-  async function signIn(email, password) {
+  async function signIn(usernameOrEmail, password) {
+    const email = toAuthEmail(usernameOrEmail);
     const { error } = await db.auth.signInWithPassword({ email, password });
     return { error: error ? friendlyError(error) : null };
   }
 
-  async function signUp(fullName, email, password) {
+  async function signUp(fullName, username, password) {
+    const rawUsername = String(username).trim();
+    const email = toAuthEmail(rawUsername);
     const { error } = await db.auth.signUp({
       email,
       password,
-      options: { data: { full_name: fullName } },
+      options: {
+        data: {
+          full_name: fullName,
+          username: rawUsername
+        }
+      },
     });
     return { error: error ? friendlyError(error) : null };
   }

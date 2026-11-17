@@ -43,7 +43,7 @@
         <tr>
           <td>
             <strong>${utils.escapeHtml(m.full_name || "Tanpa Nama")}</strong><br>
-            <small class="meta">${utils.escapeHtml(m.email || "-")}</small><br>
+            <small class="meta">${m.email && m.email.endsWith("@ppds.internal") ? ("User: " + utils.escapeHtml(m.email.replace("@ppds.internal", ""))) : utils.escapeHtml(m.email || "-")}</small><br>
             <small class="meta">HP: ${utils.escapeHtml(m.phone || "-")}</small>
           </td>
           <td>
