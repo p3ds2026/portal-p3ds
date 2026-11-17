@@ -223,7 +223,7 @@
             <a id="btn-wa-hotline" class="btn" style="background:#25d366; color:#ffffff; border-color:#20b858; display:inline-flex; align-items:center; gap:0.4rem;" target="_blank" rel="noopener noreferrer" href="https://wa.me/?text=Halo%20Pengurus%20PPDS,%20saya%20anggota%20pensiunan%20ingin%20berkonsultasi%20mengenai%20layanan%20kesehatan%20/%20pensiun.">
               💬 Hubungi Pengurus via WhatsApp
             </a>
-            <a id="btn-wa-share-layanan" class="btn btn-outline-dark" style="background:#ffffff; color:#15803d; border-color:#25d366; display:inline-flex; align-items:center; gap:0.4rem;" target="_blank" rel="noopener noreferrer" href="https://api.whatsapp.com/send?text=%F0%9F%8F%A5%20*%5BPANDUAN%20LAYANAN%20KESEHATAN%20%26%20PENSIUN%20PPDS%5D*%0APensiunan%20Pertamina%20Dumai%20%E2%80%93%20Sei%20Pakning%0A%0AInformasi%20lengkap%20faskes%20rekanan,%20syarat%20klaim,%20dan%20dana%20pensiun%20dapat%20diakses%20di:%0Ahttps://portal-p3ds.pages.dev/layanan-kesehatan.html">
+            <a id="btn-wa-share-layanan" class="btn btn-outline-dark" style="background:#ffffff; color:#15803d; border-color:#25d366; display:inline-flex; align-items:center; gap:0.4rem;" target="_blank" rel="noopener noreferrer" href="#">
               📲 Bagikan Panduan ke Grup WA
             </a>
           </div>
@@ -266,6 +266,13 @@
             btn.classList.add("active");
           });
         });
+      }
+
+      // Tautan share WhatsApp otomatis mengikuti domain aktif saat ini
+      const shareBtn = document.getElementById("btn-wa-share-layanan");
+      if (shareBtn) {
+        const pageUrl = window.location.href;
+        shareBtn.href = "https://api.whatsapp.com/send?text=" + encodeURIComponent("🏥 *[PANDUAN LAYANAN KESEHATAN & PENSIUN PPDS]*\nPensiunan Pertamina Dumai – Sei Pakning\n\nInformasi lengkap faskes rekanan, syarat klaim, dan dana pensiun dapat diakses di:\n" + pageUrl);
       }
 
       function renderSafePre(text) {
