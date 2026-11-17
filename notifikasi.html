@@ -19,6 +19,26 @@
         <h2>Notifikasi & Pemberitahuan</h2>
       </div>
 
+      <!-- Kotak Pengaturan Push Notification Layar HP -->
+      <div class="card" style="padding:1.25rem 1.5rem; margin-bottom:1.5rem; border:1.5px solid var(--gold); background:#f0f5fc;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+          <div>
+            <h3 style="margin:0 0 0.25rem; font-size:1.15rem; color:var(--navy);">🔔 Notifikasi Otomatis di Layar HP</h3>
+            <p id="notif-status-text" style="margin:0; font-size:0.9rem; color:#475569;">
+              Periksa status izin pemberitahuan di browser/HP Anda.
+            </p>
+          </div>
+          <div>
+            <button id="btn-toggle-notif" type="button" class="btn" style="background:var(--navy); color:#fff; font-size:0.9rem;">
+              🔔 Aktifkan Notifikasi HP
+            </button>
+            <button id="btn-test-notif" type="button" class="btn btn-outline-dark is-hidden" style="font-size:0.9rem; margin-left:0.5rem;">
+              ▶️ Tes Bunyikan Notifikasi
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div class="card" style="padding: 1.5rem;">
         <div class="timeline-item">
           <div class="meta">Pemberitahuan Sistem</div>
@@ -47,6 +67,66 @@
       const profile = await window.P3DS.auth.requireLogin();
       if (!profile) return;
       document.getElementById("content").classList.remove("is-hidden");
+
+      const statusText = document.getElementById("notif-status-text");
+      const btnToggle = document.getElementById("btn-toggle-notif");
+      const btnTest = document.getElementById("btn-test-notif");
+
+      function updateNotifUI() {
+        if (!("Notification" in window)) {
+          statusText.textContent = "❌ Browser atau perangkat ini tidak mendukung fitur Notification.";
+          btnToggle.classList.add("is-hidden");
+          btnTest.classList.add("is-hidden");
+          return;
+        }
+
+        if (Notification.permission === "granted") {
+          statusText.innerHTML = "✅ <strong>Status: AKTIF</strong>. Layar HP Anda akan otomatis berbunyi/bergetar saat ada kabar duka atau pengumuman resmi.";
+          btnToggle.textContent = "✅ Notifikasi Sudah Aktif";
+          btnToggle.style.background = "#16a34a";
+          btnToggle.disabled = true;
+          btnTest.classList.remove("is-hidden");
+        } else if (Notification.permission === "denied") {
+          statusText.textContent = "🚫 Izin notifikasi diblokir di browser. Buka setelan izin situs di browser untuk mengizinkan notifikasi.";
+          btnToggle.textContent = "Izin Diblokir";
+          btnToggle.disabled = true;
+          btnTest.classList.add("is-hidden");
+        } else {
+          statusText.textContent = "🔔 Status: Belum diaktifkan. Klik tombol di samping untuk mengaktifkan pemberitahuan otomatis di layar HP.";
+          btnToggle.textContent = "🔔 Aktifkan Notifikasi HP";
+          btnToggle.style.background = "var(--navy)";
+          btnToggle.disabled = false;
+          btnTest.classList.add("is-hidden");
+        }
+      }
+
+      updateNotifUI();
+
+      btnToggle.addEventListener("click", async function () {
+        try {
+          const perm = await Notification.requestPermission();
+          updateNotifUI();
+          if (perm === "granted" && window.P3DS.sendNotification) {
+            window.P3DS.sendNotification(
+              "🔔 Notifikasi PPDS Aktif!",
+              "Terima kasih! Notifikasi otomatis di layar HP berhasil diaktifkan.",
+              "/notifikasi.html"
+            );
+          }
+        } catch (e) {
+          console.warn(e);
+        }
+      });
+
+      btnTest.addEventListener("click", function () {
+        if (window.P3DS && window.P3DS.sendNotification) {
+          window.P3DS.sendNotification(
+            "🖤 KABAR DUKA CITA PPDS",
+            "Telah berpulang ke Rahmatullah rekan kita... (Ini adalah contoh tes notifikasi otomatis)",
+            "/berita.html"
+          );
+        }
+      });
     });
   </script>
 </body>

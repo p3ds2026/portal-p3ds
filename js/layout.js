@@ -190,6 +190,7 @@
 
     initVisitorCounter();
     initPWA();
+    initPushNotifications();
   });
 
   // Pengelolaan Fitur PWA (Progressive Web App)
@@ -314,4 +315,126 @@
       });
     }
   }
+
+  // Pengelolaan Push Notifications (Notifikasi Otomatis di Layar HP)
+  function initPushNotifications() {
+    if (!("Notification" in window)) {
+      console.log("Browser ini tidak mendukung Web Notifications");
+      return;
+    }
+
+    // Jika izin sudah diberikan sebelumnya, langsung aktifkan pendengar kabar baru (Realtime)
+    if (Notification.permission === "granted") {
+      listenToRealtimeAnnouncements();
+      return;
+    }
+
+    // Jika izin belum pernah diminta, tampilkan banner ajakan setelah 2.5 detik
+    if (Notification.permission === "default" && !sessionStorage.getItem("p3ds_notif_prompt_dismissed")) {
+      setTimeout(function () {
+        showNotificationPromptBanner();
+      }, 2500);
+    }
+  }
+
+  function showNotificationPromptBanner() {
+    if (document.getElementById("notif-prompt-banner")) return;
+
+    const banner = document.createElement("div");
+    banner.id = "notif-prompt-banner";
+    banner.className = "notif-prompt-banner";
+    banner.innerHTML = `
+      <div class="notif-prompt-inner">
+        <span class="notif-prompt-icon">🔔</span>
+        <div class="notif-prompt-text">
+          <strong>Aktifkan Notifikasi Layar HP</strong>
+          <small>Dapatkan pemberitahuan otomatis saat ada Kabar Duka Cita atau Pengumuman Resmi</small>
+        </div>
+        <div class="notif-prompt-actions">
+          <button type="button" id="btn-allow-notif" class="btn btn-small" style="background:#22c55e; color:#ffffff; font-weight:700; padding:0.25rem 0.65rem; font-size:0.8rem; border-color:#16a34a;">Aktifkan</button>
+          <button type="button" id="btn-dismiss-notif" class="pwa-banner-close" aria-label="Nanti">✕</button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(banner);
+
+    const btnAllow = document.getElementById("btn-allow-notif");
+    if (btnAllow) {
+      btnAllow.addEventListener("click", async function () {
+        banner.remove();
+        try {
+          const perm = await Notification.requestPermission();
+          if (perm === "granted") {
+            sendSystemNotification(
+              "🔔 Notifikasi PPDS Aktif!",
+              "Terima kasih! Anda akan menerima kabar duka dan pengumuman resmi di layar HP Anda.",
+              "/index.html"
+            );
+            listenToRealtimeAnnouncements();
+          }
+        } catch (e) {
+          console.warn("Izin notifikasi:", e);
+        }
+      });
+    }
+
+    const btnDismiss = document.getElementById("btn-dismiss-notif");
+    if (btnDismiss) {
+      btnDismiss.addEventListener("click", function () {
+        banner.remove();
+        sessionStorage.setItem("p3ds_notif_prompt_dismissed", "true");
+      });
+    }
+  }
+
+  function sendSystemNotification(title, body, url) {
+    const targetUrl = url || "/berita.html";
+
+    if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+      navigator.serviceWorker.ready.then(function (reg) {
+        reg.showNotification(title, {
+          body: body,
+          icon: "/img/icon-192.png",
+          badge: "/img/icon-192.png",
+          vibrate: [200, 100, 200],
+          data: { url: targetUrl }
+        });
+      });
+    } else if (Notification.permission === "granted") {
+      new Notification(title, {
+        body: body,
+        icon: "/img/icon-192.png"
+      });
+    }
+  }
+
+  function listenToRealtimeAnnouncements() {
+    if (!window.P3DS || !window.P3DS.db) return;
+
+    try {
+      window.P3DS.db
+        .channel("public-announcements-notifications")
+        .on(
+          "postgres_changes",
+          { event: "INSERT", schema: "public", table: "announcements" },
+          function (payload) {
+            const r = payload.new;
+            if (r && r.status === "published") {
+              const isDuka = r.category === "duka";
+              const title = isDuka ? "🖤 KABAR DUKA CITA PPDS" : "📢 PENGUMUMAN RESMI PPDS";
+              const body = r.title + (r.summary ? "\n" + r.summary : "");
+              sendSystemNotification(title, body, "/berita.html?id=" + r.id);
+            }
+          }
+        )
+        .subscribe();
+    } catch (e) {
+      console.warn("Realtime notifikasi:", e);
+    }
+  }
+
+  // Ekspor fungsi notifikasi agar bisa dites pengurus
+  if (!window.P3DS) window.P3DS = {};
+  window.P3DS.sendNotification = sendSystemNotification;
 })();
