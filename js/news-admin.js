@@ -213,15 +213,55 @@
       btn.disabled = true;
       btn.textContent = "Menyimpan...";
       const id = form.id.value;
-      const { error } = id ? await news.update(id, values) : await news.create(values, profile.id);
+      const res = id ? await news.update(id, values) : await news.create(values, profile.id);
+      const error = res.error;
       btn.disabled = false;
-      btn.textContent = "Simpan";
+      btn.textContent = "💾 Simpan & Terbitkan";
 
       if (error) { show(msg, "error", "Berita gagal disimpan. Pastikan Anda berstatus pengurus/admin aktif."); return; }
       show(msg, "success", id ? "Berita berhasil diperbarui." : "Berita berhasil disimpan.");
+
+      // Kirim Notifikasi Otomatis ke Layar HP jika opsi dicentang dan status diterbitkan
+      if (values.status === "published" && form.send_push_notif && form.send_push_notif.checked) {
+        const isDuka = values.category === "duka";
+        const notifTitle = isDuka ? "🖤 KABAR DUKA CITA PPDS" : "📢 PENGUMUMAN RESMI PPDS";
+        const notifBody = values.title + (values.summary ? "\n" + values.summary : "");
+        const targetId = id || (res.data && res.data.id);
+        if (window.P3DS && window.P3DS.sendNotification) {
+          window.P3DS.sendNotification(notifTitle, notifBody, targetId ? `/berita.html?id=${targetId}` : "/berita.html");
+        }
+      }
+
       resetForm(form);
       loadTable();
     });
+
+    // Tombol Uji Coba Notifikasi Layar HP
+    const btnTestAdmin = document.getElementById("btn-test-notif-admin");
+    if (btnTestAdmin) {
+      btnTestAdmin.addEventListener("click", async function () {
+        if (!("Notification" in window)) {
+          alert("Browser ini belum mendukung fitur Notifikasi.");
+          return;
+        }
+
+        if (Notification.permission !== "granted") {
+          const perm = await Notification.requestPermission();
+          if (perm !== "granted") {
+            alert("Izin notifikasi belum diaktifkan di browser HP Anda.");
+            return;
+          }
+        }
+
+        if (window.P3DS && window.P3DS.sendNotification) {
+          window.P3DS.sendNotification(
+            "🔔 TES NOTIFIKASI PORTAL PPDS",
+            "Selamat! Notifikasi otomatis di layar HP Anda telah berfungsi sempurna.",
+            "/berita.html"
+          );
+        }
+      });
+    }
 
     // Inisialisasi toolbar tombol format teks (Tebal, Miring, Garis Bawah, dsb)
     const contentTextarea = document.getElementById("content");
