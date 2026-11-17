@@ -31,7 +31,12 @@
 
     const st = STATUS_TEXT[profile.status] || STATUS_TEXT.pending;
     show(statusBox, st[0], st[1]);
-    document.getElementById("info-email").textContent = profile.email || "";
+
+    let displayAccount = profile.email || "";
+    if (displayAccount.endsWith("@ppds.internal")) {
+      displayAccount = displayAccount.replace("@ppds.internal", "") + " (UserName)";
+    }
+    document.getElementById("info-email").textContent = displayAccount;
     document.getElementById("info-role").textContent = ROLE_TEXT[profile.role] || profile.role;
 
     form.full_name.value = profile.full_name || "";

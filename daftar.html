@@ -13,27 +13,28 @@
     <div class="page-narrow">
       <div class="form-card">
         <h1>Daftar Sebagai Anggota</h1>
-        <p>Isi data berikut. Akun baru akan diperiksa dan disetujui oleh Administrator PPDS.</p>
+        <p>Isi formulir pendaftaran di bawah ini. Akun baru akan diverifikasi dan disetujui oleh Pengurus PPDS.</p>
         <div id="msg" class="is-hidden" role="alert"></div>
         <form id="form-daftar" novalidate>
           <div class="form-group">
             <label for="full_name">Nama Lengkap</label>
-            <input id="full_name" name="full_name" type="text" autocomplete="name" maxlength="100" required>
+            <input id="full_name" name="full_name" type="text" autocomplete="name" maxlength="100" placeholder="Contoh: H. Ahmad Subarjo" required>
           </div>
           <div class="form-group">
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" autocomplete="email" required>
+            <label for="username">UserName (Nama Pengguna Akun)</label>
+            <input id="username" name="username" type="text" autocomplete="username" placeholder="Contoh: ahmad123, budi_dumai, atau no. pensiun" required>
+            <span class="hint">Bisa berupa huruf, angka, atau gabungan keduanya tanpa spasi. <strong>Tidak memerlukan email.</strong></span>
           </div>
           <div class="form-group">
-            <label for="password">Password</label>
-            <input id="password" name="password" type="password" autocomplete="new-password" required>
-            <span class="hint">Minimal 8 karakter, campuran huruf dan angka.</span>
+            <label for="password">Password / Kata Sandi</label>
+            <input id="password" name="password" type="password" autocomplete="new-password" placeholder="Minimal 6 karakter" required>
+            <span class="hint">Bisa kata sandi atau angka PIN yang mudah diingat (minimal 6 karakter).</span>
           </div>
           <div class="form-group">
             <label for="password2">Ulangi Password</label>
-            <input id="password2" name="password2" type="password" autocomplete="new-password" required>
+            <input id="password2" name="password2" type="password" autocomplete="new-password" placeholder="Ketik ulang kata sandi di atas" required>
           </div>
-          <button id="btn-submit" class="btn btn-block" type="submit">Daftar</button>
+          <button id="btn-submit" class="btn btn-block" type="submit">Daftar Sekarang</button>
         </form>
         <p class="form-footer">Sudah punya akun? <a href="login.html">Masuk</a></p>
       </div>

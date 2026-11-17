@@ -19,16 +19,17 @@
 
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
-      const email = form.email.value.trim();
+      const usernameInput = form.username || form.email || form.identifier;
+      const username = usernameInput ? usernameInput.value.trim() : "";
       const password = form.password.value;
-      if (!email || !password) { showMessage(msg, "error", "Email dan password wajib diisi."); return; }
+      if (!username || !password) { showMessage(msg, "error", "UserName dan password wajib diisi."); return; }
       btn.disabled = true;
       btn.textContent = "Memproses...";
-      const { error } = await window.P3DS.auth.signIn(email, password);
+      const { error } = await window.P3DS.auth.signIn(username, password);
       if (error) {
         showMessage(msg, "error", error);
         btn.disabled = false;
-        btn.textContent = "Masuk";
+        btn.textContent = "Masuk ke Akun";
         return;
       }
       window.location.href = "profil.html";
@@ -44,29 +45,30 @@
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
       const fullName = form.full_name.value.trim();
-      const email = form.email.value.trim();
+      const usernameInput = form.username || form.phone_or_id || form.email;
+      const username = usernameInput ? usernameInput.value.trim() : "";
       const password = form.password.value;
       const password2 = form.password2.value;
 
       if (fullName.length < 3 || fullName.length > 100) { showMessage(msg, "error", "Nama lengkap harus 3 sampai 100 huruf."); return; }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showMessage(msg, "error", "Format email tidak benar."); return; }
-      if (password.length < 8) { showMessage(msg, "error", "Password minimal 8 karakter."); return; }
-      if (!/[A-Za-z]/.test(password) || !/[0-9]/.test(password)) { showMessage(msg, "error", "Password harus campuran huruf dan angka."); return; }
+      if (username.length < 3 || username.length > 50) { showMessage(msg, "error", "UserName minimal 3 karakter (huruf atau angka)."); return; }
+      if (/\s/.test(username)) { showMessage(msg, "error", "UserName tidak boleh ada spasi (contoh: ahmad123 atau no. pensiun)."); return; }
+      if (password.length < 6) { showMessage(msg, "error", "Password minimal 6 karakter."); return; }
       if (password !== password2) { showMessage(msg, "error", "Ulangi password tidak sama."); return; }
 
       btn.disabled = true;
-      btn.textContent = "Memproses...";
-      const { error } = await window.P3DS.auth.signUp(fullName, email, password);
+      btn.textContent = "Mendaftarkan...";
+      const { error } = await window.P3DS.auth.signUp(fullName, username, password);
       if (error) {
         showMessage(msg, "error", error);
         btn.disabled = false;
-        btn.textContent = "Daftar";
+        btn.textContent = "Daftar Sekarang";
         return;
       }
       form.classList.add("is-hidden");
       showMessage(msg, "success",
-        "Pendaftaran berhasil. Silakan buka email Anda dan klik tautan konfirmasi. " +
-        "Setelah itu, akun Anda menunggu persetujuan Administrator PPDS.");
+        "✅ Pendaftaran berhasil! Akun Anda telah terdaftar dan menunggu persetujuan Pengurus PPDS. " +
+        "Setelah disetujui, Anda dapat langsung masuk menggunakan UserName (" + username + ") dan Password Anda.");
     });
   }
 
