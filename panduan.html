@@ -242,7 +242,25 @@
 - Pesan mengatasnamakan rekan pensiunan yang meminta transfer pinjaman uang darurat (selalu telepon langsung nomor teman tersebut untuk verifikasi sebelum percaya).
 
 💡 *Ingat:* Pengurus PPDS maupun pihak Dana Pensiun Pertamina **TIDAK PERNAH** meminta uang pelicin, nomor PIN ATM, atau kode rahasia SMS (OTP) Anda!`,
-          image_url: ""
+          image_url: "",
+          sub_steps: []
+        },
+        {
+          title: "📌 5. Tutorial Tata Cara Aplikasi AllCare Mobile (AMA)",
+          content: "Aplikasi AllCare by Yakes Pertamina memberikan kemudahan bagi pensiunan untuk mengecek faskes rekanan, data kepesertaan kesehatan, dan layanan digital langsung dari smartphone.",
+          image_url: "",
+          sub_steps: [
+            {
+              title: "1.1 Cara Mengunduh & Memasang Aplikasi (Install)",
+              content: `1. Buka aplikasi **Google Play Store** (Android) atau **App Store** (iPhone).\n2. Pada kolom pencarian di bagian atas, ketik kata kunci: *AllCare by Yakes*\n3. Pilih aplikasi resmi *AllCare* lalu ketuk tombol **Pasang (Install)**.\n4. Tunggu beberapa saat hingga aplikasi selesai diunduh dan ikon AllCare muncul di layar HP Anda.`,
+              image_url: ""
+            },
+            {
+              title: "1.2 Tata Cara Masuk ke Akun (Login)",
+              content: `1. Buka aplikasi **AllCare** yang telah terpasang di HP Anda.\n2. Pada halaman awal, masukkan **Nomor Peserta / NIK Pensiunan Pertamina** Anda.\n3. Masukkan **Kata Sandi (Password)** akun Anda.\n4. Ketuk tombol **Masuk (Login)** untuk mengakses layanan kesehatan digital.\n\n💡 *Catatan:* Jika Anda baru pertama kali menggunakan aplikasi atau lupa kata sandi, ketuk menu *Aktivasi Akun* atau *Lupa Password* di bagian bawah layar.`,
+              image_url: ""
+            }
+          ]
         }
       ];
 
@@ -272,6 +290,46 @@
             </div>
           ` : "";
 
+          // Render Sub-Langkah (1.1, 1.2, dst.) jika ada
+          let subStepsHtml = "";
+          if (Array.isArray(sec.sub_steps) && sec.sub_steps.length > 0) {
+            subStepsHtml = `
+              <div class="substeps-display-list" style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem;">
+                ${sec.sub_steps.map(function (sub, subIdx) {
+                  let subFormatted = (utils && utils.formatRichText) 
+                    ? utils.formatRichText(sub.content || "") 
+                    : (sub.content || "");
+                  if (!subFormatted.includes("<br>")) {
+                    subFormatted = subFormatted.replace(/\r\n/g, "<br>").replace(/\n/g, "<br>");
+                  }
+
+                  const subImageHtml = sub.image_url ? `
+                    <div style="margin: 0.85rem 0; text-align: center;">
+                      <img src="${utils.escapeHtml(sub.image_url)}" alt="${utils.escapeHtml(sub.title || 'Langkah')}" class="zoomable-img" style="max-width: 100%; max-height: 380px; object-fit: contain; border-radius: 8px; border: 1.5px solid #cbd5e1; cursor: zoom-in;" title="Klik untuk memperbesar gambar">
+                      <div style="font-size: 0.78rem; color: #64748b; margin-top: 0.3rem;">🔍 Klik gambar untuk memperbesar</div>
+                    </div>
+                  ` : "";
+
+                  const defaultSubNum = (idx + 1) + "." + (subIdx + 1);
+                  const subTitleText = sub.title || ("Langkah " + defaultSubNum);
+
+                  return `
+                    <div class="substep-card" style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-left: 4.5px solid var(--primary, #005a9c); border-radius: 8px; padding: 1.15rem 1.25rem;">
+                      <h4 style="margin: 0 0 0.65rem 0; color: var(--primary, #005a9c); display: flex; align-items: center; gap: 0.5rem; font-size: 1.05rem; flex-wrap: wrap;">
+                        <span style="background: var(--primary, #005a9c); color: #fff; font-size: 0.82rem; font-weight: 700; padding: 0.2rem 0.55rem; border-radius: 4px;">${defaultSubNum}</span>
+                        <span>${utils.escapeHtml(subTitleText)}</span>
+                      </h4>
+                      ${subImageHtml}
+                      <div style="line-height: 1.7; color: var(--text);">
+                        ${subFormatted}
+                      </div>
+                    </div>
+                  `;
+                }).join("")}
+              </div>
+            `;
+          }
+
           return `
             <article class="info-card" id="panduan-${idx}">
               <h3>${utils.escapeHtml(sec.title)}</h3>
@@ -279,11 +337,12 @@
               <div style="line-height: 1.7; color: var(--text);">
                 ${formattedContent}
               </div>
+              ${subStepsHtml}
             </article>
           `;
         }).join("");
 
-        // Pasang event klik zoom untuk gambar
+        // Pasang event klik zoom untuk semua gambar
         container.querySelectorAll(".zoomable-img").forEach(function (img) {
           img.addEventListener("click", function () {
             openZoomModal(this.src);
@@ -356,7 +415,13 @@
           const filtered = currentSections.filter(function (sec) {
             const matchTitle = (sec.title || "").toLowerCase().includes(q);
             const matchContent = (sec.content || "").toLowerCase().includes(q);
-            return matchTitle || matchContent;
+            let matchSub = false;
+            if (Array.isArray(sec.sub_steps)) {
+              matchSub = sec.sub_steps.some(function (sub) {
+                return (sub.title || "").toLowerCase().includes(q) || (sub.content || "").toLowerCase().includes(q);
+              });
+            }
+            return matchTitle || matchContent || matchSub;
           });
 
           renderSections(filtered);
