@@ -97,3 +97,50 @@ self.addEventListener("fetch", function (event) {
       })
   );
 });
+
+// 4. Penanganan Push Notification & Klik Notifikasi
+self.addEventListener("push", function (event) {
+  let data = {
+    title: "PORTAL PPDS",
+    body: "Ada pengumuman terbaru untuk Anda.",
+    url: "/berita.html"
+  };
+
+  if (event.data) {
+    try {
+      data = Object.assign(data, event.data.json());
+    } catch (e) {
+      data.body = event.data.text();
+    }
+  }
+
+  const options = {
+    body: data.body,
+    icon: "/img/icon-192.png",
+    badge: "/img/icon-192.png",
+    vibrate: [200, 100, 200],
+    data: { url: data.url || "/berita.html" }
+  };
+
+  event.waitUntil(self.registration.showNotification(data.title, options));
+});
+
+self.addEventListener("notificationclick", function (event) {
+  event.notification.close();
+  const targetUrl = (event.notification.data && event.notification.data.url) || "/index.html";
+
+  event.waitUntil(
+    clients.matchAll({ type: "window", includeUncontrolled: true }).then(function (clientList) {
+      for (let i = 0; i < clientList.length; i++) {
+        const client = clientList[i];
+        if (client.url.includes(targetUrl) && "focus" in client) {
+          return client.focus();
+        }
+      }
+      if (clients.openWindow) {
+        return clients.openWindow(targetUrl);
+      }
+    })
+  );
+});
+

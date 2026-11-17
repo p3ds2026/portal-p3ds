@@ -88,8 +88,20 @@
               <option value="published">Terbitkan sekarang</option>
             </select>
           </div>
-          <button id="btn-submit" class="btn" type="submit">Simpan</button>
-          <button id="btn-cancel" class="btn btn-outline-dark is-hidden" type="button">Batal Ubah</button>
+          <div class="form-group" style="background:#f0f5fc; border:1px solid #cbd5e1; border-radius:8px; padding:0.75rem 1rem;">
+            <label style="display:flex; align-items:center; gap:0.55rem; font-weight:600; cursor:pointer; color:var(--navy); margin:0;">
+              <input type="checkbox" id="send_push_notif" name="send_push_notif" checked style="width:1.15rem; height:1.15rem; cursor:pointer;">
+              🔔 Bunyikan Notifikasi Otomatis di Layar HP Anggota saat Diterbitkan
+            </label>
+            <div style="margin-top:0.35rem; font-size:0.8rem; color:#475569;">
+              Seluruh pensiunan yang sudah memasang aplikasi akan menerima pemberitahuan di layar HP mereka.
+            </div>
+          </div>
+          <div style="display:flex; flex-wrap:wrap; gap:0.6rem; align-items:center;">
+            <button id="btn-submit" class="btn" type="submit">💾 Simpan & Terbitkan</button>
+            <button id="btn-test-notif-admin" type="button" class="btn btn-outline-dark">🔔 Tes Bunyikan Notifikasi HP</button>
+            <button id="btn-cancel" class="btn btn-outline-dark is-hidden" type="button">Batal Ubah</button>
+          </div>
         </form>
       </div>
 
