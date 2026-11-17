@@ -15,15 +15,23 @@
         <h2>Berita & Pengumuman</h2>
         <a id="link-kelola" class="btn btn-small is-hidden" data-staff-only href="kelola-berita.html">Kelola Berita</a>
       </div>
-      <div class="filter-bar">
-        <label for="filter-category">Tampilkan:</label>
-        <select id="filter-category">
-          <option value="">Semua Kategori</option>
-          <option value="berita">Berita Kegiatan</option>
-          <option value="pengumuman">Pengumuman Resmi</option>
-          <option value="duka">🖤 Kabar Duka Cita</option>
-          <option value="kesehatan">🏥 Layanan & Pensiun</option>
-        </select>
+      <div class="filter-bar" style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <label for="filter-category" style="font-weight: 600;">Kategori:</label>
+          <select id="filter-category">
+            <option value="">Semua Kategori</option>
+            <option value="berita">Berita Kegiatan</option>
+            <option value="pengumuman">Pengumuman Resmi</option>
+            <option value="duka">🖤 Kabar Duka Cita</option>
+            <option value="kesehatan">🏥 Layanan & Pensiun</option>
+          </select>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <label for="filter-wilayah" style="font-weight: 600;">Wilayah:</label>
+          <select id="filter-wilayah">
+            <option value="">Semua Wilayah</option>
+          </select>
+        </div>
       </div>
       <div id="news-list" class="grid grid-3"><div class="loading">Memuat berita...</div></div>
     </div>
@@ -39,6 +47,7 @@
   <script src="js/utils.js"></script>
   <script src="js/layout.js"></script>
   <script src="js/auth.js"></script>
+  <script src="js/korwil.js"></script>
   <script src="js/news.js"></script>
   <script src="js/berita-page.js"></script>
 </body>

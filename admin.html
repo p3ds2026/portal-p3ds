@@ -51,6 +51,41 @@
         </div>
       </div>
 
+      <!-- Kelola Daftar Wilayah (Korwil) -->
+      <div class="card" style="padding: 1.25rem; margin-bottom: 2rem; border-left: 4px solid var(--gold);">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+          <div>
+            <h3 style="margin: 0; display: flex; align-items: center; gap: 0.5rem;">
+              <span>📍 Kelola Daftar Wilayah (Korwil)</span>
+              <span id="wilayah-count-badge" class="badge" style="background: var(--navy); color: #fff;">0 Wilayah</span>
+            </h3>
+            <p style="margin: 0.35rem 0 0; font-size: 0.88rem; color: #64748b;">
+              Atur daftar wilayah kerja PPDS. Wilayah ini akan menjadi pilihan saat menugaskan Koordinator Wilayah (Korwil).
+            </p>
+          </div>
+          <button id="btn-toggle-wilayah" class="btn btn-small btn-outline-dark" type="button">⚙️ Buka / Tutup Pengaturan Wilayah</button>
+        </div>
+
+        <div id="box-wilayah-editor" class="is-hidden" style="margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px dashed #cbd5e1;">
+          <div id="wilayah-msg" class="is-hidden" style="margin-bottom: 1rem;"></div>
+          
+          <!-- Form Input Wilayah Baru -->
+          <form id="form-wilayah" style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; margin-bottom: 1.25rem;">
+            <input type="text" id="input-nama-wilayah" placeholder="Ketik nama wilayah baru (mis: Dumai Barat, Sungai Pakning...)" style="flex: 1; min-width: 250px; padding: 0.55rem 0.85rem; border: 1px solid #cbd5e1; border-radius: 6px;" required>
+            <button type="submit" class="btn btn-small btn-primary" id="btn-simpan-wilayah">➕ Tambah Wilayah</button>
+            <button type="button" class="btn btn-small btn-outline-dark" id="btn-reset-wilayah" title="Kembalikan ke daftar standar PPDS">🔄 Standar PPDS</button>
+          </form>
+
+          <!-- Tampilan Daftar Wilayah -->
+          <div style="font-weight: 600; font-size: 0.85rem; color: var(--navy); margin-bottom: 0.6rem;">
+            Daftar Wilayah Saat Ini (Klik ✕ untuk menghapus):
+          </div>
+          <div id="list-wilayah-tags" style="display: flex; gap: 0.5rem; flex-wrap: wrap; min-height: 40px; align-items: center;">
+            <span class="meta">Memuat wilayah...</span>
+          </div>
+        </div>
+      </div>
+
       <!-- Kelola Anggota -->
       <div class="card" style="padding: 1.25rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
@@ -59,6 +94,7 @@
             <button class="btn btn-small btn-outline-dark active" data-filter="all" type="button">Semua</button>
             <button class="btn btn-small btn-outline-dark" data-filter="pending" type="button">Menunggu (Pending)</button>
             <button class="btn btn-small btn-outline-dark" data-filter="active" type="button">Aktif</button>
+            <button class="btn btn-small btn-outline-dark" data-filter="korwil" type="button">⭐ Korwil</button>
             <button class="btn btn-small btn-outline-dark" data-filter="staff" type="button">Pengurus & Admin</button>
           </div>
         </div>
@@ -94,6 +130,7 @@
   <script src="js/utils.js"></script>
   <script src="js/layout.js"></script>
   <script src="js/auth.js"></script>
+  <script src="js/korwil.js"></script>
   <script src="js/admin.js"></script>
   <script src="js/admin-page.js"></script>
 </body>

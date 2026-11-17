@@ -193,8 +193,9 @@
       if (need === "member" && li.textContent.includes("Profil Anggota")) show = true;
       if (show) li.classList.remove("is-hidden");
     });
-    // Tombol khusus pengurus/admin (mis. "Kelola Berita")
-    const staff = active && (profile.role === "pengurus" || profile.role === "admin");
+    // Tombol khusus pengurus/admin/korwil (mis. "Kelola Berita")
+    const isKorwil = profile.role === "korwil" || (window.P3DS.korwil && window.P3DS.korwil.isUserKorwilSync && window.P3DS.korwil.isUserKorwilSync(profile.id));
+    const staff = active && (profile.role === "pengurus" || profile.role === "admin" || profile.role === "korwil" || isKorwil);
     document.querySelectorAll("[data-staff-only]").forEach(function (el) {
       if (staff) el.classList.remove("is-hidden");
     });
