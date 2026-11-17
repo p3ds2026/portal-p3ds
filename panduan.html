@@ -105,10 +105,10 @@
   </section>
 
   <main class="container section">
-    <!-- Panel Edit Khusus Pengurus/Admin/Korwil -->
+    <!-- Panel Edit Khusus Admin Portal / Korwil -->
     <div id="admin-action-bar" class="is-hidden" style="margin-bottom: 1.5rem; background: #fff8e1; border: 1.5px solid #ffe082; padding: 0.85rem 1.25rem; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
       <div style="color: #795548; font-size: 0.95rem;">
-        <strong>🛠️ Akses Pengurus:</strong> Anda dapat menambah, mengubah, atau merapikan isi tutorial dan tips ini kapan saja.
+        <strong>🛠️ Akses Admin Portal:</strong> Anda dapat menambah, mengubah, atau merapikan isi tutorial dan tips ini kapan saja.
       </div>
       <a href="kelola-panduan.html" class="btn btn-small" style="background: var(--navy); color: #fff; font-weight: 600; text-decoration: none;">✏️ Kelola Panduan & Tips Ini</a>
     </div>
@@ -146,14 +146,14 @@
         </a>
       </div>
 
-      <!-- Kotak Bantuan WhatsApp Pengurus -->
+      <!-- Kotak Bantuan WhatsApp Admin Portal -->
       <div class="contact-box" id="contact-box">
         <h4>💬 Butuh Bantuan atau Punya Usulan Tips Baru?</h4>
         <p style="margin-bottom: 1rem; color: #475569;">
-          Jika Bapak/Ibu mengalami kesulitan teknis saat mempraktekkan panduan di atas, atau ingin membagikan tips bermanfaat bagi sesama pensiunan, silakan hubungi pengurus:
+          Jika Bapak/Ibu mengalami kesulitan teknis saat mempraktekkan panduan di atas, atau ingin membagikan tips bermanfaat bagi sesama pensiunan, silakan hubungi Admin Portal:
         </p>
-        <a id="wa-contact-btn" href="https://wa.me/6281200000000?text=Halo%20Pengurus%20PPDS,%20saya%20ingin%20bertanya%20mengenai%20Panduan%20dan%20Tips." target="_blank" rel="noopener noreferrer" class="btn btn-success" style="display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 600;">
-          <span>💬 Hubungi Pengurus PPDS via WhatsApp</span>
+        <a id="wa-contact-btn" href="https://wa.me/6281200000000?text=Halo%20Admin%20Portal%20PPDS,%20saya%20ingin%20bertanya%20mengenai%20Panduan%20dan%20Tips." target="_blank" rel="noopener noreferrer" class="btn btn-success" style="display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 600;">
+          <span>💬 Hubungi Admin Portal PPDS via WhatsApp</span>
         </a>
       </div>
     </div>
@@ -442,12 +442,12 @@
           currentSections = DEFAULT_SECTIONS;
         }
 
-        // Kontak WA Pengurus
+        // Kontak WA Admin Portal
         const waNum = (dataLoaded && dataLoaded.wa_number) || "6281200000000";
         const cleanWa = waNum.replace(/[^0-9]/g, "");
         const waBtn = document.getElementById("wa-contact-btn");
         if (waBtn) {
-          waBtn.href = `https://wa.me/${cleanWa}?text=Halo%20Pengurus%20PPDS,%20saya%20ingin%20bertanya%20mengenai%20Panduan%20dan%20Tips.`;
+          waBtn.href = `https://wa.me/${cleanWa}?text=Halo%20Admin%20Portal%20PPDS,%20saya%20ingin%20bertanya%20mengenai%20Panduan%20dan%20Tips.`;
         }
 
         renderSections(currentSections);
