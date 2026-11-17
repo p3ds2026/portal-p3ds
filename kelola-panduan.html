@@ -148,25 +148,7 @@
           image_url: ""
         },
         {
-          title: "📄 3. Prosedur & Syarat Pengisian SPTB Dana Pensiun Pertamina (DPP)",
-          content: `Surat Pengesahan Tanda Bukti Diri (SPTB) adalah kewajiban berkala bagi seluruh penerima manfaat pensiun Pertamina agar pencairan bulanan berjalan lancar:
-
-*Jadwal & Ketentuan:*
-- Pengisian SPTB dilakukan secara berkala sesuai ketentuan Dana Pensiun Pertamina (biasanya setiap 6 bulan atau 1 tahun sekali).
-- Pastikan mengisi data diri pensiunan dan data ahli waris (istri/suami) yang masih berhak.
-
-*Dokumen yang Disiapkan:*
-- Fotokopi KTP penerima pensiun dan pasangan yang masih berlaku.
-- Fotokopi Kartu Peserta Pensiun.
-- Pasfoto terbaru.
-
-📥 Formulir SPTB resmi dapat diunduh di sini : http://danapensiunpertamina.com/formulir-sptb.pdf
-
-💡 *Bantuan Pengurus:* Jika Bapak/Ibu mengalami kendala dalam mengisi atau mengirimkan formulir SPTB, silakan datang ke sekretariat PPDS atau hubungi pengurus bidang kesejahteraan pensiun.`,
-          image_url: ""
-        },
-        {
-          title: "🌿 4. Tips Pola Hidup Sehat & Bugar Bagi Pensiunan",
+          title: "🌿 3. Tips Pola Hidup Sehat & Bugar Bagi Pensiunan",
           content: `Memasuki masa purnabakti adalah anugerah terindah untuk menikmati hidup bersama keluarga. Berikut beberapa tips menjaga kesehatan prima di usia senja:
 
 1. **Aktivitas Fisik Ringan Teratur:**
@@ -185,7 +167,7 @@
           image_url: ""
         },
         {
-          title: "🛡️ 5. Waspada Penipuan Digital & Link Berbahaya di WhatsApp",
+          title: "🛡️ 4. Waspada Penipuan Digital & Link Berbahaya di WhatsApp",
           content: `Seiring maraknya kejahatan siber yang menyasar para orang tua, keluarga besar PPDS dihimbau untuk selalu waspada:
 
 ⚠️ **Ciri-Ciri Modus Penipuan di WhatsApp:**
@@ -219,6 +201,44 @@
           list.push({ title: title, content: content, image_url: imageUrl });
         });
         return list;
+      }
+
+      async function saveAllData(showMessage = true) {
+        currentSections = syncDomToSections();
+        const waInput = document.getElementById("wa_number");
+        const waVal = waInput ? waInput.value.trim() : "6281200000000";
+
+        const payloadData = {
+          sections: currentSections,
+          wa_number: waVal
+        };
+
+        const row = {
+          key: "guide_and_tips",
+          title: "Panduan & Tips Pensiunan PPDS",
+          content: JSON.stringify(payloadData),
+          updated_at: new Date().toISOString()
+        };
+
+        // Simpan ke localStorage
+        try { localStorage.setItem("ppds_guide_content", JSON.stringify(payloadData)); } catch (e) {}
+
+        // Simpan ke Supabase
+        if (db) {
+          try {
+            const { error } = await db.from("site_content").upsert(row);
+            if (error) {
+              if (showMessage) showMsg("error", "Gagal menyimpan ke database Supabase: " + error.message);
+              return false;
+            }
+          } catch (err) {
+            if (showMessage) showMsg("error", "Terjadi kesalahan: " + err.message);
+            return false;
+          }
+        }
+
+        if (showMessage) showMsg("success", "✅ Seluruh panduan & tips berhasil disimpan dan langsung diperbarui di portal!");
+        return true;
       }
 
       function applyFormatting(textarea, formatType) {
@@ -362,35 +382,41 @@
             });
           });
 
-          // Event Hapus Bagian
-          block.querySelector(".btn-remove-section").addEventListener("click", function () {
-            if (confirm("Hapus Bagian " + (idx + 1) + ' ("' + (sec.title || "Tanpa Judul") + '")?')) {
+          // Event Hapus Bagian (Langsung tersimpan secara otomatis)
+          block.querySelector(".btn-remove-section").addEventListener("click", async function () {
+            const itemTitle = sec.title || ("Bagian " + (idx + 1));
+            if (confirm("Hapus Bagian " + (idx + 1) + ' ("' + itemTitle + '")?')) {
               currentSections = syncDomToSections();
               currentSections.splice(idx, 1);
               renderSections();
+              // Otomatis simpan permanen ke Supabase & LocalStorage seketika!
+              await saveAllData(false);
+              showMsg("success", "✅ '" + itemTitle + "' telah berhasil dihapus dan langsung tersimpan secara permanen.");
             }
           });
 
           // Event Pindah Posisi
           const btnUp = block.querySelector(".btn-move-up");
           if (btnUp && idx > 0) {
-            btnUp.addEventListener("click", function () {
+            btnUp.addEventListener("click", async function () {
               currentSections = syncDomToSections();
               const temp = currentSections[idx];
               currentSections[idx] = currentSections[idx - 1];
               currentSections[idx - 1] = temp;
               renderSections();
+              await saveAllData(false);
             });
           }
 
           const btnDown = block.querySelector(".btn-move-down");
           if (btnDown && idx < currentSections.length - 1) {
-            btnDown.addEventListener("click", function () {
+            btnDown.addEventListener("click", async function () {
               currentSections = syncDomToSections();
               const temp = currentSections[idx];
               currentSections[idx] = currentSections[idx + 1];
               currentSections[idx + 1] = temp;
               renderSections();
+              await saveAllData(false);
             });
           }
 
@@ -479,7 +505,7 @@
         });
       }
 
-      function addNewSection() {
+      async function addNewSection() {
         currentSections = syncDomToSections();
         currentSections.push({
           title: "📌 " + (currentSections.length + 1) + ". Panduan Baru",
@@ -487,6 +513,7 @@
           image_url: ""
         });
         renderSections();
+        await saveAllData(false);
         const blocks = document.querySelectorAll(".section-block");
         if (blocks.length > 0) {
           blocks[blocks.length - 1].scrollIntoView({ behavior: "smooth" });
@@ -539,7 +566,9 @@
         }
 
         if (dataLoaded && Array.isArray(dataLoaded.sections) && dataLoaded.sections.length > 0) {
-          currentSections = dataLoaded.sections;
+          // Buang bagian SPTB jika masih ada di cache data lama
+          currentSections = dataLoaded.sections.filter(s => !/sptb/i.test(s.title || ""));
+          if (currentSections.length === 0) currentSections = DEFAULT_SECTIONS;
         } else {
           currentSections = DEFAULT_SECTIONS;
         }
@@ -549,11 +578,12 @@
 
         document.getElementById("btn-add-section").addEventListener("click", addNewSection);
 
-        document.getElementById("btn-restore-default-top").addEventListener("click", function () {
+        document.getElementById("btn-restore-default-top").addEventListener("click", async function () {
           if (confirm("Kembalikan seluruh isi panduan ke standar bawaan PPDS? Perubahan yang belum disimpan akan hilang.")) {
             currentSections = JSON.parse(JSON.stringify(DEFAULT_SECTIONS));
             renderSections();
-            showMsg("info", "Daftar panduan dikembalikan ke standar PPDS. Klik 'Simpan Semua Perubahan' untuk menetapkannya.");
+            await saveAllData(false);
+            showMsg("info", "Daftar panduan dikembalikan ke standar PPDS dan telah disimpan.");
           }
         });
 
@@ -561,41 +591,9 @@
           e.preventDefault();
           btn.disabled = true;
           btn.textContent = "Menyimpan...";
-
-          currentSections = syncDomToSections();
-
-          const payloadData = {
-            sections: currentSections,
-            wa_number: form.wa_number.value.trim()
-          };
-
-          const row = {
-            key: "guide_and_tips",
-            title: "Panduan & Tips Pensiunan PPDS",
-            content: JSON.stringify(payloadData),
-            updated_at: new Date().toISOString()
-          };
-
-          // Simpan ke localStorage
-          try { localStorage.setItem("ppds_guide_content", JSON.stringify(payloadData)); } catch (e) {}
-
-          // Simpan ke Supabase
-          try {
-            const { error } = await db.from("site_content").upsert(row);
-            btn.disabled = false;
-            btn.textContent = "💾 Simpan Semua Perubahan";
-
-            if (error) {
-              showMsg("error", "Gagal menyimpan ke database Supabase: " + error.message);
-              return;
-            }
-
-            showMsg("success", "✅ Seluruh panduan & tips berhasil disimpan dan langsung diperbarui di portal!");
-          } catch (err) {
-            btn.disabled = false;
-            btn.textContent = "💾 Simpan Semua Perubahan";
-            showMsg("error", "Terjadi kesalahan: " + err.message);
-          }
+          await saveAllData(true);
+          btn.disabled = false;
+          btn.textContent = "💾 Simpan Semua Perubahan";
         });
       });
     })();
