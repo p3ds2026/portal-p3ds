@@ -1,7 +1,7 @@
 // Modul Berita & Pengumuman. Semua akses data tabel public.announcements ada di sini.
 (function () {
   const { db, utils } = window.P3DS;
-  const FIELDS = "id, title, summary, content, category, cover_url, visibility, status, published_at, created_at";
+  const FIELDS = "id, title, summary, content, category, cover_url, visibility, status, published_at, created_at, author_id";
 
   // ----- Ambil data -----
   function latest(limit = 3) {
