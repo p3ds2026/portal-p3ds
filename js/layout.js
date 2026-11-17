@@ -41,6 +41,9 @@
             <li class="mobile-auth-item">
               <a id="nav-btn-login" class="mobile-auth-link" href="login.html">🔑 Masuk ke Akun</a>
             </li>
+            <li class="mobile-auth-item">
+              <a id="nav-btn-install-pwa" class="mobile-auth-link" href="#" style="color:var(--gold); font-weight:700;">📲 Pasang Aplikasi di HP</a>
+            </li>
           </ul>
         </div>
       </nav>`;
@@ -186,5 +189,129 @@
     }
 
     initVisitorCounter();
+    initPWA();
   });
+
+  // Pengelolaan Fitur PWA (Progressive Web App)
+  let deferredPrompt = null;
+
+  function initPWA() {
+    // 1. Pastikan meta & manifest terpasang di <head>
+    if (!document.querySelector("link[rel='manifest']")) {
+      const link = document.createElement("link");
+      link.rel = "manifest";
+      link.href = "manifest.json";
+      document.head.appendChild(link);
+    }
+    if (!document.querySelector("meta[name='theme-color']")) {
+      const meta = document.createElement("meta");
+      meta.name = "theme-color";
+      meta.content = "#0a192f";
+      document.head.appendChild(meta);
+    }
+    if (!document.querySelector("meta[name='apple-mobile-web-app-capable']")) {
+      const meta = document.createElement("meta");
+      meta.name = "apple-mobile-web-app-capable";
+      meta.content = "yes";
+      document.head.appendChild(meta);
+    }
+    if (!document.querySelector("link[rel='apple-touch-icon']")) {
+      const link = document.createElement("link");
+      link.rel = "apple-touch-icon";
+      link.href = "img/apple-touch-icon.png";
+      document.head.appendChild(link);
+    }
+
+    // 2. Daftarkan Service Worker
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("/sw.js").then(function (reg) {
+          console.log("PWA Service Worker registered:", reg.scope);
+        }).catch(function (err) {
+          console.warn("PWA Service Worker registration:", err);
+        });
+      });
+    }
+
+    // 3. Tangkap event pemasangan aplikasi (Chrome, Edge, Samsung Internet)
+    window.addEventListener("beforeinstallprompt", function (e) {
+      e.preventDefault();
+      deferredPrompt = e;
+      showPwaInstallBanner();
+    });
+
+    // 4. Periksa apakah sudah terpasang (mode Standalone)
+    const isStandalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+    if (isStandalone) {
+      return;
+    }
+
+    // Sambungkan tombol pasang di menu
+    const btnMenuInstall = document.getElementById("nav-btn-install-pwa");
+    if (btnMenuInstall) {
+      btnMenuInstall.addEventListener("click", function (e) {
+        e.preventDefault();
+        triggerPwaInstall();
+      });
+    }
+  }
+
+  function triggerPwaInstall() {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(function (choice) {
+        if (choice.outcome === "accepted") {
+          const banner = document.getElementById("pwa-install-banner");
+          if (banner) banner.remove();
+        }
+        deferredPrompt = null;
+      });
+    } else {
+      const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      if (isIos) {
+        alert("📲 Cara Pasang di iPhone/iPad:\n1. Tekan tombol Bagikan (Share ⎋) di bilah bawah Safari.\n2. Geser ke bawah lalu pilih 'Tambahkan ke Layar Utama' (Add to Home Screen).\n3. Tekan 'Tambah' di pojok kanan atas.");
+      } else {
+        alert("📲 Untuk memasang di layar utama HP:\nBuka menu browser Anda (titik tiga ⋮ di pojok kanan atas), lalu pilih 'Tambahkan ke Layar Utama' atau 'Pasang Aplikasi'.");
+      }
+    }
+  }
+
+  function showPwaInstallBanner() {
+    if (sessionStorage.getItem("p3ds_pwa_dismissed")) return;
+    if (document.getElementById("pwa-install-banner")) return;
+
+    const banner = document.createElement("div");
+    banner.id = "pwa-install-banner";
+    banner.className = "pwa-banner";
+    banner.innerHTML = `
+      <div class="pwa-banner-inner">
+        <img src="img/icon-192.png" alt="PPDS" class="pwa-banner-icon">
+        <div class="pwa-banner-text">
+          <strong>Pasang Aplikasi PORTAL PPDS</strong>
+          <small>Akses cepat langsung dari layar utama HP Anda</small>
+        </div>
+        <div class="pwa-banner-actions">
+          <button type="button" id="btn-banner-install" class="btn btn-small" style="background:var(--gold); color:var(--navy); font-weight:700; padding:0.25rem 0.65rem; font-size:0.8rem;">Pasang</button>
+          <button type="button" id="btn-banner-close" class="pwa-banner-close" aria-label="Tutup">✕</button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(banner);
+
+    const btnInstall = document.getElementById("btn-banner-install");
+    if (btnInstall) {
+      btnInstall.addEventListener("click", function () {
+        triggerPwaInstall();
+      });
+    }
+
+    const btnClose = document.getElementById("btn-banner-close");
+    if (btnClose) {
+      btnClose.addEventListener("click", function () {
+        banner.remove();
+        sessionStorage.setItem("p3ds_pwa_dismissed", "true");
+      });
+    }
+  }
 })();
