@@ -21,7 +21,7 @@
       border: 1.5px solid #cbd5e1;
       border-radius: 8px;
       padding: 1.25rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.75rem;
       position: relative;
     }
     .section-block-header {
@@ -35,6 +35,26 @@
     .section-move-btns {
       display: flex;
       gap: 0.35rem;
+    }
+
+    /* Sub-Langkah (1.1, 1.2, dst.) */
+    .substep-block {
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      border-left: 5px solid var(--gold);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 0.85rem;
+      margin-bottom: 0.85rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+    .substep-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px dashed #e2e8f0;
     }
   </style>
 </head>
@@ -52,7 +72,7 @@
           <div>
             <h2 style="margin: 0; color: var(--navy);">💡 Kelola Panduan & Tips Pensiunan</h2>
             <p style="margin: 0.25rem 0 0; color: #64748b; font-size: 0.95rem;">
-              Tambah, susun, ubah teks, dan unggah foto untuk halaman Panduan & Tips PPDS.
+              Tambah topik panduan, susun sub-langkah bertahap (1.1, 1.2, dst.), ubah teks, dan unggah foto petunjuk.
             </p>
           </div>
           <a href="panduan.html" class="btn btn-small btn-outline-dark" target="_blank" title="Lihat tampilan halaman panduan">
@@ -69,7 +89,7 @@
           <!-- Tombol Tambah Bagian Baru & Reset -->
           <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.75rem;">
             <button type="button" id="btn-add-section" class="btn btn-small" style="background: var(--navy); color: #fff; font-weight: 600;">
-              ➕ Tambah Bagian Panduan Baru
+              ➕ Tambah Topik Panduan Baru
             </button>
             <button type="button" id="btn-restore-default-top" class="btn btn-small btn-outline-dark">
               ↺ Kembalikan ke Standar PPDS
@@ -130,7 +150,8 @@
 4. Ketuk *"Tambah"* di pojok kanan atas. Selesai!
 
 💡 *Keuntungan:* Membuka portal lebih cepat (cukup 1 ketukan), hemat kuota, dan HP Anda akan otomatis menerima notifikasi pengumuman dari pengurus.`,
-          image_url: ""
+          image_url: "",
+          sub_steps: []
         },
         {
           title: "🔑 2. Panduan Masuk Akun (Login) & Cek Profil Anggota",
@@ -145,7 +166,8 @@
 *Setelah Berhasil Masuk:*
 - Tombol *"Daftar Sebagai Anggota"* di halaman depan otomatis hilang dan digantikan tombol **👤 Profil Anggota**.
 - Anda dapat memeriksa data nomor pensiun, unit kerja masa dinas, serta memperbarui nomor telepon WhatsApp Anda agar mudah dihubungi saat ada kegiatan silaturahmi.`,
-          image_url: ""
+          image_url: "",
+          sub_steps: []
         },
         {
           title: "🌿 3. Tips Pola Hidup Sehat & Bugar Bagi Pensiunan",
@@ -164,7 +186,8 @@
 
 4. **Hati Gembira & Rajin Silaturahmi:**
    - Tetap aktif berkomunikasi dengan rekan sejawat pensiunan melalui grup WhatsApp PPDS. Hati yang gembira dan penuh syukur adalah obat terbaik!`,
-          image_url: ""
+          image_url: "",
+          sub_steps: []
         },
         {
           title: "🛡️ 4. Waspada Penipuan Digital & Link Berbahaya di WhatsApp",
@@ -176,7 +199,25 @@
 - Pesan mengatasnamakan rekan pensiunan yang meminta transfer pinjaman uang darurat (selalu telepon langsung nomor teman tersebut untuk verifikasi sebelum percaya).
 
 💡 *Ingat:* Pengurus PPDS maupun pihak Dana Pensiun Pertamina **TIDAK PERNAH** meminta uang pelicin, nomor PIN ATM, atau kode rahasia SMS (OTP) Anda!`,
-          image_url: ""
+          image_url: "",
+          sub_steps: []
+        },
+        {
+          title: "📌 5. Tutorial Tata Cara Aplikasi AllCare Mobile (AMA)",
+          content: "Aplikasi AllCare by Yakes Pertamina memberikan kemudahan bagi pensiunan untuk mengecek faskes rekanan, data kepesertaan kesehatan, dan layanan digital langsung dari smartphone.",
+          image_url: "",
+          sub_steps: [
+            {
+              title: "1.1 Cara Mengunduh & Memasang Aplikasi (Install)",
+              content: `1. Buka aplikasi **Google Play Store** (Android) atau **App Store** (iPhone).\n2. Pada kolom pencarian di bagian atas, ketik kata kunci: *AllCare by Yakes*\n3. Pilih aplikasi resmi *AllCare* lalu ketuk tombol **Pasang (Install)**.\n4. Tunggu beberapa saat hingga aplikasi selesai diunduh dan ikon AllCare muncul di layar HP Anda.`,
+              image_url: ""
+            },
+            {
+              title: "1.2 Tata Cara Masuk ke Akun (Login)",
+              content: `1. Buka aplikasi **AllCare** yang telah terpasang di HP Anda.\n2. Pada halaman awal, masukkan **Nomor Peserta / NIK Pensiunan Pertamina** Anda.\n3. Masukkan **Kata Sandi (Password)** akun Anda.\n4. Ketuk tombol **Masuk (Login)** untuk mengakses layanan kesehatan digital.\n\n💡 *Catatan:* Jika Anda baru pertama kali menggunakan aplikasi atau lupa kata sandi, ketuk menu *Aktivasi Akun* atau *Lupa Password* di bagian bawah layar.`,
+              image_url: ""
+            }
+          ]
         }
       ];
 
@@ -198,7 +239,28 @@
           const content = b.querySelector(".section-content-input").value;
           const imgInp = b.querySelector(".section-image-url-input");
           const imageUrl = imgInp ? imgInp.value.trim() : "";
-          list.push({ title: title, content: content, image_url: imageUrl });
+
+          // Sinkronisasi Sub-Langkah
+          const subStepBlocks = b.querySelectorAll(".substep-block");
+          const subSteps = [];
+          subStepBlocks.forEach(function (sb) {
+            const subTitle = sb.querySelector(".substep-title-input").value.trim();
+            const subContent = sb.querySelector(".substep-content-input").value;
+            const subImgInp = sb.querySelector(".substep-image-url-input");
+            const subImageUrl = subImgInp ? subImgInp.value.trim() : "";
+            subSteps.push({
+              title: subTitle,
+              content: subContent,
+              image_url: subImageUrl
+            });
+          });
+
+          list.push({
+            title: title,
+            content: content,
+            image_url: imageUrl,
+            sub_steps: subSteps
+          });
         });
         return list;
       }
@@ -265,12 +327,10 @@
           prefix = "1. "; suffix = ""; defaultText = "Poin pertama";
         } else if (formatType === "link") {
           if (selected) {
-            if (/^https?:\/\//i.test(selected)) {
-              return;
-            }
-            prefix = ""; suffix = " : http://danapensiunpertamina.com/formulir.pdf";
+            if (/^https?:\/\//i.test(selected)) return;
+            prefix = ""; suffix = " : http://pertalife.com/formulir.pdf";
           } else {
-            prefix = "http://"; suffix = ""; defaultText = "danapensiunpertamina.com/formulir-sptb.pdf";
+            prefix = "http://"; suffix = ""; defaultText = "danapensiunpertamina.com/panduan.pdf";
           }
         }
 
@@ -280,6 +340,91 @@
         const selStart = start + prefix.length;
         const selEnd = start + prefix.length + (selected ? selected.length : defaultText.length);
         textarea.setSelectionRange(selStart, selEnd);
+      }
+
+      // Helper untuk menghubungkan upload gambar ke Supabase Storage
+      function setupImageUploader(wrapper) {
+        const fileInput = wrapper.querySelector(".image-file-input");
+        const statusText = wrapper.querySelector(".image-status");
+        const previewBox = wrapper.querySelector(".image-preview-box");
+        const previewImg = wrapper.querySelector(".image-preview-img");
+        const urlInput = wrapper.querySelector(".image-url-input");
+        const manualInput = wrapper.querySelector(".image-manual-url");
+        const btnRemoveImg = wrapper.querySelector(".btn-remove-image");
+
+        if (fileInput) {
+          fileInput.addEventListener("change", async function () {
+            const file = fileInput.files && fileInput.files[0];
+            if (!file) return;
+
+            if (file.size > 5 * 1024 * 1024) {
+              statusText.textContent = "❌ Ukuran gambar maksimal 5 MB.";
+              statusText.style.color = "#d93025";
+              fileInput.value = "";
+              return;
+            }
+
+            statusText.textContent = "⏳ Mengunggah foto ke Supabase Storage...";
+            statusText.style.color = "var(--navy)";
+
+            try {
+              const ext = file.name.split(".").pop().toLowerCase();
+              const cleanName = file.name.replace(/[^a-zA-Z0-9_-]/g, "_").substring(0, 30);
+              const path = "panduan/" + Date.now() + "_" + cleanName + "." + ext;
+
+              const { error: upErr } = await db.storage
+                .from("gallery-public")
+                .upload(path, file, { cacheControl: "3600", upsert: true });
+
+              if (upErr) {
+                statusText.textContent = "❌ Gagal unggah: " + upErr.message;
+                statusText.style.color = "#d93025";
+                return;
+              }
+
+              const { data: urlData } = db.storage.from("gallery-public").getPublicUrl(path);
+              const publicUrl = urlData ? urlData.publicUrl : "";
+
+              urlInput.value = publicUrl;
+              if (manualInput) manualInput.value = publicUrl;
+              previewImg.src = publicUrl;
+              previewBox.classList.remove("is-hidden");
+              statusText.textContent = "✅ Foto berhasil diunggah!";
+              statusText.style.color = "#1e8e3e";
+              await saveAllData(false);
+            } catch (err) {
+              statusText.textContent = "❌ Terjadi kesalahan saat mengunggah foto.";
+              statusText.style.color = "#d93025";
+            }
+          });
+        }
+
+        if (manualInput) {
+          manualInput.addEventListener("input", function () {
+            const u = manualInput.value.trim();
+            urlInput.value = u;
+            if (u) {
+              previewImg.src = u;
+              previewBox.classList.remove("is-hidden");
+            } else {
+              previewImg.src = "";
+              previewBox.classList.add("is-hidden");
+            }
+          });
+        }
+
+        if (btnRemoveImg) {
+          btnRemoveImg.addEventListener("click", async function () {
+            urlInput.value = "";
+            if (manualInput) manualInput.value = "";
+            if (fileInput) fileInput.value = "";
+            previewImg.src = "";
+            previewBox.classList.add("is-hidden");
+            statusText.textContent = "Foto telah dihapus.";
+            statusText.style.color = "";
+            await saveAllData(false);
+          });
+        }
       }
 
       function renderSections() {
@@ -315,27 +460,29 @@
           block.className = "section-block";
           block.dataset.index = idx;
 
+          const subSteps = Array.isArray(sec.sub_steps) ? sec.sub_steps : [];
+
           block.innerHTML = `
             <div class="section-block-header">
-              <h4 style="margin:0; color:var(--navy); font-size:1.05rem;">📌 Panduan Bagian ${idx + 1}</h4>
+              <h4 style="margin:0; color:var(--navy); font-size:1.08rem;">📌 Topik Panduan ${idx + 1}</h4>
               <div style="display:flex; align-items:center; gap:0.5rem;">
                 <div class="section-move-btns">
                   <button type="button" class="btn btn-small btn-move-up" title="Pindah ke Atas" ${idx === 0 ? "disabled" : ""}>⬆️</button>
                   <button type="button" class="btn btn-small btn-move-down" title="Pindah ke Bawah" ${idx === currentSections.length - 1 ? "disabled" : ""}>⬇️</button>
                 </div>
-                <button type="button" class="btn btn-small btn-remove-section" style="background:#fee2e2; color:#b91c1c; border-color:#fca5a5; font-size:0.85rem;" title="Hapus panduan ini">
-                  🗑️ Hapus
+                <button type="button" class="btn btn-small btn-remove-section" style="background:#fee2e2; color:#b91c1c; border-color:#fca5a5; font-size:0.85rem;" title="Hapus topik ini">
+                  🗑️ Hapus Topik
                 </button>
               </div>
             </div>
 
             <div class="form-group" style="margin-bottom:0.85rem;">
-              <label style="font-weight:600; color:var(--navy);">Judul Panduan</label>
-              <input type="text" class="section-title-input form-control" value="${utils.escapeHtml(sec.title || "")}" placeholder="Contoh: 1. Cara Pasang Aplikasi..." required>
+              <label style="font-weight:600; color:var(--navy);">Judul Topik Utama</label>
+              <input type="text" class="section-title-input form-control" value="${utils.escapeHtml(sec.title || "")}" placeholder="Contoh: 5. Tutorial Tata Cara Aplikasi AllCare Mobile..." required>
             </div>
 
             <div class="form-group" style="margin-bottom:0.85rem;">
-              <label style="font-weight:600; color:var(--navy);">Isi & Langkah Panduan</label>
+              <label style="font-weight:600; color:var(--navy);">Pengantar / Isi Penjelasan</label>
               <div class="formatting-toolbar">
                 <span style="font-size:0.75rem; font-weight:600; color:#475569;">Format:</span>
                 <button type="button" class="btn-fmt" data-fmt="bold" title="Tebal (Bold)"><strong style="font-size:0.95rem;">B</strong> Tebal</button>
@@ -346,56 +493,213 @@
                 <button type="button" class="btn-fmt" data-fmt="number" title="Daftar Nomor">1. Angka</button>
                 <button type="button" class="btn-fmt" data-fmt="link" title="Tautan / Unduh File">📥 Unduh/Link</button>
               </div>
-              <textarea class="section-content-input form-control has-toolbar" rows="6" placeholder="Ketik petunjuk atau tips di sini...">${utils.escapeHtml(sec.content || "")}</textarea>
-              <span class="hint" style="display:block; margin-top:0.35rem; font-size:0.8rem; color:#64748b;">
-                💡 <em>Tips:</em> Blok teks lalu klik tombol di atas. Ketik link website atau file .PDF otomatis dijadikan tombol unduh rapi.
-              </span>
+              <textarea class="section-content-input form-control has-toolbar" rows="4" placeholder="Ketik kalimat pengantar topik atau langkah umum di sini...">${utils.escapeHtml(sec.content || "")}</textarea>
             </div>
 
-            <!-- Upload Gambar / Tangkapan Layar Panduan -->
-            <div class="form-group" style="background:#fff; border:1px solid #e2e8f0; border-radius:6px; padding:0.85rem; margin-bottom:0;">
-              <label style="font-weight:600; font-size:0.9rem; color:var(--navy); display:block; margin-bottom:0.4rem;">
-                🖼️ Gambar / Tangkapan Layar (Screenshot) Petunjuk (Opsional)
+            <!-- Upload Gambar Sampul Topik (Opsional) -->
+            <div class="form-group image-uploader-box" style="background:#fff; border:1px solid #e2e8f0; border-radius:6px; padding:0.85rem; margin-bottom:1rem;">
+              <label style="font-weight:600; font-size:0.88rem; color:var(--navy); display:block; margin-bottom:0.35rem;">
+                🖼️ Gambar Sampul / Banner Utama Topik (Opsional)
               </label>
-              <div style="display:flex; flex-direction:column; gap:0.5rem;">
-                <input type="file" class="section-image-file-input" accept="image/jpeg,image/png,image/webp" style="font-size:0.85rem; padding:0.4rem; border:1px dashed #cbd5e1; border-radius:6px; background:#f8fafc; cursor:pointer;">
-                <div class="section-image-status hint" style="font-size:0.8rem;">Pilih foto dari komputer/HP (JPG, PNG, WEBP, maks 5 MB). Otomatis tersimpan ke Supabase Storage.</div>
+              <div style="display:flex; flex-direction:column; gap:0.45rem;">
+                <input type="file" class="image-file-input" accept="image/jpeg,image/png,image/webp" style="font-size:0.85rem; padding:0.4rem; border:1px dashed #cbd5e1; border-radius:6px; background:#f8fafc; cursor:pointer;">
+                <div class="image-status hint" style="font-size:0.8rem;">Pilih foto dari komputer/HP (JPG, PNG, WEBP, maks 5 MB). Otomatis tersimpan ke Supabase Storage.</div>
                 
-                <div class="section-image-preview-box ${sec.image_url ? "" : "is-hidden"}" style="position:relative; width:fit-content; max-width:260px; margin-top:0.35rem;">
-                  <img src="${utils.escapeHtml(sec.image_url || "")}" alt="Pratinjau" class="section-image-preview-img" style="width:100%; max-height:150px; object-fit:contain; border-radius:6px; border:1.5px solid var(--gold); background:#f1f5f9;">
+                <div class="image-preview-box ${sec.image_url ? "" : "is-hidden"}" style="position:relative; width:fit-content; max-width:240px; margin-top:0.35rem;">
+                  <img src="${utils.escapeHtml(sec.image_url || "")}" alt="Pratinjau" class="image-preview-img" style="width:100%; max-height:140px; object-fit:contain; border-radius:6px; border:1.5px solid var(--gold); background:#f1f5f9;">
                   <button type="button" class="btn btn-small btn-danger btn-remove-image" style="position:absolute; top:4px; right:4px; padding:0.15rem 0.45rem; font-size:0.75rem;" title="Hapus foto ini">✕ Hapus</button>
                 </div>
-                <input type="hidden" class="section-image-url-input" value="${utils.escapeHtml(sec.image_url || "")}">
+                <input type="hidden" class="section-image-url-input image-url-input" value="${utils.escapeHtml(sec.image_url || "")}">
                 <details style="margin-top:0.2rem;">
-                  <summary style="font-size:0.8rem; color:#64748b; cursor:pointer;">Atau masukkan link gambar manual (URL https://...)</summary>
-                  <input type="url" class="section-image-manual-url form-control" placeholder="https://..." value="${utils.escapeHtml(sec.image_url || "")}" style="margin-top:0.3rem; font-size:0.85rem; padding:0.35rem 0.6rem;">
+                  <summary style="font-size:0.8rem; color:#64748b; cursor:pointer;">Atau isi link foto manual (URL https://...)</summary>
+                  <input type="url" class="image-manual-url form-control" placeholder="https://..." value="${utils.escapeHtml(sec.image_url || "")}" style="margin-top:0.3rem; font-size:0.85rem; padding:0.35rem 0.6rem;">
                 </details>
+              </div>
+            </div>
+
+            <!-- Wadah Sub-Langkah (1.1, 1.2, dst.) -->
+            <div class="substeps-wrapper" style="background:#eef4fc; border:1.5px solid #bfdbfe; border-radius:8px; padding:1.15rem; margin-top:1.25rem;">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.75rem;">
+                <div>
+                  <h5 style="margin:0; color:var(--navy); font-size:0.98rem; display:flex; align-items:center; gap:0.4rem;">
+                    <span>📋</span>
+                    <span>Sub-Langkah Bertahap (1.1, 1.2, dst.)</span>
+                    <span class="badge" style="background:var(--navy); color:#fff; font-size:0.75rem;">${subSteps.length} Langkah</span>
+                  </h5>
+                  <div style="font-size:0.8rem; color:#475569; margin-top:0.2rem;">
+                    Bagi tutorial menjadi langkah 1.1, 1.2, dst. Setiap langkah memiliki teks dan screenshot gambarnya masing-masing.
+                  </div>
+                </div>
+                <button type="button" class="btn btn-small btn-add-substep" style="background:var(--gold); color:var(--navy); font-weight:700;">
+                  ➕ Tambah Sub-Langkah
+                </button>
+              </div>
+
+              <div class="substeps-list-container">
+                ${subSteps.length === 0 ? `
+                  <div class="meta" style="font-size:0.85rem; padding:0.75rem; text-align:center; background:#ffffff; border:1px dashed #cbd5e1; border-radius:6px;">
+                    Belum ada sub-langkah. Klik tombol <strong>"+ Tambah Sub-Langkah"</strong> di atas untuk membuat langkah 1.1, 1.2, dst.
+                  </div>
+                ` : ""}
               </div>
             </div>
           `;
 
-          // Pasang Event Formatter
+          // Format toolbar event pada textarea utama
           const textarea = block.querySelector(".section-content-input");
-          block.querySelectorAll(".btn-fmt").forEach(function (btn) {
+          block.querySelectorAll(".section-block-header + div + div .btn-fmt").forEach(function (btn) {
             btn.addEventListener("click", function () {
               applyFormatting(textarea, btn.dataset.fmt);
             });
           });
 
-          // Event Hapus Bagian (Langsung tersimpan secara otomatis)
+          // Hubungkan uploader gambar utama
+          setupImageUploader(block.querySelector(".image-uploader-box"));
+
+          // Render Sub-Langkah
+          const substepsContainer = block.querySelector(".substeps-list-container");
+          if (subSteps.length > 0) {
+            substepsContainer.innerHTML = "";
+            subSteps.forEach(function (sub, subIdx) {
+              const subBlock = document.createElement("div");
+              subBlock.className = "substep-block";
+              subBlock.dataset.subIndex = subIdx;
+
+              subBlock.innerHTML = `
+                <div class="substep-header">
+                  <div style="display:flex; align-items:center; gap:0.4rem;">
+                    <span class="badge" style="background:var(--gold); color:var(--navy); font-weight:700;">
+                      Langkah ${idx + 1}.${subIdx + 1}
+                    </span>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:0.4rem;">
+                    <button type="button" class="btn btn-small btn-sub-up" title="Pindah ke Atas" ${subIdx === 0 ? "disabled" : ""}>⬆️</button>
+                    <button type="button" class="btn btn-small btn-sub-down" title="Pindah ke Bawah" ${subIdx === subSteps.length - 1 ? "disabled" : ""}>⬇️</button>
+                    <button type="button" class="btn btn-small btn-sub-del" style="background:#fee2e2; color:#b91c1c; border-color:#fca5a5; font-size:0.8rem;" title="Hapus langkah ini">🗑️ Hapus</button>
+                  </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom:0.75rem;">
+                  <label style="font-weight:600; font-size:0.88rem; color:var(--navy);">Judul Sub-Langkah</label>
+                  <input type="text" class="substep-title-input form-control" value="${utils.escapeHtml(sub.title || "")}" placeholder="Contoh: 1.1 Cara Mengunduh Aplikasi AllCare..." required style="padding:0.45rem 0.65rem;">
+                </div>
+
+                <div class="form-group" style="margin-bottom:0.75rem;">
+                  <label style="font-weight:600; font-size:0.88rem; color:var(--navy);">Petunjuk Langkah Ini</label>
+                  <div class="formatting-toolbar" style="margin-bottom:0.3rem;">
+                    <button type="button" class="btn-fmt" data-fmt="bold"><strong>B</strong></button>
+                    <button type="button" class="btn-fmt" data-fmt="italic"><em>I</em></button>
+                    <button type="button" class="btn-fmt" data-fmt="underline"><u>U</u></button>
+                    <button type="button" class="btn-fmt" data-fmt="bullet">• Poin</button>
+                    <button type="button" class="btn-fmt" data-fmt="number">1. Angka</button>
+                    <button type="button" class="btn-fmt" data-fmt="link">📥 Link</button>
+                  </div>
+                  <textarea class="substep-content-input form-control has-toolbar" rows="4" placeholder="Ketik langkah-langkah petunjuk secara rinci...">${utils.escapeHtml(sub.content || "")}</textarea>
+                </div>
+
+                <!-- Upload Gambar Khusus Sub-Langkah Ini -->
+                <div class="substep-image-uploader" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:0.75rem;">
+                  <label style="font-weight:600; font-size:0.85rem; color:var(--navy); display:block; margin-bottom:0.3rem;">
+                    🖼️ Gambar / Tangkapan Layar (Screenshot) untuk Langkah Ini
+                  </label>
+                  <div style="display:flex; flex-direction:column; gap:0.4rem;">
+                    <input type="file" class="image-file-input" accept="image/jpeg,image/png,image/webp" style="font-size:0.82rem; padding:0.35rem; border:1px dashed #cbd5e1; border-radius:6px; background:#ffffff; cursor:pointer;">
+                    <div class="image-status hint" style="font-size:0.78rem;">Pilih foto screenshot dari HP/komputer (maks 5 MB).</div>
+                    
+                    <div class="image-preview-box ${sub.image_url ? "" : "is-hidden"}" style="position:relative; width:fit-content; max-width:220px; margin-top:0.25rem;">
+                      <img src="${utils.escapeHtml(sub.image_url || "")}" alt="Pratinjau Sub" class="image-preview-img" style="width:100%; max-height:150px; object-fit:contain; border-radius:6px; border:1.5px solid var(--gold); background:#ffffff;">
+                      <button type="button" class="btn btn-small btn-danger btn-remove-image" style="position:absolute; top:4px; right:4px; padding:0.15rem 0.45rem; font-size:0.75rem;" title="Hapus foto ini">✕ Hapus</button>
+                    </div>
+                    <input type="hidden" class="substep-image-url-input image-url-input" value="${utils.escapeHtml(sub.image_url || "")}">
+                    <details style="margin-top:0.15rem;">
+                      <summary style="font-size:0.78rem; color:#64748b; cursor:pointer;">Atau masukkan URL foto manual</summary>
+                      <input type="url" class="image-manual-url form-control" placeholder="https://..." value="${utils.escapeHtml(sub.image_url || "")}" style="margin-top:0.25rem; font-size:0.82rem; padding:0.3rem 0.5rem;">
+                    </details>
+                  </div>
+                </div>
+              `;
+
+              // Format toolbar pada sub-step
+              const subTextarea = subBlock.querySelector(".substep-content-input");
+              subBlock.querySelectorAll(".btn-fmt").forEach(function (btnFmt) {
+                btnFmt.addEventListener("click", function () {
+                  applyFormatting(subTextarea, btnFmt.dataset.fmt);
+                });
+              });
+
+              // Hubungkan uploader gambar pada sub-step
+              setupImageUploader(subBlock.querySelector(".substep-image-uploader"));
+
+              // Hapus sub-step
+              subBlock.querySelector(".btn-sub-del").addEventListener("click", async function () {
+                if (confirm("Hapus Langkah " + (idx + 1) + "." + (subIdx + 1) + ' ("' + (sub.title || "Langkah") + '")?')) {
+                  currentSections = syncDomToSections();
+                  currentSections[idx].sub_steps.splice(subIdx, 1);
+                  renderSections();
+                  await saveAllData(false);
+                  showMsg("success", "✅ Sub-Langkah berhasil dihapus dan disimpan.");
+                }
+              });
+
+              // Pindah posisi sub-step
+              const btnSubUp = subBlock.querySelector(".btn-sub-up");
+              if (btnSubUp && subIdx > 0) {
+                btnSubUp.addEventListener("click", async function () {
+                  currentSections = syncDomToSections();
+                  const temp = currentSections[idx].sub_steps[subIdx];
+                  currentSections[idx].sub_steps[subIdx] = currentSections[idx].sub_steps[subIdx - 1];
+                  currentSections[idx].sub_steps[subIdx - 1] = temp;
+                  renderSections();
+                  await saveAllData(false);
+                });
+              }
+
+              const btnSubDown = subBlock.querySelector(".btn-sub-down");
+              if (btnSubDown && subIdx < subSteps.length - 1) {
+                btnSubDown.addEventListener("click", async function () {
+                  currentSections = syncDomToSections();
+                  const temp = currentSections[idx].sub_steps[subIdx];
+                  currentSections[idx].sub_steps[subIdx] = currentSections[idx].sub_steps[subIdx + 1];
+                  currentSections[idx].sub_steps[subIdx + 1] = temp;
+                  renderSections();
+                  await saveAllData(false);
+                });
+              }
+
+              substepsContainer.appendChild(subBlock);
+            });
+          }
+
+          // Tombol Tambah Sub-Langkah
+          block.querySelector(".btn-add-substep").addEventListener("click", async function () {
+            currentSections = syncDomToSections();
+            if (!Array.isArray(currentSections[idx].sub_steps)) {
+              currentSections[idx].sub_steps = [];
+            }
+            const nextSubIdx = currentSections[idx].sub_steps.length + 1;
+            currentSections[idx].sub_steps.push({
+              title: "Langkah " + (idx + 1) + "." + nextSubIdx + ": ...",
+              content: "1. Tuliskan rincian langkah pertama di sini...\n2. Langkah berikutnya...",
+              image_url: ""
+            });
+            renderSections();
+            await saveAllData(false);
+            showMsg("success", "✅ Sub-Langkah baru berhasil ditambahkan.");
+          });
+
+          // Event Hapus Bagian Utama
           block.querySelector(".btn-remove-section").addEventListener("click", async function () {
-            const itemTitle = sec.title || ("Bagian " + (idx + 1));
-            if (confirm("Hapus Bagian " + (idx + 1) + ' ("' + itemTitle + '")?')) {
+            const itemTitle = sec.title || ("Topik " + (idx + 1));
+            if (confirm("Hapus Topik " + (idx + 1) + ' ("' + itemTitle + '") beserta seluruh sub-langkahnya?')) {
               currentSections = syncDomToSections();
               currentSections.splice(idx, 1);
               renderSections();
-              // Otomatis simpan permanen ke Supabase & LocalStorage seketika!
               await saveAllData(false);
-              showMsg("success", "✅ '" + itemTitle + "' telah berhasil dihapus dan langsung tersimpan secara permanen.");
+              showMsg("success", "✅ Topik '" + itemTitle + "' telah berhasil dihapus dan langsung tersimpan secara permanen.");
             }
           });
 
-          // Event Pindah Posisi
+          // Event Pindah Posisi Bagian Utama
           const btnUp = block.querySelector(".btn-move-up");
           if (btnUp && idx > 0) {
             btnUp.addEventListener("click", async function () {
@@ -420,87 +724,6 @@
             });
           }
 
-          // Event Upload Gambar
-          const fileInput = block.querySelector(".section-image-file-input");
-          const statusText = block.querySelector(".section-image-status");
-          const previewBox = block.querySelector(".section-image-preview-box");
-          const previewImg = block.querySelector(".section-image-preview-img");
-          const urlInput = block.querySelector(".section-image-url-input");
-          const manualInput = block.querySelector(".section-image-manual-url");
-          const btnRemoveImg = block.querySelector(".btn-remove-image");
-
-          if (fileInput) {
-            fileInput.addEventListener("change", async function () {
-              const file = fileInput.files && fileInput.files[0];
-              if (!file) return;
-
-              if (file.size > 5 * 1024 * 1024) {
-                statusText.textContent = "❌ Ukuran gambar maksimal 5 MB.";
-                statusText.style.color = "#d93025";
-                fileInput.value = "";
-                return;
-              }
-
-              statusText.textContent = "⏳ Mengunggah foto ke Supabase Storage...";
-              statusText.style.color = "var(--navy)";
-
-              try {
-                const ext = file.name.split(".").pop().toLowerCase();
-                const cleanName = file.name.replace(/[^a-zA-Z0-9_-]/g, "_").substring(0, 30);
-                const path = "panduan/" + Date.now() + "_" + cleanName + "." + ext;
-
-                const { error: upErr } = await db.storage
-                  .from("gallery-public")
-                  .upload(path, file, { cacheControl: "3600", upsert: true });
-
-                if (upErr) {
-                  statusText.textContent = "❌ Gagal unggah: " + upErr.message;
-                  statusText.style.color = "#d93025";
-                  return;
-                }
-
-                const { data: urlData } = db.storage.from("gallery-public").getPublicUrl(path);
-                const publicUrl = urlData ? urlData.publicUrl : "";
-
-                urlInput.value = publicUrl;
-                if (manualInput) manualInput.value = publicUrl;
-                previewImg.src = publicUrl;
-                previewBox.classList.remove("is-hidden");
-                statusText.textContent = "✅ Foto berhasil diunggah!";
-                statusText.style.color = "#1e8e3e";
-              } catch (err) {
-                statusText.textContent = "❌ Terjadi kesalahan saat mengunggah foto.";
-                statusText.style.color = "#d93025";
-              }
-            });
-          }
-
-          if (manualInput) {
-            manualInput.addEventListener("input", function () {
-              const u = manualInput.value.trim();
-              urlInput.value = u;
-              if (u) {
-                previewImg.src = u;
-                previewBox.classList.remove("is-hidden");
-              } else {
-                previewImg.src = "";
-                previewBox.classList.add("is-hidden");
-              }
-            });
-          }
-
-          if (btnRemoveImg) {
-            btnRemoveImg.addEventListener("click", function () {
-              urlInput.value = "";
-              if (manualInput) manualInput.value = "";
-              if (fileInput) fileInput.value = "";
-              previewImg.src = "";
-              previewBox.classList.add("is-hidden");
-              statusText.textContent = "Foto telah dihapus.";
-              statusText.style.color = "";
-            });
-          }
-
           container.appendChild(block);
         });
       }
@@ -509,8 +732,9 @@
         currentSections = syncDomToSections();
         currentSections.push({
           title: "📌 " + (currentSections.length + 1) + ". Panduan Baru",
-          content: "Tuliskan langkah-langkah atau tips panduan baru di sini...",
-          image_url: ""
+          content: "Tuliskan ringkasan atau pengantar panduan baru di sini...",
+          image_url: "",
+          sub_steps: []
         });
         renderSections();
         await saveAllData(false);
@@ -566,7 +790,6 @@
         }
 
         if (dataLoaded && Array.isArray(dataLoaded.sections) && dataLoaded.sections.length > 0) {
-          // Buang bagian SPTB jika masih ada di cache data lama
           currentSections = dataLoaded.sections.filter(s => !/sptb/i.test(s.title || ""));
           if (currentSections.length === 0) currentSections = DEFAULT_SECTIONS;
         } else {
