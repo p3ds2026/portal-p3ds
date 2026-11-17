@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Panduan & Tips – PORTAL PPDS</title>
+  <meta name="description" content="Kumpulan panduan penggunaan portal, tutorial aplikasi, prosedur pensiun, tips kesehatan, dan informasi praktis bagi pensiunan Pertamina Dumai – Sei Pakning.">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .info-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .info-card:hover {
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    }
+    .info-card h3 {
+      color: var(--navy);
+      font-size: 1.3rem;
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 0.5rem;
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .contact-box {
+      background: #eef4fc;
+      border: 2px dashed #0b5ed7;
+      border-radius: 10px;
+      padding: 1.25rem;
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+    .contact-box h4 {
+      margin: 0 0 0.5rem;
+      color: var(--navy);
+      font-size: 1.15rem;
+    }
+    .guide-body.font-sm { font-size: 0.92rem !important; }
+    .guide-body.font-md { font-size: 1.05rem !important; }
+    .guide-body.font-lg { font-size: 1.25rem !important; }
+    .guide-body.font-xl { font-size: 1.45rem !important; }
+
+    /* Kotak Pencarian Panduan */
+    .search-guide-box {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+    .search-guide-input {
+      border: none;
+      outline: none;
+      font-size: 1.02rem;
+      width: 100%;
+      background: transparent;
+      color: var(--navy);
+    }
+
+    /* Modal Zoom Gambar */
+    #zoom-modal {
+      display: none;
+      position: fixed;
+      z-index: 99999;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(10, 25, 47, 0.9);
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+      padding: 1rem;
+      backdrop-filter: blur(4px);
+    }
+    #zoom-modal.active { display: flex; }
+    #zoom-modal img {
+      max-width: 95%;
+      max-height: 90vh;
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      border: 2px solid var(--gold);
+    }
+  </style>
+</head>
+<body data-page="panduan">
+  <header id="site-header" class="site-header"></header>
+
+  <!-- Banner Utama -->
+  <section class="hero" style="padding: 2.5rem 0;">
+    <div class="container">
+      <div class="tagline">TUTORIAL & TIPS PRAKTIS</div>
+      <h1>💡 Panduan & Tips</h1>
+      <p>Pusat tutorial penggunaan portal, panduan administrasi dana pensiun, tips kebugaran, dan informasi bermanfaat untuk keluarga besar Pensiunan Pertamina Dumai – Sei Pakning.</p>
+    </div>
+  </section>
+
+  <main class="container section">
+    <!-- Panel Edit Khusus Pengurus/Admin/Korwil -->
+    <div id="admin-action-bar" class="is-hidden" style="margin-bottom: 1.5rem; background: #fff8e1; border: 1.5px solid #ffe082; padding: 0.85rem 1.25rem; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+      <div style="color: #795548; font-size: 0.95rem;">
+        <strong>🛠️ Akses Pengurus:</strong> Anda dapat menambah, mengubah, atau merapikan isi tutorial dan tips ini kapan saja.
+      </div>
+      <a href="kelola-panduan.html" class="btn btn-small" style="background: var(--navy); color: #fff; font-weight: 600; text-decoration: none;">✏️ Kelola Panduan & Tips Ini</a>
+    </div>
+
+    <!-- Pencarian Cepat -->
+    <div class="search-guide-box">
+      <span style="font-size: 1.2rem;">🔍</span>
+      <input type="text" id="guide-search-input" class="search-guide-input" placeholder="Cari topik panduan (contoh: pasang aplikasi, login, SPTB, sehat, WA penipuan)...">
+      <button type="button" id="btn-clear-search" class="is-hidden" style="background: none; border: none; font-size: 1.1rem; cursor: pointer; color: #94a3b8;">✕</button>
+    </div>
+
+    <!-- Pengatur Ukuran Huruf Halaman -->
+    <div class="font-resizer-bar">
+      <div class="font-resizer-title">
+        <span>📖 Sesuaikan Ukuran Huruf:</span>
+      </div>
+      <div class="font-btn-group">
+        <button type="button" class="btn-font-size" data-size="font-sm" title="Kecil">A-</button>
+        <button type="button" class="btn-font-size active" data-size="font-md" title="Normal">A</button>
+        <button type="button" class="btn-font-size" data-size="font-lg" title="Besar">A+</button>
+        <button type="button" class="btn-font-size" data-size="font-xl" title="Sangat Besar">A++</button>
+      </div>
+    </div>
+
+    <div id="guide-content" class="guide-body font-md">
+      <!-- Wadah Dinamis untuk Seluruh Bagian Panduan -->
+      <div id="guide-content-sections">
+        <div style="text-align: center; padding: 2rem;" class="meta">Memuat panduan dan tips...</div>
+      </div>
+
+      <!-- Tombol Bagikan ke WhatsApp -->
+      <div style="margin: 2rem 0 1.5rem; text-align: center;">
+        <a id="btn-share-guide-wa" target="_blank" rel="noopener noreferrer" href="#" class="btn btn-success" style="font-weight: 600; font-size: 1.05rem; padding: 0.75rem 1.4rem; display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; border-radius: 8px;">
+          <span>📲 Bagikan Panduan & Tips Ini ke Teman / Grup WhatsApp</span>
+        </a>
+      </div>
+
+      <!-- Kotak Bantuan WhatsApp Pengurus -->
+      <div class="contact-box" id="contact-box">
+        <h4>💬 Butuh Bantuan atau Punya Usulan Tips Baru?</h4>
+        <p style="margin-bottom: 1rem; color: #475569;">
+          Jika Bapak/Ibu mengalami kesulitan teknis saat mempraktekkan panduan di atas, atau ingin membagikan tips bermanfaat bagi sesama pensiunan, silakan hubungi pengurus:
+        </p>
+        <a id="wa-contact-btn" href="https://wa.me/6281200000000?text=Halo%20Pengurus%20PPDS,%20saya%20ingin%20bertanya%20mengenai%20Panduan%20dan%20Tips." target="_blank" rel="noopener noreferrer" class="btn btn-success" style="display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 600;">
+          <span>💬 Hubungi Pengurus PPDS via WhatsApp</span>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal Zoom Gambar Panduan -->
+  <div id="zoom-modal" title="Klik di mana saja untuk menutup">
+    <img id="zoom-modal-img" src="" alt="Perbesar Gambar Panduan">
+  </div>
+
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <script src="js/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/korwil.js"></script>
+  <script src="js/auth.js"></script>
+
+  <script>
+    (function () {
+      const { db, auth, utils } = window.P3DS;
+
+      const DEFAULT_SECTIONS = [
+        {
+          title: "📱 1. Panduan Pasang Aplikasi PORTAL PPDS di Layar HP (PWA)",
+          content: `Agar Bapak/Ibu tidak perlu mengetik alamat website berulang-ulang, pasang ikon **PORTAL PPDS** langsung di layar utama HP:
+
+*Pengguna HP Android (Google Chrome):*
+1. Buka browser **Google Chrome** dan kunjungi alamat: *https://portal-ppds.pages.dev*
+2. Ketuk tanda titik tiga (⋮) di pojok kanan atas browser.
+3. Pilih menu *"Tambahkan ke Layar Utama"* atau *"Pasang Aplikasi"*.
+4. Klik *"Instal"*. Ikon Logo PPDS akan otomatis muncul di layar HP Anda.
+
+*Pengguna iPhone (Safari):*
+1. Buka browser **Safari** dan kunjungi: *https://portal-ppds.pages.dev*
+2. Ketuk tombol **Bagikan (Share)** yang bergambar kotak dengan panah ke atas di bagian bawah.
+3. Gulir ke bawah lalu pilih *"Tambahkan ke Layar Utama (Add to Home Screen)"*.
+4. Ketuk *"Tambah"* di pojok kanan atas. Selesai!
+
+💡 *Keuntungan:* Membuka portal lebih cepat (cukup 1 ketukan), hemat kuota, dan HP Anda akan otomatis menerima notifikasi pengumuman dari pengurus.`,
+          image_url: ""
+        },
+        {
+          title: "🔑 2. Panduan Masuk Akun (Login) & Cek Profil Anggota",
+          content: `Untuk menjaga keamanan data dan kenyamanan para pensiunan, pendaftaran dan masuk ke akun kini **tidak wajib memiliki email**:
+
+*Cara Masuk ke Akun:*
+1. Ketuk tombol **🔑 Masuk** di pojok kanan atas layar.
+2. Masukkan **UserName** Anda (bisa berupa huruf, nama panggilan, atau nomor pensiun).
+3. Masukkan kata sandi (password) Anda.
+4. Klik tombol *"Masuk ke Akun"*.
+
+*Setelah Berhasil Masuk:*
+- Tombol *"Daftar Sebagai Anggota"* di halaman depan otomatis hilang dan digantikan tombol **👤 Profil Anggota**.
+- Anda dapat memeriksa data nomor pensiun, unit kerja masa dinas, serta memperbarui nomor telepon WhatsApp Anda agar mudah dihubungi saat ada kegiatan silaturahmi.`,
+          image_url: ""
+        },
+        {
+          title: "📄 3. Prosedur & Syarat Pengisian SPTB Dana Pensiun Pertamina (DPP)",
+          content: `Surat Pengesahan Tanda Bukti Diri (SPTB) adalah kewajiban berkala bagi seluruh penerima manfaat pensiun Pertamina agar pencairan bulanan berjalan lancar:
+
+*Jadwal & Ketentuan:*
+- Pengisian SPTB dilakukan secara berkala sesuai ketentuan Dana Pensiun Pertamina (biasanya setiap 6 bulan atau 1 tahun sekali).
+- Pastikan mengisi data diri pensiunan dan data ahli waris (istri/suami) yang masih berhak.
+
+*Dokumen yang Disiapkan:*
+- Fotokopi KTP penerima pensiun dan pasangan yang masih berlaku.
+- Fotokopi Kartu Peserta Pensiun.
+- Pasfoto terbaru.
+
+📥 Formulir SPTB resmi dapat diunduh di sini : http://danapensiunpertamina.com/formulir-sptb.pdf
+
+💡 *Bantuan Pengurus:* Jika Bapak/Ibu mengalami kendala dalam mengisi atau mengirimkan formulir SPTB, silakan datang ke sekretariat PPDS atau hubungi pengurus bidang kesejahteraan pensiun.`,
+          image_url: ""
+        },
+        {
+          title: "🌿 4. Tips Pola Hidup Sehat & Bugar Bagi Pensiunan",
+          content: `Memasuki masa purnabakti adalah anugerah terindah untuk menikmati hidup bersama keluarga. Berikut beberapa tips menjaga kesehatan prima di usia senja:
+
+1. **Aktivitas Fisik Ringan Teratur:**
+   - Luangkan waktu 20 - 30 menit setiap pagi untuk jalan santai di sekitar rumah atau mengikuti senam bersama pensiunan.
+   - Hindari duduk diam terlalu lama; lakukan peregangan sendi secara berkala.
+
+2. **Pola Makan Seimbang & Cukup Minum:**
+   - Kurangi makanan tinggi garam, minyak gorengan, dan santan kental untuk menjaga tekanan darah serta kolesterol.
+   - Perbanyak sayuran hijau, buah-buahan berserat, dan minum air putih hangat minimal 6 - 8 gelas sehari.
+
+3. **Pemeriksaan Kesehatan Rutin:**
+   - Manfaatkan fasilitas kontrol rutin di RS Pertamina Dumai (RSPD) atau faskes rekanan untuk memeriksa gula darah, tensi, dan fungsi jantung secara berkala.
+
+4. **Hati Gembira & Rajin Silaturahmi:**
+   - Tetap aktif berkomunikasi dengan rekan sejawat pensiunan melalui grup WhatsApp PPDS. Hati yang gembira dan penuh syukur adalah obat terbaik!`,
+          image_url: ""
+        },
+        {
+          title: "🛡️ 5. Waspada Penipuan Digital & Link Berbahaya di WhatsApp",
+          content: `Seiring maraknya kejahatan siber yang menyasar para orang tua, keluarga besar PPDS dihimbau untuk selalu waspada:
+
+⚠️ **Ciri-Ciri Modus Penipuan di WhatsApp:**
+- Menerima file mencurigakan berakhiran **.APK** (contoh: *"Undangan Pernikahan.apk"*, *"Surat Tilang.apk"*, atau *"Foto Paket J&T.apk"*). **JANGAN PERNAH DIKETUK/DIBUKA!** File ini bisa mencuri saldo rekening atau menyadap HP Anda.
+- Pesan yang mengatasnamakan undian berhadiah dari Pertamina, BUMN, atau bank tertentu yang meminta nomor kartu ATM/PIN/OTP.
+- Pesan mengatasnamakan rekan pensiunan yang meminta transfer pinjaman uang darurat (selalu telepon langsung nomor teman tersebut untuk verifikasi sebelum percaya).
+
+💡 *Ingat:* Pengurus PPDS maupun pihak Dana Pensiun Pertamina **TIDAK PERNAH** meminta uang pelicin, nomor PIN ATM, atau kode rahasia SMS (OTP) Anda!`,
+          image_url: ""
+        }
+      ];
+
+      let currentSections = [];
+
+      function renderSections(sectionsToRender) {
+        const container = document.getElementById("guide-content-sections");
+        if (!container) return;
+
+        if (!sectionsToRender || sectionsToRender.length === 0) {
+          container.innerHTML = '<div class="info-card"><p class="text-center meta">Tidak ada panduan yang sesuai dengan pencarian Anda.</p></div>';
+          return;
+        }
+
+        container.innerHTML = sectionsToRender.map(function (sec, idx) {
+          const formattedContent = utils.formatRichText ? utils.formatRichText(sec.content || "") : (sec.content || "").replace(/\n/g, "<br>");
+          const imageHtml = sec.image_url ? `
+            <div style="margin: 1rem 0; text-align: center;">
+              <img src="${utils.escapeHtml(sec.image_url)}" alt="${utils.escapeHtml(sec.title)}" class="zoomable-img" style="max-width: 100%; max-height: 380px; object-fit: contain; border-radius: 8px; border: 1.5px solid var(--gold); cursor: zoom-in;" title="Klik untuk memperbesar gambar">
+              <div style="font-size: 0.8rem; color: #64748b; margin-top: 0.35rem;">🔍 Klik gambar untuk memperbesar</div>
+            </div>
+          ` : "";
+
+          return `
+            <article class="info-card" id="panduan-${idx}">
+              <h3>${utils.escapeHtml(sec.title)}</h3>
+              ${imageHtml}
+              <div style="line-height: 1.7; color: var(--text);">
+                ${formattedContent}
+              </div>
+            </article>
+          `;
+        }).join("");
+
+        // Pasang event klik zoom untuk gambar
+        container.querySelectorAll(".zoomable-img").forEach(function (img) {
+          img.addEventListener("click", function () {
+            openZoomModal(this.src);
+          });
+        });
+      }
+
+      function openZoomModal(src) {
+        const modal = document.getElementById("zoom-modal");
+        const modalImg = document.getElementById("zoom-modal-img");
+        if (modal && modalImg) {
+          modalImg.src = src;
+          modal.classList.add("active");
+        }
+      }
+
+      function initZoomModal() {
+        const modal = document.getElementById("zoom-modal");
+        if (modal) {
+          modal.addEventListener("click", function () {
+            modal.classList.remove("active");
+          });
+        }
+      }
+
+      // Pengaturan Ukuran Huruf (Font Resizer)
+      function initFontResizer() {
+        const saved = localStorage.getItem("ppds_guide_fontsize") || "font-md";
+        const content = document.getElementById("guide-content");
+        const buttons = document.querySelectorAll(".btn-font-size");
+
+        if (content) {
+          content.className = "guide-body " + saved;
+        }
+
+        buttons.forEach(function (btn) {
+          if (btn.dataset.size === saved) btn.classList.add("active");
+          else btn.classList.remove("active");
+
+          btn.addEventListener("click", function () {
+            const size = btn.dataset.size;
+            if (content) {
+              content.className = "guide-body " + size;
+            }
+            localStorage.setItem("ppds_guide_fontsize", size);
+            buttons.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+          });
+        });
+      }
+
+      // Pencarian Cepat Panduan
+      function initSearch() {
+        const input = document.getElementById("guide-search-input");
+        const btnClear = document.getElementById("btn-clear-search");
+        if (!input) return;
+
+        function doSearch() {
+          const q = input.value.trim().toLowerCase();
+          if (btnClear) {
+            if (q) btnClear.classList.remove("is-hidden");
+            else btnClear.classList.add("is-hidden");
+          }
+
+          if (!q) {
+            renderSections(currentSections);
+            return;
+          }
+
+          const filtered = currentSections.filter(function (sec) {
+            const matchTitle = (sec.title || "").toLowerCase().includes(q);
+            const matchContent = (sec.content || "").toLowerCase().includes(q);
+            return matchTitle || matchContent;
+          });
+
+          renderSections(filtered);
+        }
+
+        input.addEventListener("input", doSearch);
+        if (btnClear) {
+          btnClear.addEventListener("click", function () {
+            input.value = "";
+            doSearch();
+            input.focus();
+          });
+        }
+      }
+
+      // Tautan Bagikan ke WhatsApp
+      function initShareBtn() {
+        const btnShare = document.getElementById("btn-share-guide-wa");
+        if (btnShare) {
+          const currentUrl = window.location.href;
+          const shareText = `💡 *[PANDUAN & TIPS PENSIUNAN PPDS]*\nKumpulan tutorial aplikasi portal, pengisian SPTB Dana Pensiun, tips hidup sehat, dan panduan praktis untuk keluarga pensiunan Pertamina Dumai – Sei Pakning:\n\nBuka panduan selengkapnya di:\n${currentUrl}`;
+          btnShare.href = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", async function () {
+        initFontResizer();
+        initZoomModal();
+        initShareBtn();
+
+        // Cek Hak Akses Pengurus/Admin/Korwil untuk menampilkan tombol edit
+        try {
+          const profile = await auth.loadProfile();
+          const isKorwil = profile && (profile.role === "korwil" || (window.P3DS.korwil && window.P3DS.korwil.isUserKorwilSync && window.P3DS.korwil.isUserKorwilSync(profile.id)));
+          const isStaff = profile && profile.status === "active" && (profile.role === "pengurus" || profile.role === "admin" || isKorwil);
+          const adminBar = document.getElementById("admin-action-bar");
+          if (isStaff && adminBar) {
+            adminBar.classList.remove("is-hidden");
+          }
+        } catch (e) {}
+
+        // Muat Data Panduan dari LocalStorage / Supabase
+        let dataLoaded = null;
+        try {
+          const local = localStorage.getItem("ppds_guide_content");
+          if (local) dataLoaded = JSON.parse(local);
+        } catch (e) {}
+
+        if (db) {
+          try {
+            const { data } = await db
+              .from("site_content")
+              .select("content")
+              .eq("key", "guide_and_tips")
+              .maybeSingle();
+
+            if (data && data.content) {
+              try {
+                dataLoaded = JSON.parse(data.content);
+                localStorage.setItem("ppds_guide_content", data.content);
+              } catch (e) {}
+            }
+          } catch (err) {
+            console.warn("Gagal memuat panduan dari Supabase:", err);
+          }
+        }
+
+        if (dataLoaded && Array.isArray(dataLoaded.sections) && dataLoaded.sections.length > 0) {
+          currentSections = dataLoaded.sections;
+        } else {
+          currentSections = DEFAULT_SECTIONS;
+        }
+
+        // Kontak WA Pengurus
+        const waNum = (dataLoaded && dataLoaded.wa_number) || "6281200000000";
+        const cleanWa = waNum.replace(/[^0-9]/g, "");
+        const waBtn = document.getElementById("wa-contact-btn");
+        if (waBtn) {
+          waBtn.href = `https://wa.me/${cleanWa}?text=Halo%20Pengurus%20PPDS,%20saya%20ingin%20bertanya%20mengenai%20Panduan%20dan%20Tips.`;
+        }
+
+        renderSections(currentSections);
+        initSearch();
+      });
+    })();
+  </script>
+</body>
+</html>
