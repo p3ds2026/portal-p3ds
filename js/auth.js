@@ -126,6 +126,28 @@
           if (confirm("Apakah Anda yakin ingin keluar dari akun (Log Off)?")) signOut();
         };
       }
+
+      // Sembunyikan tombol/link "Daftar Sebagai Anggota" karena sudah login
+      document.querySelectorAll("[data-guest-only], #hero-btn-register, #footer-register-item").forEach(function (el) {
+        el.classList.add("is-hidden");
+      });
+      // Tampilkan tombol khusus anggota yang sudah login (misal: "Profil Anggota")
+      document.querySelectorAll("[data-logged-only], #hero-btn-profile, #footer-profile-item").forEach(function (el) {
+        el.classList.remove("is-hidden");
+      });
+
+      // Sesuaikan link footer jika sudah login
+      const footerLoginItem = document.getElementById("footer-login-item");
+      if (footerLoginItem) {
+        footerLoginItem.innerHTML = '<a href="#" id="footer-btn-logout">🚪 Keluar (Log Off)</a>';
+        const logoutLink = document.getElementById("footer-btn-logout");
+        if (logoutLink) {
+          logoutLink.onclick = function (e) {
+            e.preventDefault();
+            if (confirm("Apakah Anda yakin ingin keluar dari akun (Log Off)?")) signOut();
+          };
+        }
+      }
     } else {
       // Belum Login: Tampilkan tombol Masuk (Login)
       if (btn) {
@@ -143,6 +165,20 @@
         const label = bottomNavUser.querySelector(".bottom-nav-label");
         if (icon) icon.textContent = "🔑";
         if (label) label.textContent = "Masuk";
+      }
+
+      // Tampilkan tombol "Daftar Sebagai Anggota" untuk pengunjung tamu
+      document.querySelectorAll("[data-guest-only], #hero-btn-register, #footer-register-item").forEach(function (el) {
+        el.classList.remove("is-hidden");
+      });
+      // Sembunyikan tombol member
+      document.querySelectorAll("[data-logged-only], #hero-btn-profile, #footer-profile-item").forEach(function (el) {
+        el.classList.add("is-hidden");
+      });
+
+      const footerLoginItem = document.getElementById("footer-login-item");
+      if (footerLoginItem) {
+        footerLoginItem.innerHTML = '<a href="login.html">Masuk</a>';
       }
     }
 
@@ -164,10 +200,16 @@
     });
   }
 
-  document.addEventListener("DOMContentLoaded", async function () {
+  async function initAuth() {
     const profile = await loadProfile();
     applyAccess(profile);
-  });
+  }
 
-  window.P3DS.auth = { getSession, loadProfile, signIn, signUp, signOut, requireLogin };
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initAuth);
+  } else {
+    initAuth();
+  }
+
+  window.P3DS.auth = { getSession, loadProfile, signIn, signUp, signOut, requireLogin, applyAccess };
 })();
