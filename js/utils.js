@@ -50,8 +50,8 @@ window.P3DS.utils = {
     safe = safe.replace(urlRegex, function (rawUrl) {
       let url = rawUrl;
       let suffix = "";
-      if (/[.,;:)]$/.test(url)) {
-        suffix = url.slice(-1);
+      while (/[.,;:)*_~"'\]>]$/.test(url)) {
+        suffix = url.slice(-1) + suffix;
         url = url.slice(0, -1);
       }
       const isPdf = /\.pdf($|\?)/i.test(url);
@@ -87,6 +87,9 @@ window.P3DS.utils = {
     urls.forEach((u, i) => {
       safe = safe.replace(`@@@P3DSURL${i}@@@`, u);
     });
+
+    // Ubah baris baru (\n) menjadi <br> agar pergantian baris dan penomoran (No. 1, No. 2, dst) selalu rapi sesuai ketikan
+    safe = safe.replace(/\r\n/g, '<br>').replace(/\n/g, '<br>').replace(/\r/g, '<br>');
 
     return safe;
   },
