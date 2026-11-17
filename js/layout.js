@@ -74,8 +74,9 @@
         <div>
           <h3>Anggota</h3>
           <ul>
-            <li><a href="login.html">Masuk</a></li>
-            <li><a href="daftar.html">Daftar Anggota</a></li>
+            <li id="footer-login-item"><a href="login.html">Masuk</a></li>
+            <li id="footer-register-item"><a href="daftar.html">Daftar Anggota</a></li>
+            <li id="footer-profile-item" class="is-hidden"><a href="profil.html">Profil Saya</a></li>
           </ul>
         </div>
       </div>

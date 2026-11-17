@@ -42,6 +42,11 @@
     const msg = document.getElementById("msg");
     const btn = document.getElementById("btn-submit");
 
+    // Jika sudah login, langsung ke profil (tidak perlu daftar lagi)
+    window.P3DS.auth.loadProfile().then(function (p) {
+      if (p) window.location.href = "profil.html";
+    });
+
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
       const fullName = form.full_name.value.trim();
