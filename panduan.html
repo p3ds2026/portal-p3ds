@@ -173,6 +173,7 @@
   <script src="js/layout.js"></script>
   <script src="js/korwil.js"></script>
   <script src="js/auth.js"></script>
+  <script src="js/audio-reader.js"></script>
 
   <script>
     (function () {
@@ -332,7 +333,12 @@
 
           return `
             <article class="info-card" id="panduan-${idx}">
-              <h3>${utils.escapeHtml(sec.title)}</h3>
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 0.65rem;">
+                <h3 style="margin: 0; flex: 1; min-width: 240px;">${utils.escapeHtml(sec.title)}</h3>
+                <button type="button" class="btn btn-small btn-audio-guide" data-idx="${idx}" style="background: #e0f2fe; color: #0369a1; border-color: #bae6fd; font-size: 0.82rem; font-weight: 600; padding: 0.35rem 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem; cursor: pointer; border-radius: 6px;" title="Dengarkan panduan ini dibacakan secara otomatis">
+                  <span>🔊 Dengarkan</span>
+                </button>
+              </div>
               ${imageHtml}
               <div style="line-height: 1.7; color: var(--text);">
                 ${formattedContent}
@@ -346,6 +352,54 @@
         container.querySelectorAll(".zoomable-img").forEach(function (img) {
           img.addEventListener("click", function () {
             openZoomModal(this.src);
+          });
+        });
+
+        // Pasang event audio pembaca panduan
+        container.querySelectorAll(".btn-audio-guide").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            const idx = parseInt(btn.dataset.idx, 10);
+            const sec = sectionsToRender[idx];
+            if (!sec) return;
+
+            let textToRead = (sec.title || "") + ". " + (sec.content || "");
+            if (Array.isArray(sec.sub_steps) && sec.sub_steps.length > 0) {
+              sec.sub_steps.forEach(function (sub) {
+                textToRead += ". " + (sub.title || "") + ". " + (sub.content || "");
+              });
+            }
+
+            if (window.P3DS.audioReader) {
+              const isCurrentlyThis = btn.classList.contains("speaking");
+              if (isCurrentlyThis) {
+                window.P3DS.audioReader.stop();
+                btn.classList.remove("speaking");
+                btn.innerHTML = "<span>🔊 Dengarkan</span>";
+                btn.style.background = "#e0f2fe";
+                btn.style.color = "#0369a1";
+              } else {
+                // Reset semua tombol audio panduan lain
+                container.querySelectorAll(".btn-audio-guide").forEach(function (b) {
+                  b.classList.remove("speaking");
+                  b.innerHTML = "<span>🔊 Dengarkan</span>";
+                  b.style.background = "#e0f2fe";
+                  b.style.color = "#0369a1";
+                });
+                btn.classList.add("speaking");
+                btn.innerHTML = "<span>⏹️ Berhenti</span>";
+                btn.style.background = "#fee2e2";
+                btn.style.color = "#b91c1c";
+
+                window.P3DS.audioReader.startReading(textToRead, {
+                  onEnd: function () {
+                    btn.classList.remove("speaking");
+                    btn.innerHTML = "<span>🔊 Dengarkan</span>";
+                    btn.style.background = "#e0f2fe";
+                    btn.style.color = "#0369a1";
+                  }
+                });
+              }
+            }
           });
         });
       }
