@@ -31,15 +31,26 @@
     if (error) { body.innerHTML = '<tr><td colspan="5">Data belum dapat dimuat.</td></tr>'; return; }
     rows = data;
     if (!rows.length) { body.innerHTML = '<tr><td colspan="5">Belum ada berita. Silakan tulis berita pertama di atas.</td></tr>'; return; }
+    
+    const isAdminOrPengurus = profile && (profile.role === "admin" || profile.role === "pengurus");
+
     body.innerHTML = rows.map(function (r) {
+      // Korwil hanya berhak ubah/hapus berita miliknya sendiri. Admin & Pengurus berhak atas semua.
+      const isOwner = profile && r.author_id && r.author_id === profile.id;
+      const canManage = isAdminOrPengurus || isOwner;
+
       return `<tr>
         <td>${utils.escapeHtml(r.title)}</td>
         <td>${utils.escapeHtml(r.category)}</td>
         <td><span class="badge">${r.status === "published" ? "Terbit" : "Draft"}</span>${r.visibility === "member" ? '<span class="badge">Anggota</span>' : ""}</td>
         <td>${utils.formatDate(r.published_at || r.created_at)}</td>
         <td class="actions">
-          <button class="btn btn-small" data-act="edit" data-id="${utils.escapeHtml(r.id)}" type="button">Ubah</button>
-          <button class="btn btn-small btn-danger" data-act="del" data-id="${utils.escapeHtml(r.id)}" type="button">Hapus</button>
+          ${canManage ? `
+            <button class="btn btn-small" data-act="edit" data-id="${utils.escapeHtml(r.id)}" type="button">Ubah</button>
+            <button class="btn btn-small btn-danger" data-act="del" data-id="${utils.escapeHtml(r.id)}" type="button">Hapus</button>
+          ` : `
+            <span class="meta" style="font-size:0.78rem; color:#64748b; background:#f1f5f9; padding:0.25rem 0.5rem; border-radius:4px; display:inline-block;" title="Berita ini ditulis oleh Pengurus atau Korwil lain">🔒 Milik Penulis Lain</span>
+          `}
         </td>
       </tr>`;
     }).join("");
@@ -106,6 +117,51 @@
     if (btnRemoveCover) {
       btnRemoveCover.addEventListener("click", function () {
         updateCoverPreview(null);
+      });
+    }
+
+    // Template Otomatis Kabar Duka Cita PPDS
+    const selCategory = form.category;
+    const dukaHint = document.getElementById("duka-template-hint");
+    const btnLoadDuka = document.getElementById("btn-load-duka-template");
+
+    if (selCategory && dukaHint) {
+      function checkCatDuka() {
+        if (selCategory.value === "duka") {
+          dukaHint.classList.remove("is-hidden");
+        } else {
+          dukaHint.classList.add("is-hidden");
+        }
+      }
+      selCategory.addEventListener("change", checkCatDuka);
+      checkCatDuka();
+    }
+
+    if (btnLoadDuka) {
+      btnLoadDuka.addEventListener("click", function () {
+        if (!form.title.value || form.title.value.trim() === "") {
+          form.title.value = "Kabar Duka Cita: Telah Berpulang Bapak/Ibu [Nama]";
+        }
+        form.summary.value = "Inna lillahi wa inna ilaihi raji'un. Telah berpulang ke rahmatullah rekan/saudara kita tercinta keluarga besar Pensiunan Pertamina Dumai – Sei Pakning.";
+        form.content.value = `Inna lillahi wa inna ilaihi raji'un.
+
+Telah berpulang ke rahmatullah, rekan/saudara kita tercinta:
+*Nama:* Bapak/Ibu [Nama Lengkap]
+*Masa Dinas Terakhir:* [Unit Kerja, contoh: Kilang Dumai / Sei Pakning]
+*Pensiun Tahun:* [Tahun]
+*Wafat Pada:* [Hari, Tanggal, Jam]
+
+*Alamat Rumah Duka:*
+[Jl. ..., No. ..., RT/RW, Kota/Kabupaten]
+
+*Rencana Pemakaman:*
+- Hari/Tanggal: [Hari, Tanggal]
+- Waktu: [Ba'da Dzuhur / Jam ...]
+- Tempat Pemakaman: [TPU ...]
+
+Keluarga Besar Pensiunan Pertamina Dumai – Sei Pakning (PPDS) turut berbelasungkawa yang sedalam-dalamnya. Semoga almarhum/almarhumah husnul khotimah, diampuni segala dosa dan kekhilafannya, serta keluarga yang ditinggalkan diberikan ketabahan dan keikhlasan. Aamiin ya Rabbal 'alamin.`;
+        form.content.focus();
+        show(msg, "success", "📋 Format kabar duka cita berhasil disisipkan. Silakan lengkapi nama, tanggal, dan alamat rumah duka.");
       });
     }
 
@@ -182,6 +238,14 @@
       const row = rows.find(function (r) { return r.id === b.dataset.id; });
       if (!row) return;
 
+      const isAdminOrPengurus = profile && (profile.role === "admin" || profile.role === "pengurus");
+      const isOwner = profile && row.author_id && row.author_id === profile.id;
+
+      if (!isAdminOrPengurus && !isOwner) {
+        show(msg, "error", "Anda hanya berhak mengelola berita yang Anda tulis sendiri.");
+        return;
+      }
+
       if (b.dataset.act === "edit") {
         form.id.value = row.id;
         form.title.value = row.title;
@@ -217,6 +281,17 @@
       if (content.length < 10) { show(msg, "error", "Isi berita terlalu pendek."); return; }
       if (summary && summary.length > 500) { show(msg, "error", "Ringkasan maksimal 500 huruf."); return; }
       if (cover && !cover.startsWith("https://")) { show(msg, "error", "Alamat gambar harus diawali https://"); return; }
+
+      const id = form.id.value;
+      const isAdminOrPengurus = profile && (profile.role === "admin" || profile.role === "pengurus");
+
+      if (id) {
+        const existing = rows.find(function (r) { return r.id === id; });
+        if (existing && !isAdminOrPengurus && existing.author_id && existing.author_id !== profile.id) {
+          show(msg, "error", "Anda tidak berhak mengubah berita milik orang lain.");
+          return;
+        }
+      }
 
       // Tambahkan tag wilayah ke judul jika wilayah dipilih dan belum ada di judul
       const chosenWilayah = selWilayahTag ? selWilayahTag.value : "";
