@@ -120,6 +120,51 @@
       });
     }
 
+    // Template Otomatis Kabar Duka Cita PPDS
+    const selCategory = form.category;
+    const dukaHint = document.getElementById("duka-template-hint");
+    const btnLoadDuka = document.getElementById("btn-load-duka-template");
+
+    if (selCategory && dukaHint) {
+      function checkCatDuka() {
+        if (selCategory.value === "duka") {
+          dukaHint.classList.remove("is-hidden");
+        } else {
+          dukaHint.classList.add("is-hidden");
+        }
+      }
+      selCategory.addEventListener("change", checkCatDuka);
+      checkCatDuka();
+    }
+
+    if (btnLoadDuka) {
+      btnLoadDuka.addEventListener("click", function () {
+        if (!form.title.value || form.title.value.trim() === "") {
+          form.title.value = "Kabar Duka Cita: Telah Berpulang Bapak/Ibu [Nama]";
+        }
+        form.summary.value = "Inna lillahi wa inna ilaihi raji'un. Telah berpulang ke rahmatullah rekan/saudara kita tercinta keluarga besar Pensiunan Pertamina Dumai – Sei Pakning.";
+        form.content.value = `Inna lillahi wa inna ilaihi raji'un.
+
+Telah berpulang ke rahmatullah, rekan/saudara kita tercinta:
+*Nama:* Bapak/Ibu [Nama Lengkap]
+*Masa Dinas Terakhir:* [Unit Kerja, contoh: Kilang Dumai / Sei Pakning]
+*Pensiun Tahun:* [Tahun]
+*Wafat Pada:* [Hari, Tanggal, Jam]
+
+*Alamat Rumah Duka:*
+[Jl. ..., No. ..., RT/RW, Kota/Kabupaten]
+
+*Rencana Pemakaman:*
+- Hari/Tanggal: [Hari, Tanggal]
+- Waktu: [Ba'da Dzuhur / Jam ...]
+- Tempat Pemakaman: [TPU ...]
+
+Keluarga Besar Pensiunan Pertamina Dumai – Sei Pakning (PPDS) turut berbelasungkawa yang sedalam-dalamnya. Semoga almarhum/almarhumah husnul khotimah, diampuni segala dosa dan kekhilafannya, serta keluarga yang ditinggalkan diberikan ketabahan dan keikhlasan. Aamiin ya Rabbal 'alamin.`;
+        form.content.focus();
+        show(msg, "success", "📋 Format kabar duka cita berhasil disisipkan. Silakan lengkapi nama, tanggal, dan alamat rumah duka.");
+      });
+    }
+
     if (coverUrlManual) {
       coverUrlManual.addEventListener("input", function () {
         const url = coverUrlManual.value.trim();

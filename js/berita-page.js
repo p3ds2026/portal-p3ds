@@ -90,6 +90,7 @@
         </div>
 
         <h1 id="article-title">${utils.escapeHtml(data.title)}</h1>
+        <div id="audio-player-container"></div>
         ${cover ? `<img class="article-cover" src="${utils.escapeHtml(cover)}" alt="">` : ""}
         ${dukaBoxHtml}
         <div id="article-content" class="article-content font-md">${(utils.autoLink ? utils.autoLink(data.content) : utils.escapeHtml(data.content))}</div>
@@ -97,10 +98,21 @@
         ${takziahSectionHtml}
       </article>`;
 
-    // Inisialisasi Pengatur Ukuran Huruf (No 3)
+    // Inisialisasi Pengatur Ukuran Huruf
     initFontResizer();
 
-    // Inisialisasi Buku Doa & Takziah (No 2)
+    // Inisialisasi Fitur Dengarkan Berita (Text-to-Speech)
+    if (window.P3DS.audioReader) {
+      const audioContainer = document.getElementById("audio-player-container");
+      window.P3DS.audioReader.mountAudioPlayer(audioContainer, function () {
+        const title = data.title || "";
+        const summary = data.summary ? (data.summary + ". ") : "";
+        const content = data.content || "";
+        return `${title}. ${summary}${content}`;
+      });
+    }
+
+    // Inisialisasi Buku Doa & Takziah
     if (isDuka) {
       initTakziah(id);
     }
@@ -226,11 +238,18 @@
   }
 
   document.addEventListener("DOMContentLoaded", function () {
-    const id = new URLSearchParams(window.location.search).get("id");
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
     if (id) { showDetail(id); return; }
+
+    const initialCat = params.get("category") || "";
     
     const selectCat = document.getElementById("filter-category");
     const selectWil = document.getElementById("filter-wilayah");
+
+    if (selectCat && initialCat) {
+      selectCat.value = initialCat;
+    }
 
     function applyFilter() {
       const cat = selectCat ? selectCat.value : "";
@@ -250,6 +269,10 @@
       selectWil.addEventListener("change", applyFilter);
     }
 
-    showList("", "");
+    showList(initialCat, "");
+  });
+
+  window.addEventListener("popstate", function () {
+    if (window.P3DS.audioReader) window.P3DS.audioReader.stop();
   });
 })();
