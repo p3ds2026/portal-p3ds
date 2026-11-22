@@ -4,7 +4,8 @@
     { label: "Beranda", href: "index.html", page: "beranda" },
     { label: "Berita & Pengumuman", href: "berita.html", page: "berita" },
     { label: "Agenda Kegiatan", href: "agenda.html", page: "agenda" },
-    { label: "Galeri Foto & Video", href: "galeri.html", page: "galeri" },
+    { label: "Galeri", href: "galeri.html", page: "galeri" },
+    { label: "📜 Nostalgia", href: "nostalgia.html", page: "nostalgia" },
     { label: "Kegiatan Sosial", href: "kegiatan-sosial.html", page: "sosial" },
     { label: "Layanan & Pensiun", href: "layanan-kesehatan.html", page: "layanan" },
     { label: "Panduan & Tips", href: "panduan.html", page: "panduan" },
@@ -67,6 +68,7 @@
             <li><a href="berita.html">Berita & Pengumuman</a></li>
             <li><a href="agenda.html">Agenda Kegiatan</a></li>
             <li><a href="galeri.html">Galeri</a></li>
+            <li><a href="nostalgia.html">📜 Album Nostalgia</a></li>
             <li><a href="kegiatan-sosial.html">Kegiatan Sosial</a></li>
             <li><a href="layanan-kesehatan.html">Layanan & Pensiun</a></li>
             <li><a href="panduan.html">Panduan & Tips</a></li>

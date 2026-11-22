@@ -1,9 +1,10 @@
 // Logika Halaman Administrator & Kelola Wilayah Korwil
 (function () {
-  const { admin, auth, utils, korwil } = window.P3DS;
+  const { admin, auth, utils, korwil, nostalgia } = window.P3DS;
   let membersList = [];
   let currentFilter = "all";
   let korwilSettings = { regions: [], assignments: {} };
+  let nostalgiaSettings = { authorized_users: [] };
 
   function showMsg(type, text) {
     const el = document.getElementById("admin-msg");
@@ -82,6 +83,26 @@
       
       const assignedRegion = assignments[m.id] ? assignments[m.id].region : null;
       const isKorwil = m.role === "korwil" || !!assignedRegion;
+      const isStaffOrKorwil = m.role === "pengurus" || m.role === "admin" || isKorwil;
+      const authList = (nostalgiaSettings && nostalgiaSettings.authorized_users) || [];
+      const isNostalgiaAuth = isStaffOrKorwil || authList.includes(m.id);
+
+      let nostalgiaAuthHtml = "";
+      if (isStaffOrKorwil) {
+        nostalgiaAuthHtml = '<span class="badge" style="background:#e0f2fe; color:#0369a1; font-size:0.75rem;">Otomatis (Staf)</span>';
+      } else if (isNostalgiaAuth) {
+        nostalgiaAuthHtml = `
+          <button type="button" class="btn btn-small btn-toggle-nostalgia" data-id="${m.id}" data-action="revoke" style="background:#dcfce7; color:#15803d; border-color:#86efac; font-size:0.75rem; padding:0.25rem 0.5rem;" title="Klik untuk mencabut izin unggah nostalgia">
+            ✅ Diizinkan (Cabut)
+          </button>
+        `;
+      } else {
+        nostalgiaAuthHtml = `
+          <button type="button" class="btn btn-small btn-toggle-nostalgia" data-id="${m.id}" data-action="grant" style="background:#f1f5f9; color:#475569; border-color:#cbd5e1; font-size:0.75rem; padding:0.25rem 0.5rem;" title="Klik untuk memberi otorisasi unggah nostalgia">
+            ➕ Beri Izin
+          </button>
+        `;
+      }
 
       return `
         <tr>
@@ -111,6 +132,9 @@
               </div>
             ` : ""}
           </td>
+          <td style="text-align: center;">
+            ${nostalgiaAuthHtml}
+          </td>
           <td>
             <span class="badge ${statusClass}">${m.status.toUpperCase()}</span>
           </td>
@@ -136,12 +160,15 @@
 
   async function loadData() {
     const tbody = document.getElementById("members-table-body");
-    tbody.innerHTML = '<tr><td colspan="6" class="text-center">Memuat daftar anggota...</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="7" class="text-center">Memuat daftar anggota...</td></tr>';
     
     await refreshStats();
     if (korwil) {
       korwilSettings = await korwil.getKorwilSettings();
       renderWilayahTags();
+    }
+    if (nostalgia) {
+      nostalgiaSettings = await nostalgia.getNostalgiaData();
     }
 
     const { data, error } = await admin.listAllMembers();
@@ -237,8 +264,29 @@
       });
     });
 
-    // Delegasi aksi tabel (status & role)
+    // Delegasi aksi tabel (status & role & otorisasi nostalgia)
     document.getElementById("members-table-body").addEventListener("click", async function (e) {
+      // Toggle Otorisasi Unggah Foto Nostalgia
+      const btnNostalgia = e.target.closest(".btn-toggle-nostalgia");
+      if (btnNostalgia) {
+        const targetId = btnNostalgia.dataset.id;
+        const action = btnNostalgia.dataset.action;
+        btnNostalgia.disabled = true;
+        btnNostalgia.textContent = "Menyimpan...";
+
+        if (nostalgia) {
+          const res = await nostalgia.toggleAuthorization(targetId, action === "grant");
+          if (res.error) {
+            showMsg("error", "Gagal memperbarui izin nostalgia: " + res.error);
+          } else {
+            showMsg("success", action === "grant" ? "Otorisasi unggah foto kenangan berhasil diberikan." : "Otorisasi unggah foto kenangan telah dicabut.");
+          }
+          nostalgiaSettings = await nostalgia.getNostalgiaData();
+          renderTable();
+        }
+        return;
+      }
+
       const btn = e.target.closest("button[data-action='status']");
       if (!btn) return;
 
