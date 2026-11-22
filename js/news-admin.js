@@ -310,7 +310,6 @@ Keluarga Besar Pensiunan Pertamina Dumai – Sei Pakning (PPDS) turut berbelasun
 
       btn.disabled = true;
       btn.textContent = "Menyimpan...";
-      const id = form.id.value;
       const res = id ? await news.update(id, values) : await news.create(values, profile.id);
       const error = res.error;
       btn.disabled = false;
