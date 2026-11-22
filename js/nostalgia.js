@@ -3,55 +3,24 @@
   window.P3DS = window.P3DS || {};
   const { db } = window.P3DS;
 
-  const DEFAULT_PHOTOS = [
-    {
-      id: "nostalgia_demo_1",
-      title: "Peresmian Unit Kilang Minyak Putri Tujuh Dumai",
-      year: "1971",
-      era: "1970-an",
-      location: "Kilang Dumai",
-      description: "Momen bersejarah para perintis awal pembangunan dan pengoperasian unit kilang minyak Pertamina Dumai (Unit Pengolahan II).",
-      image_url: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80",
-      uploader_id: "system",
-      uploader_name: "Admin Portal PPDS",
-      created_at: "2026-01-01T00:00:00.000Z"
-    },
-    {
-      id: "nostalgia_demo_2",
-      title: "Kenangan Operasional Marine & Dermaga Sei Pakning",
-      year: "1984",
-      era: "1980-an",
-      location: "Marine Sei Pakning",
-      description: "Dokumentasi armada kapal pandu, tunda, dan dermaga penyeberangan dinas Sei Pakning yang melayani operasional minyak dan logistik antar pulau.",
-      image_url: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&w=800&q=80",
-      uploader_id: "system",
-      uploader_name: "Admin Portal PPDS",
-      created_at: "2026-01-02T00:00:00.000Z"
-    },
-    {
-      id: "nostalgia_demo_3",
-      title: "Porseni & Kebersamaan Keluarga di Bukit Datuk",
-      year: "1992",
-      era: "1990-an",
-      location: "Komperta Bukit Datuk",
-      description: "Suasana kemeriahan pekan olahraga dan seni (Porseni) peringatan HUT Pertamina bersama rekan kerja dan keluarga tercinta di Komplek Bukit Datuk.",
-      image_url: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=800&q=80",
-      uploader_id: "system",
-      uploader_name: "Admin Portal PPDS",
-      created_at: "2026-01-03T00:00:00.000Z"
-    }
-  ];
+  const DEFAULT_PHOTOS = [];
 
   let cachedData = null;
 
   async function getNostalgiaData() {
     if (cachedData && Array.isArray(cachedData.photos)) {
+      cachedData.photos = cachedData.photos.filter(p => !p.id.startsWith("nostalgia_demo_"));
       return cachedData;
     }
 
     try {
       const local = localStorage.getItem("ppds_nostalgia_data");
-      if (local) cachedData = JSON.parse(local);
+      if (local) {
+        cachedData = JSON.parse(local);
+        if (cachedData && Array.isArray(cachedData.photos)) {
+          cachedData.photos = cachedData.photos.filter(p => !p.id.startsWith("nostalgia_demo_"));
+        }
+      }
     } catch (e) {}
 
     if (db) {
@@ -65,7 +34,10 @@
         if (data && data.content) {
           try {
             cachedData = JSON.parse(data.content);
-            localStorage.setItem("ppds_nostalgia_data", data.content);
+            if (cachedData && Array.isArray(cachedData.photos)) {
+              cachedData.photos = cachedData.photos.filter(p => !p.id.startsWith("nostalgia_demo_"));
+            }
+            localStorage.setItem("ppds_nostalgia_data", JSON.stringify(cachedData));
           } catch (e) {}
         }
       } catch (err) {
@@ -76,8 +48,10 @@
     if (!cachedData || !Array.isArray(cachedData.photos)) {
       cachedData = {
         authorized_users: [], // Array ID profile anggota yang diberi otorisasi khusus
-        photos: DEFAULT_PHOTOS
+        photos: []
       };
+    } else {
+      cachedData.photos = cachedData.photos.filter(p => !p.id.startsWith("nostalgia_demo_"));
     }
 
     if (!Array.isArray(cachedData.authorized_users)) {
