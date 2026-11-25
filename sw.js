@@ -1,11 +1,13 @@
 // Service Worker untuk PORTAL PPDS (Progressive Web App)
-const CACHE_NAME = "p3ds-cache-v1";
+const CACHE_NAME = "p3ds-cache-v2";
 const STATIC_ASSETS = [
   "/",
   "/index.html",
   "/berita.html",
   "/layanan-kesehatan.html",
   "/agenda.html",
+  "/panduan.html",
+  "/nostalgia.html",
   "/css/style.css",
   "/js/config.js",
   "/js/supabase-client.js",
@@ -15,6 +17,7 @@ const STATIC_ASSETS = [
   "/img/logo.jpg",
   "/img/icon-192.png",
   "/img/icon-512.png",
+  "/img/icon-maskable-512.png",
   "/img/apple-touch-icon.png",
   "/manifest.json"
 ];
